@@ -17,11 +17,15 @@ import AuthGuard from './containers/AuthGuard';
 import { FlexCol, FlexRow } from './shared/components/Flex';
 import Subjects from './containers/Subjects';
 import Authors from './containers/Authors';
+import TestApp from './TestApp';
 
 function App({ loggedIn = false, logOut, themeMode }) {
   // console.log(useQuery());
   return (
     <ThemeProvider theme={{ mode: themeMode }}>
+      <div className="absolute bg-black z-50">
+        <TestApp />
+      </div>
       <Layout
         Links={() => (
           <FlexRow className="w-full justify-between items-center">

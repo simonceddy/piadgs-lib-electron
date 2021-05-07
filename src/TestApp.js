@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import sendAsync from './message-control/renderer';
 
-function App() {
-  const [message, setMessage] = useState('SELECT * FROM testing');
+function TestApp() {
+  const [message, setMessage] = useState('SELECT * FROM titles LIMIT 1');
   const [response, setResponse] = useState();
 
   function send(sql) {
@@ -43,4 +43,4 @@ function App() {
   );
 }
 
-export default App;
+export default TestApp;
