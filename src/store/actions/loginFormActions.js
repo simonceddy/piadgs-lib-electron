@@ -1,8 +1,8 @@
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 import { setLoggedInUser, setLoggedOut } from './authActions';
 import login from '../../util/auth/login';
-import setAuthToken from '../../util/auth/setAuthToken';
-import { keys } from '../../util/storage';
+// import setAuthToken from '../../util/auth/setAuthToken';
+// import { keys } from '../../util/storage';
 
 export const SET_USERNAME_VALUE = 'SET_USERNAME_VALUE';
 export const SET_PASSWORD_VALUE = 'SET_PASSWORD_VALUE';
@@ -48,12 +48,12 @@ export const attemptLogin = ({ username, password }) => {
 
         if (res.data.success) {
           // Set token to ls
-          localStorage.setItem(keys.token, res.data.token);
+          // localStorage.setItem(keys.token, res.data.token);
           // Set token to Auth header
-          setAuthToken(res.data.token);
-          const decoded = jwtDecode(res.data.token);
+          // setAuthToken(res.data.token);
+          // const decoded = jwtDecode(res.data.token);
           return Promise.resolve(
-            dispatch(setLoggedInUser(decoded))
+            dispatch(setLoggedInUser({ username: 'simon' }))
           )
             .then(() => dispatch(setLoginErrors([])));
         }

@@ -1,13 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { HashRouter as Router } from 'react-router-dom';
 import './shared/styles/index.css';
 import './shared/styles/tailwind.css';
-import TestApp from './TestApp';
+import axios from 'axios';
+import { Provider } from 'react-redux';
+import App from './App';
 import reportWebVitals from './reportWebVitals';
+import config from './config';
+import store from './store';
+
+axios.defaults.baseURL = config.client.baseUrl;
 
 ReactDOM.render(
   <React.StrictMode>
-    <TestApp />
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );
