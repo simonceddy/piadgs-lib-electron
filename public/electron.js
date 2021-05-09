@@ -6,7 +6,7 @@ const { BrowserWindow } = electron;
 const path = require('path');
 const isDev = require('electron-is-dev');
 
-require('../src/message-control/main');
+require('../src/backend/messages');
 
 let mainWindow;
 

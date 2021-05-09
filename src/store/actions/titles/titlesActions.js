@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getTitles } from '../../../message-control/controllers';
 // import { isArray } from 'lodash';
 import makeSearchQuery from '../../../util/makeSearchQuery';
 
@@ -50,6 +51,8 @@ const transformResponseData = (data = [], model = 'title') => {
 };
 
 export const fetchTitlesData = (page = 3) => (dispatch, getState) => {
+  getTitles().then((result) => console.log(result));
+
   const {
     sortColumn: sortBy, sortDirection: order, itemsPerPage
   } = getState().titles.titles;

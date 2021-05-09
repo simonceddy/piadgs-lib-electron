@@ -1,17 +1,17 @@
 import { useState } from 'react';
+import { getSubjects } from './message-control/controllers';
 
-import sendAsync from './message-control/renderer';
+// import sendAsync from './message-control/renderer';
 
 function TestApp() {
-  const [message, setMessage] = useState('SELECT * FROM titles LIMIT 1');
   const [response, setResponse] = useState();
 
-  function send(sql) {
-    sendAsync(sql).then((result) => setResponse(result));
+  function send() {
+    getSubjects().then((result) => setResponse(result));
   }
 
   return (
-    <div className="App w-full h-full dark:bg-black dark:text-green-300">
+    <div className="App w-full h-full bg-black text-green-300">
       <header className="App-header">
         <h1>
           Standalone application with Electron, React, and
@@ -22,13 +22,8 @@ function TestApp() {
         <p>
           Say <i>ping</i> to the main process.
         </p>
-        <input
-          className="dark:bg-black dark:text-green-300"
-          type="text"
-          value={message}
-          onChange={({ target: { value } }) => setMessage(value)}
-        />
-        <button type="button" onClick={() => send(message)}>
+
+        <button type="button" onClick={() => send()}>
           Send
         </button>
         <br />
