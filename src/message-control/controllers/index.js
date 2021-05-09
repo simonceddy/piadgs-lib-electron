@@ -3,10 +3,23 @@ const { ipcRenderer } = electron;
 
 const controllerMessage = (sendType, returnType, ...args) => new Promise((resolve) => {
   ipcRenderer.once(returnType, (_, arg) => {
+    console.log(arg);
     resolve(arg);
   });
   ipcRenderer.send(sendType, ...args);
 });
+
+export const searchLibraryTitles = (params) => controllerMessage(
+  'search-titles',
+  'titles-search-results',
+  params
+);
+
+export const searchLibraryAuthors = (params) => controllerMessage(
+  'search-authors',
+  'authors-search-results',
+  params
+);
 
 export const getTitles = () => controllerMessage('get-titles', 'send-titles');
 

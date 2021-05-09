@@ -1,16 +1,43 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
-import { fetchTitlesData } from '../../store/actions';
+import { Pagination } from '../../components/Pagination';
+import { fetchTitlesData, setCurrentPage } from '../../store/actions';
 
-function AdminTitles({ titles, getTitles, currentPage }) {
-  useEffect(() => {
-    if (titles.length < 1) getTitles();
+function AdminTitles({
+  titles = [],
+  getTitles,
+  currentPage,
+  setPage
+}) {
+  const [titlesLoaded, setTitlesLoaded] = useState(titles.length > 0);
+
+  const lastPage = titles.length;
+  useEffect(async () => {
+    if (!titlesLoaded) {
+      await getTitles();
+      setTitlesLoaded(true);
+    }
   }, [titles]);
 
-  console.log(titles[currentPage - 1]);
+  const pageData = useMemo(() => {
+    const data = titles[currentPage - 1];
+    if (!data) return null;
+
+    return data.map((title = {}) => (
+      <div key={title.id}>
+        {title.title}
+      </div>
+    ));
+  }, [currentPage, titles]);
+
   return (
-    <div>
-      {}
+    <div className="w-full h-full overflow-scroll flex flex-col justify-start items-start">
+      <Pagination
+        current={currentPage}
+        lastPage={lastPage}
+        setPage={setPage}
+      />
+      {pageData}
     </div>
   );
 }
@@ -25,7 +52,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getTitles: (page, itemsPerPage) => dispatch(fetchTitlesData(page, itemsPerPage)),
+  getTitles: () => dispatch(fetchTitlesData()),
+  setPage: (page) => dispatch(setCurrentPage(page))
   /* setTitlesPerPage: (amount) => dispatch(setItemsPerPage(amount)),
   setSort: (sortColumn, sortDirection) => dispatch(setTitlesSort({
     sortColumn,

@@ -2,6 +2,15 @@
 const { ipcMain } = require('electron');
 const login = require('./login');
 const db = require('./db');
+const { searchTitles } = require('./controllers/searchTitles');
+const searchAuthors = require('./controllers/searchAuthors');
+
+ipcMain.on('search-titles', (event, params) => {
+  searchTitles(params, event);
+});
+ipcMain.on('search-authors', (event, params) => {
+  searchAuthors(params, event);
+});
 
 ipcMain.on('get-titles', (event) => {
   db.from('titles').select()

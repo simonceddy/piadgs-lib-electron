@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { searchLibraryAuthors } from '../../../message-control/controllers';
 import { sortPropAZ, sortPropLength } from '../../../util/sort';
 
 export const SET_AUTHORS_SEARCH_INPUT = 'SET_AUTHORS_SEARCH_INPUT';
@@ -31,26 +31,23 @@ const sortCols = (key, data) => {
   }
 };
 
-export const fetchSearchResults = (name) => (dispatch, getState) => {
-  console.log(name);
-  return axios.get(`/authors/search?name=${name}`)
-    .then((res) => {
-      const { sortCol, sortDirection } = getState().authors.authorSearch;
+export const fetchSearchResults = (name) => (dispatch, getState) => searchLibraryAuthors({ name })
+  .then((res) => {
+    const { sortCol, sortDirection } = getState().authors.authorSearch;
 
-      if (!res.data.results || res.data.results.length < 1) {
-        return dispatch(setSearchResults([]));
-      }
+    if (!res.data.results || res.data.results.length < 1) {
+      return dispatch(setSearchResults([]));
+    }
 
-      const sorted = sortCols(sortCol, res.data.results);
-      // console.log(sortCol, sortDirection, sorted);
-      return dispatch(setSearchResults(
-        sortDirection === 'DESC'
-          ? sorted.reverse()
-          : sorted
-      ));
-    })
-    .catch((err) => console.log(err));
-};
+    const sorted = sortCols(sortCol, res.data.results);
+    // console.log(sortCol, sortDirection, sorted);
+    return dispatch(setSearchResults(
+      sortDirection === 'DESC'
+        ? sorted.reverse()
+        : sorted
+    ));
+  })
+  .catch(console.log);
 
 export const sortSearchResults = (key) => async (dispatch, getState) => {
   const { results, sortCol, sortDirection } = getState().authors.authorSearch;

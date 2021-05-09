@@ -12,7 +12,7 @@ const StyledButton = styled.button`
   color: ${primary};
   border-color: ${primary};
 
-  &:hover {
+  &.enabled:hover {
     background-color: ${primary};
     color: ${background};
     border-color: ${background};
@@ -23,13 +23,15 @@ function ThemedButton({
   children,
   onClick,
   className,
-  submits = false
+  submits = false,
+  disabled = false
 }) {
   return (
     <StyledButton
       type={submits ? 'submit' : 'button'}
       onClick={onClick}
-      className={`hover:underline border-2 p-2 rounded-xl ${className}`}
+      className={`${disabled ? 'disabled cursor-text' : 'enabled hover:underline'} border-2 p-2 rounded-xl ${className}`}
+      disabled={disabled}
     >
       {children}
     </StyledButton>

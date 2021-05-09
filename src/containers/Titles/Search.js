@@ -1,43 +1,52 @@
 import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useState } from 'react';
 import {
   submitSearchForm,
   updateSearchValues,
   resetFormValues
 } from '../../store/actions';
 import SearchForm from '../../components/Search/SearchForm';
+import Results from './Results';
 
 function Search({
   setValues,
   values,
   submitSearch,
   resetForm,
+  isSubmitted = false
 }) {
-  const history = useHistory();
+  const [showForm, setShowForm] = useState(!isSubmitted);
 
   return (
-    <SearchForm
-      submitForm={(e) => {
-        e.preventDefault();
-        submitSearch(values, (queryString) => history.push(`/search?${queryString}`));
-      }}
-      resetForm={resetForm}
-      values={values}
-      onValueChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
-    />
+    <>
+      {showForm ? (
+        <SearchForm
+          submitForm={async (e) => {
+            e.preventDefault();
+            await submitSearch(values);
+            setShowForm(false);
+          }}
+          resetForm={resetForm}
+          values={values}
+          onValueChange={(e) => setValues({ ...values, [e.target.name]: e.target.value })}
+        />
+      ) : (
+        <Results showForm={() => setShowForm(true)} />
+      )}
+    </>
   );
 }
 
 const mapStateToProps = (state) => ({
   values: state.titles.search.values,
-  // isSubmitted: state.titles.search.isSubmitted,
+  isSubmitted: state.titles.search.isSubmitted,
   results: state.titles.search.results
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setValues: (values = {}) => dispatch(updateSearchValues(values)),
   // setIsSubmitted: (isSubmitted) => dispatch(setFormSubmitted(isSubmitted)),
-  submitSearch: (vals, history) => dispatch(submitSearchForm(vals, history)),
+  submitSearch: (params) => dispatch(submitSearchForm(params)),
   resetForm: () => dispatch(resetFormValues())
 });
 

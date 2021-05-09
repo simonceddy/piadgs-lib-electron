@@ -1,35 +1,27 @@
 import PageLink from './PageLink';
 
 function Pagination({
-  current,
+  current = 1,
   lastPage,
-  baseUrl = '/'
+  setPage = () => null
 }) {
-  const firstPageUrl = `${baseUrl}1`;
-  const next = current < lastPage ? current + 1 : null;
-  const previous = current > 1 ? current - 1 : null;
-
-  const previousDisabled = previous === null;
-  const nextDisabled = next === null;
-
   return (
-    <div className="flex flex-row border border-black p-3 flex-1 items-center justify-between">
+    <div className="flex flex-row border border-black p-3 flex-1 items-center justify-between w-full">
       <div className="flex flex-row items-center justify-between">
-        <PageLink url={firstPageUrl} disabled={previousDisabled}>
+        <PageLink onClick={() => setPage(1)} disabled={current === 1}>
           First
         </PageLink>
-        <PageLink url={`${baseUrl}${previous}`} disabled={previousDisabled}>
+        <PageLink onClick={() => setPage(current - 1)} disabled={current === 1}>
           Previous
         </PageLink>
 
-        <PageLink url={`${baseUrl}${next}`} disabled={nextDisabled}>
+        <PageLink onClick={() => setPage(current + 1)} disabled={current === lastPage}>
           Next
         </PageLink>
-        <PageLink url={`${baseUrl}${lastPage}`} disabled={nextDisabled}>
+        <PageLink onClick={() => setPage(lastPage)} disabled={current === lastPage}>
           Last
         </PageLink>
       </div>
-      {/* pagination links */}
       <span className="mr-2">Page {current} of {lastPage}</span>
     </div>
   );
