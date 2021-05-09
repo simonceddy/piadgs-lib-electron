@@ -12,7 +12,7 @@ const defaultState = {
   sortColumn: 'title',
   sortDirection: 'ASC',
   lastPage: null,
-  currentPage: null,
+  currentPage: 1,
   itemsPerPage: 40
 };
 

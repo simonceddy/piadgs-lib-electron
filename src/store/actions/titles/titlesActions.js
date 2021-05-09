@@ -1,7 +1,8 @@
-import axios from 'axios';
+// import axios from 'axios';
 import { getTitles } from '../../../message-control/controllers';
 // import { isArray } from 'lodash';
-import makeSearchQuery from '../../../util/makeSearchQuery';
+// import makeSearchQuery from '../../../util/makeSearchQuery';
+import { paginate } from '../../../util/paginate';
 
 export const FETCH_TITLES_DATA = 'FETCH_TITLES_DATA';
 export const SET_TITLES_DATA = 'SET_TITLES_DATA';
@@ -35,48 +36,11 @@ export const setTitlesSort = ({ sortColumn, sortDirection }) => ({
   payload: { sortColumn, sortDirection }
 });
 
-const transformResponseData = (data = [], model = 'title') => {
-  const titles = [];
-  switch (model) {
-    case 'authors':
-    case 'subjects':
-      data.map((item) => item.titles.map((title) => (titles.push({
-        [model]: [item],
-        ...title
-      }))));
-      return titles;
-    default:
-      return data;
-  }
-};
-
-export const fetchTitlesData = (page = 3) => (dispatch, getState) => {
-  getTitles().then((result) => console.log(result));
-
-  const {
-    sortColumn: sortBy, sortDirection: order, itemsPerPage
-  } = getState().titles.titles;
-
-  const queryString = makeSearchQuery({
-    page,
-    itemsPerPage,
-    sortBy,
-    order
-  }).toString();
-
-  return Promise.resolve(axios.get(`/titles?${queryString}`)
-    .then(
-      (res) => Promise.resolve(dispatch(
-        setTitlesData(transformResponseData(res.data.data, sortBy))
-      ))
-        .then(
-          () => Promise.resolve(dispatch(setLastPage(res.data.lastPage)))
-            .then(() => dispatch(setCurrentPage(res.data.currentPage)))
-        ),
-      (err) => console.log(err)
-    ))
-    .catch((err) => console.log(err));
-};
+export const fetchTitlesData = () => (dispatch, getState) => getTitles()
+  .then((result) => dispatch(setTitlesData(
+    paginate(result, getState().titles.itemsPerPage || 32)
+  )))
+  .catch((err) => console.log(err));
 
 export function sortTitles(
   { sortColumn, sortDirection },

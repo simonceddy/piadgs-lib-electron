@@ -6,7 +6,7 @@ import { attemptLogin } from '../../message-control/controllers';
 // );
 
 const login = ({ username, password }) => attemptLogin({ username, password })
-  .then((result) => console.log(result))
+  .then((result) => result)
   .catch((err) => console.log(err));
 
 export default login;

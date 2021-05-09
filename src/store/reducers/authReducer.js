@@ -1,9 +1,10 @@
 import { SET_LOGGED_IN_USER, SET_LOGGED_OUT } from '../actions';
 
+// Logged in by default for dev
 const defaultState = {
-  loggedIn: false,
+  loggedIn: true,
   user: {
-    username: null
+    username: 'simon'
   }
 };
 

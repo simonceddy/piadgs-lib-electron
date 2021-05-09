@@ -1,32 +1,20 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { ipcMain } = require('electron');
-const sqlite3 = require('sqlite3');
 const login = require('./login');
-
-const database = new sqlite3.Database('./public/database.sqlite', (err) => {
-  if (err) console.error('Database opening error: ', err);
-});
-
-ipcMain.on('asynchronous-message', (event, arg) => {
-  const sql = arg;
-  console.log(event, arg);
-  database.all(sql, (err, rows) => {
-    event.reply('asynchronous-reply', (err && err.message) || rows);
-  });
-});
+const db = require('./db');
 
 ipcMain.on('get-titles', (event) => {
-  database.all('SELECT * FROM titles', (err, rows) => {
-    event.reply('send-titles', (err && err.message) || rows);
-  });
+  db.from('titles').select()
+    .then((rows) => event.reply('send-titles', rows))
+    .catch((err) => event.reply('send-titles', err.message));
 });
 
 ipcMain.on('get-subjects', (event) => {
-  database.all('SELECT * FROM subjects', (err, rows) => {
-    event.reply('send-subjects', (err && err.message) || rows);
-  });
+  db.from('subjects').select()
+    .then((rows) => event.reply('send-subjects', rows))
+    .catch((err) => event.reply('send-subjects', err.message));
 });
 
-ipcMain.on('login', (event, args) => {
-  login(args, event);
+ipcMain.on('login', (event, { username, password }) => {
+  login({ username, password }, event);
 });

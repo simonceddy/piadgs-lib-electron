@@ -35,38 +35,34 @@ export const resetLoginForm = () => ({
   type: RESET_LOGIN_FORM
 });
 
-export const attemptLogin = ({ username, password }) => {
-  // TODO
-  console.log('attempting login');
+export const attemptLogin = ({ username, password }) => (dispatch) => Promise
+  .resolve(dispatch(setLoggingIn(true)))
+  .then(() => login({
+    username, password
+  })
+    .then((res) => {
+      console.log('here', res);
 
-  return (dispatch) => Promise.resolve(dispatch(setLoggingIn(true)))
-    .then(() => login({
-      username, password
-    })
-      .then((res) => {
-        // console.log('here', res);
+      if (res.success) {
+        // Set token to ls
+        // localStorage.setItem(keys.token, res.data.token);
+        // Set token to Auth header
+        // setAuthToken(res.data.token);
+        // const decoded = jwtDecode(res.data.token);
+        return Promise.resolve(
+          dispatch(setLoggedInUser({ username: 'simon' }))
+        )
+          .then(() => dispatch(setLoginErrors([])));
+      }
 
-        if (res.data.success) {
-          // Set token to ls
-          // localStorage.setItem(keys.token, res.data.token);
-          // Set token to Auth header
-          // setAuthToken(res.data.token);
-          // const decoded = jwtDecode(res.data.token);
-          return Promise.resolve(
-            dispatch(setLoggedInUser({ username: 'simon' }))
-          )
-            .then(() => dispatch(setLoginErrors([])));
-        }
-
-        return Promise.resolve(dispatch(setLoggedOut(false)))
-          .then(() => dispatch(setLoginErrors([
-            'Incorrect username or password'
-          ])));
-      }))
-    .catch(() => Promise.resolve(dispatch(setLoggedOut(false)))
-      .then(dispatch(setLoginErrors([
-        'Incorrect username or password'
-      ]))))
-    .then(() => dispatch(setLoggingIn(false)))
-    .catch((err) => console.log(err));
-};
+      return Promise.resolve(dispatch(setLoggedOut(false)))
+        .then(() => dispatch(setLoginErrors([
+          'Incorrect username or password'
+        ])));
+    }))
+  .catch(() => Promise.resolve(dispatch(setLoggedOut(false)))
+    .then(dispatch(setLoginErrors([
+      'Incorrect username or password'
+    ]))))
+  .then(() => dispatch(setLoggingIn(false)))
+  .catch((err) => console.log(err));

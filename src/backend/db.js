@@ -1,5 +1,8 @@
 const knex = require('knex');
 
+/**
+ * @var Knex
+ */
 const db = knex({
   client: 'sqlite3',
   connection: () => ({
