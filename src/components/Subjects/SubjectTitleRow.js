@@ -12,7 +12,7 @@ function SubjectTitleRow({
 }) {
   const [viewSummary, setViewSummary] = useState(false);
 
-  const Summary = useMemo(() => <TitleSummary id={title.id} />, [title]);
+  const Summary = useMemo(() => <TitleSummary title={title} />, [title]);
 
   return (
     <ThemedDiv

@@ -6,6 +6,7 @@ const searchAuthors = require('./controllers/searchAuthors');
 const getAll = require('./controllers/getAll');
 const searchSubjects = require('./controllers/searchSubjects');
 const getFrom = require('./controllers/getId');
+const getSubjectTitles = require('./helpers/getSubjectTitles');
 
 ipcMain.on('search-titles', (event, params) => searchTitles(event, params));
 ipcMain.on('search-authors', (event, params) => searchAuthors(event, params));
@@ -18,7 +19,13 @@ ipcMain.on('get-authors', (ev) => getAll(ev, 'authors', 'send-authors'));
 ipcMain.on('get-subject', (event, params) => getFrom('subjects', params)
   .then((result) => {
     console.log(result);
-    event.reply('fetched-subject', result);
+    if (result.id) {
+      return getSubjectTitles(result)
+        .then((titles) => {
+          event.reply('fetched-subject', { ...result, titles });
+        });
+    }
+    return event.reply('fetched-subject', result);
   })
   .catch(console.log));
 
