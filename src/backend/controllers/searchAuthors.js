@@ -1,7 +1,7 @@
 const db = require('../db');
 const contains = require('../helpers/contains');
 
-const searchAuthors = (params, event) => {
+const searchAuthors = (event, params) => {
   const { name, surname, givenNames } = params;
   const q = db.from('authors');
 

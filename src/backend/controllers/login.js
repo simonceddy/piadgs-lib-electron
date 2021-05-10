@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 // testing login
 const { compare } = require('bcrypt');
-const db = require('./db');
+const db = require('../db');
 
 const getResponse = ({ username }, success) => ({ success, user: { username } });
 

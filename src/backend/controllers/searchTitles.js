@@ -85,7 +85,7 @@ const searchQuery = (data = {}) => {
   return makeQuery;
 };
 
-const searchTitles = async (params, event) => {
+const searchTitles = async (event, params) => {
   // TODO handle all inputs
 
   const q = searchQuery(params)(db.from('titles'));

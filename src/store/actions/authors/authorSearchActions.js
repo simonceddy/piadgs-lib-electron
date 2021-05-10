@@ -35,11 +35,11 @@ export const fetchSearchResults = (name) => (dispatch, getState) => searchLibrar
   .then((res) => {
     const { sortCol, sortDirection } = getState().authors.authorSearch;
 
-    if (!res.data.results || res.data.results.length < 1) {
+    if (!res.results || res.results.length < 1) {
       return dispatch(setSearchResults([]));
     }
 
-    const sorted = sortCols(sortCol, res.data.results);
+    const sorted = sortCols(sortCol, res.results);
     // console.log(sortCol, sortDirection, sorted);
     return dispatch(setSearchResults(
       sortDirection === 'DESC'
