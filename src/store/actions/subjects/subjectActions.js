@@ -1,4 +1,7 @@
-import axios from 'axios';
+import {
+  updateSubjectData,
+  getLibrarySubject
+} from '../../../message-control/controllers';
 
 export const SET_SUBJECT_SELECTED_TITLES = 'SET_SUBJECT_SELECTED_TITLES';
 export const SET_SUBJECT_NAME = 'SET_SUBJECT_NAME';
@@ -36,8 +39,10 @@ export const updateSubject = (data) => (dispatch, getState) => {
     ...data,
     titles: Object.keys(getState().subjects.subject.selectedTitles)
   };
-  return axios.post('/subjects/update', dataWithTitles)
+  return updateSubjectData(dataWithTitles)
     .then((res) => {
+      console.log(res);
+      // TODO handle response
       if (!res.data.data) {
         return dispatch(setSubjectMessage('Error retrieving updated data!'));
       }
@@ -59,8 +64,8 @@ export const setData = (data = {}) => (dispatch) => Promise.resolve(
     Object.fromEntries(data.titles.map(({ id: titleId }) => [titleId, true]))
   )));
 
-export const fetchSubject = (id) => (dispatch) => axios.get(`/subjects/${id}`,)
-  .then((res) => dispatch(setData(res.data.data)))
+export const fetchSubject = (id) => (dispatch) => getLibrarySubject({ id })
+  .then((res) => dispatch(setData(res)))
   .catch((err) => {
     console.log(err);
     return dispatch(setSubjectData({}));
