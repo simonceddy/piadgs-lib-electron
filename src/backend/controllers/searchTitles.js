@@ -120,6 +120,4 @@ const searchTitles = async (event, params) => {
   return resolved;
 };
 
-module.exports = {
-  searchTitles,
-};
+module.exports = searchTitles;

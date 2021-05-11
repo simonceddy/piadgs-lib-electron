@@ -1,11 +1,13 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { ipcMain } = require('electron');
-const login = require('./controllers/login');
-const { searchTitles } = require('./controllers/searchTitles');
-const searchAuthors = require('./controllers/searchAuthors');
-const getAll = require('./controllers/getAll');
-const searchSubjects = require('./controllers/searchSubjects');
-const getFrom = require('./controllers/getFrom');
+const {
+  searchTitles,
+  login,
+  searchAuthors,
+  searchSubjects,
+  getAll,
+  getFrom
+} = require('./controllers');
 const getSubjectTitles = require('./helpers/getSubjectTitles');
 const loadTitleRelations = require('./helpers/loadTitleRelations');
 

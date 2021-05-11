@@ -1,4 +1,4 @@
-import db from '../db';
+const db = require('../db');
 
 const respond = (event, message) => event.reply('update-subject-result', {
   message
@@ -22,4 +22,4 @@ const updateSubject = (event, params) => {
     .catch((err) => respond(event, err.message));
 };
 
-export default updateSubject;
+module.exports = updateSubject;
