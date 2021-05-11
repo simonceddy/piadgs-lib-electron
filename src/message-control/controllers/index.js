@@ -9,6 +9,12 @@ const controllerMessage = (sendType, returnType, ...args) => new Promise((resolv
   ipcRenderer.send(sendType, ...args);
 });
 
+export const getLibraryTitle = (params) => controllerMessage(
+  'get-title',
+  'fetched-title',
+  params
+);
+
 export const getLibrarySubject = (params) => controllerMessage(
   'get-subject',
   'fetched-subject',
@@ -36,6 +42,8 @@ export const searchLibrarySubjects = (params) => controllerMessage(
 export const getTitles = () => controllerMessage('get-titles', 'send-titles');
 
 export const getSubjects = () => controllerMessage('get-subjects', 'send-subjects');
+
+export const getAuthors = () => controllerMessage('get-authors', 'send-authors');
 
 export const updateSubjectData = (params) => controllerMessage('update-subject', 'update-subject-result', params);
 

@@ -3,6 +3,7 @@
 const { Knex } = require('knex');
 const contains = require('../helpers/contains');
 const db = require('../db');
+const loadTitleRelations = require('../helpers/loadTitleRelations');
 
 const searchResponseBody = {
   success: false,
@@ -32,10 +33,12 @@ const fields = {
   }
 };
 
+const respond = (event, data) => event.reply('titles-search-results', data);
+
 /**
  * Build the search query
  * @param {Object} data Data object
- * @returns {Function}
+ * @returns {Function(): Knex}
  */
 const searchQuery = (data = {}) => {
   /**
@@ -92,20 +95,23 @@ const searchTitles = async (event, params) => {
 
   // event.reply('titles-search-results', q.toString());
 
-  const resolved = await q.select()
+  // TODO handle loading relations correctly
+  const resolved = await q.select(
+    'titles.id', 'titles.title', 'titles.call_number'
+  )
     .then((results) => {
-      let message;
-
-      if (results.length < 1) message = 'No results were found.';
-
-      return event.reply('titles-search-results', {
-        ...searchResponseBody,
-        results,
-        success: true,
-        message
-      });
+      if (results.length < 1) {
+        return respond(event, { message: 'No results were found.', results });
+      }
+      return Promise.all(results.map((title) => loadTitleRelations(title)
+        .then((loaded) => loaded)))
+        .then((titles) => respond(event, {
+          ...searchResponseBody,
+          results: titles,
+          success: true,
+        }));
     })
-    .catch((err) => event.reply('titles-search-results', {
+    .catch((err) => respond(event, {
       ...searchResponseBody,
       message: 'An error has occurred',
       err
