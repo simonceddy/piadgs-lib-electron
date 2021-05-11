@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import AuthorSummary from '../../components/Authors/AuthorSummary';
 import MessageBox from '../../components/Authors/MessageBox';
+import { getLibraryAuthor } from '../../message-control/controllers';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import {
   setAuthorMessage,
@@ -34,10 +35,11 @@ function Author({
 
   useEffect(() => {
     if (!isLoaded) {
-      axios.get(`/authors/${id}`)
+      getLibraryAuthor({ id })
         .then((res) => {
-          if (res.data.data) {
-            return Promise.resolve(setData(res.data.data))
+          console.log(res);
+          if (res.id) {
+            return Promise.resolve(setData(res))
               .then(() => Promise.resolve(setTitles(Object.fromEntries(
                 data.titles.map(({ id: titleId }) => [titleId, true])
               ))));

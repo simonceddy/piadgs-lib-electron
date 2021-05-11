@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from '../../components/Pagination';
+import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { fetchTitlesData, setCurrentPage } from '../../store/actions';
+import adminColumns from '../../util/adminColumns';
 
-function AdminTitles({
+function Titles({
   titles = [],
   getTitles,
   currentPage,
@@ -24,21 +26,21 @@ function AdminTitles({
     if (!data) return null;
 
     return data.map((title = {}) => (
-      <div key={title.id}>
+      <TitleTableRow key={title.id} title={title} columns={adminColumns}>
         {title.title}
-      </div>
+      </TitleTableRow>
     ));
   }, [currentPage, titles]);
 
   return (
-    <div className="w-full h-full overflow-scroll flex flex-col justify-start items-start">
+    <>
       <Pagination
         current={currentPage}
         lastPage={lastPage}
         setPage={setPage}
       />
       {pageData}
-    </div>
+    </>
   );
 }
 
@@ -61,4 +63,4 @@ const mapDispatchToProps = (dispatch) => ({
   })) */
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(AdminTitles);
+export default connect(mapStateToProps, mapDispatchToProps)(Titles);

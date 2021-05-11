@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import TitleSummary from '../../containers/Subjects/TitleSummary';
+import TitleSummary from '../../containers/Titles/TitleSummary';
 import { ThemedDiv } from '../../shared/components/Styled';
 
 const titleStyles = 'py-1 px-2 my-0.5 flex flex-1 flex-row justify-between items-center';

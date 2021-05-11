@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import TitleSummary from './TitleSummary';
+import TitleSummary from '../../../containers/Titles/TitleSummary';
 import { THEME_COLOUR_CLASSES } from '../../consts';
 
 const titleStyles = 'py-1 px-2 my-0.5 flex flex-1 flex-row justify-between items-center';
@@ -12,7 +12,7 @@ function TitleListItem({
 }) {
   const [viewSummary, setViewSummary] = useState(false);
 
-  const Summary = useMemo(() => <TitleSummary id={title.id} />, [title]);
+  const Summary = useMemo(() => <TitleSummary title={title} />, [title]);
 
   return (
     <div

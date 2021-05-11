@@ -21,6 +21,12 @@ export const getLibrarySubject = (params) => controllerMessage(
   params
 );
 
+export const getLibraryAuthor = (params) => controllerMessage(
+  'get-author',
+  'fetched-author',
+  params
+);
+
 export const searchLibraryTitles = (params) => controllerMessage(
   'search-titles',
   'titles-search-results',

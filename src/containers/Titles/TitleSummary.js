@@ -1,4 +1,5 @@
 function TitleSummary({ title }) {
+  console.log(title);
   return (
     <div className="w-full flex flex-col justify-between items-center p-2">
       <div className="w-full">

@@ -8,6 +8,7 @@ const {
   getAll,
   getFrom
 } = require('./controllers');
+const getAuthorTitles = require('./helpers/getAuthorTitles');
 const getSubjectTitles = require('./helpers/getSubjectTitles');
 const loadTitleRelations = require('./helpers/loadTitleRelations');
 
@@ -35,5 +36,12 @@ ipcMain.on('get-subject', (event, params) => getFrom('subjects', params)
     return event.reply('fetched-subject', result);
   })
   .catch(console.log));
+
+ipcMain.on('get-author', (event, params) => getFrom('authors', params)
+  .then((author) => getAuthorTitles(author)
+    .then((titles) => ({ ...author, titles }))
+    .catch((err) => event.reply('fetched-author', err)))
+  .then((result) => event.reply('fetched-author', result))
+  .catch((err) => event.reply('fetched-author', err)));
 
 ipcMain.on('login', (event, { username, password }) => login({ username, password }, event));
