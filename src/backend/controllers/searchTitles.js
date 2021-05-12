@@ -13,7 +13,10 @@ const searchResponseBody = {
 
 const fields = {
   title: {
-    col: 'title'
+    col: 'title',
+    handle(value) {
+      return (query) => query.where(...contains('titles.title', value));
+    }
   },
   author: {
     col: 'authors',
@@ -52,10 +55,10 @@ const searchQuery = (data = {}) => {
       .filter((field) => data[field] && data[field].length > 0);
 
     // console.log(params, data, fields);
-    query.join('authors_titles', 'titles.id', '=', 'authors_titles.title_id')
-      .join('authors', 'authors.id', '=', 'authors_titles.author_id')
-      .join('subjects_titles', 'titles.id', '=', 'subjects_titles.title_id')
-      .join('subjects', 'subjects.id', '=', 'subjects_titles.subject_id');
+    query.innerJoin('authors_titles', 'titles.id', '=', 'authors_titles.title_id')
+      .innerJoin('authors', 'authors.id', '=', 'authors_titles.author_id')
+      .innerJoin('subjects_titles', 'titles.id', '=', 'subjects_titles.title_id')
+      .innerJoin('subjects', 'subjects.id', '=', 'subjects_titles.subject_id');
 
     if (params.length < 1) {
     // TODO handle no params
@@ -81,7 +84,7 @@ const searchQuery = (data = {}) => {
         }
       }
     }
-    // console.log(currentQuery.toString());
+    console.log(currentQuery.toString());
     return currentQuery;
   };
 
@@ -91,7 +94,7 @@ const searchQuery = (data = {}) => {
 const searchTitles = async (event, params) => {
   // TODO handle all inputs
 
-  const q = searchQuery(params)(db.from('titles'));
+  const q = searchQuery(params)(db('titles'));
 
   // event.reply('titles-search-results', q.toString());
 
@@ -103,6 +106,7 @@ const searchTitles = async (event, params) => {
       if (results.length < 1) {
         return respond(event, { message: 'No results were found.', results });
       }
+      // console.log(results);
       return Promise.all(results.map((title) => loadTitleRelations(title)
         .then((loaded) => loaded)))
         .then((titles) => respond(event, {

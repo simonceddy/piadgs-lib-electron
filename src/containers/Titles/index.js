@@ -1,11 +1,28 @@
 import { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
-import { Toolbar, SearchIcon } from '../../components/Toolbar';
+import Toolbar from '../../components/Toolbar';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { DefaultTable } from '../../shared/components/Tables';
 import { fetchTitlesData, setCurrentPage } from '../../store/actions';
 import adminColumns from '../../util/adminColumns';
+import { CreateIcon, SearchIcon } from '../../shared/components/Icons';
+import { FlexCol } from '../../shared/components/Flex';
+
+const toolbarItems = [
+  [
+    {
+      key: 'createTitle',
+      Icon: CreateIcon,
+    },
+  ],
+  [
+    {
+      key: 'searchTitles',
+      Icon: SearchIcon,
+    },
+  ],
+];
 
 function Titles({
   titles = [],
@@ -41,11 +58,8 @@ function Titles({
   }, [currentPage, titles]);
 
   return (
-    <>
-      <Toolbar>
-        <span>Add Title</span>
-        <span><SearchIcon /></span>
-      </Toolbar>
+    <FlexCol className="w-full h-full justify-start items-center">
+      <Toolbar items={toolbarItems} />
       <Pagination
         current={currentPage}
         lastPage={lastPage}
@@ -59,7 +73,7 @@ function Titles({
       >
         {pageData}
       </DefaultTable>
-    </>
+    </FlexCol>
   );
 }
 
