@@ -6,8 +6,10 @@ const {
   searchAuthors,
   searchSubjects,
   getAll,
-  getFrom
+  getFrom,
+  getAllTitles
 } = require('./controllers');
+const countModels = require('./controllers/countModels');
 const getAuthorTitles = require('./helpers/getAuthorTitles');
 const getSubjectTitles = require('./helpers/getSubjectTitles');
 const loadTitleRelations = require('./helpers/loadTitleRelations');
@@ -16,7 +18,11 @@ ipcMain.on('search-titles', (event, params) => searchTitles(event, params));
 ipcMain.on('search-authors', (event, params) => searchAuthors(event, params));
 ipcMain.on('search-subjects', (event, params) => searchSubjects(event, params));
 
-ipcMain.on('get-titles', (ev) => getAll(ev, 'titles', 'send-titles'));
+ipcMain.on('count-titles', (ev) => countModels('titles', (results) => ev.reply('send-titles-count', results)));
+ipcMain.on('count-authors', (ev) => countModels('authors', (results) => ev.reply('send-authors-count', results)));
+ipcMain.on('count-subjects', (ev) => countModels('subjects', (results) => ev.reply('send-subjects-count', results)));
+
+ipcMain.on('get-titles', (ev) => getAllTitles(ev));
 ipcMain.on('get-subjects', (ev) => getAll(ev, 'subjects', 'send-subjects'));
 ipcMain.on('get-authors', (ev) => getAll(ev, 'authors', 'send-authors'));
 

@@ -1,8 +1,8 @@
 import { StyledTr } from './styled';
 
-function TableRow({ children, onClick }) {
+function TableRow({ children, onClick, className }) {
   return (
-    <StyledTr onClick={onClick} className="">
+    <StyledTr onClick={onClick} className={`w-full ${className}`}>
       {children}
     </StyledTr>
   );

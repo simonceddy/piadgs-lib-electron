@@ -1,6 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { countSubjects } from '../../../message-control/controllers';
 // import { AdminWidget } from '../../../components/Admin';
 import { FlexRow } from '../../../shared/components/Flex';
 
@@ -9,8 +9,8 @@ function SubjectsWidget() {
 
   useEffect(() => {
     if (!amount) {
-      axios.get('/subjects/count')
-        .then((res) => setAmount(res.data.amount))
+      countSubjects()
+        .then((res) => setAmount(res))
         .catch((err) => console.log(err));
     }
   }, [amount]);

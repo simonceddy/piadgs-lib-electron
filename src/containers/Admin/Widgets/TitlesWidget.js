@@ -1,7 +1,6 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-// import { AdminWidget } from '../../../components/Admin';
+import { countTitles } from '../../../message-control/controllers';
 import { FlexRow } from '../../../shared/components/Flex';
 
 function TitlesWidget() {
@@ -9,8 +8,8 @@ function TitlesWidget() {
 
   useEffect(() => {
     if (!amount) {
-      axios.get('/titles/count')
-        .then((res) => setAmount(res.data.amount))
+      countTitles()
+        .then((res) => setAmount(res))
         .catch((err) => console.log(err));
     }
   }, [amount]);

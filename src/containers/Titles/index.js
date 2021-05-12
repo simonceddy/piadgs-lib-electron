@@ -1,7 +1,9 @@
 import { useEffect, useMemo, useState } from 'react';
 import { connect } from 'react-redux';
+import { Toolbar, SearchIcon } from '../../components/Toolbar';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
+import { DefaultTable } from '../../shared/components/Tables';
 import { fetchTitlesData, setCurrentPage } from '../../store/actions';
 import adminColumns from '../../util/adminColumns';
 
@@ -9,11 +11,14 @@ function Titles({
   titles = [],
   getTitles,
   currentPage,
-  setPage
+  setPage,
+  sortColumn,
+  sortDirection
 }) {
   const [titlesLoaded, setTitlesLoaded] = useState(titles.length > 0);
 
   const lastPage = titles.length;
+
   useEffect(async () => {
     if (!titlesLoaded) {
       await getTitles();
@@ -22,6 +27,9 @@ function Titles({
   }, [titles]);
 
   const pageData = useMemo(() => {
+    if (titles.length < 1) {
+      return null;
+    }
     const data = titles[currentPage - 1];
     if (!data) return null;
 
@@ -34,12 +42,23 @@ function Titles({
 
   return (
     <>
+      <Toolbar>
+        <span>Add Title</span>
+        <span><SearchIcon /></span>
+      </Toolbar>
       <Pagination
         current={currentPage}
         lastPage={lastPage}
         setPage={setPage}
       />
-      {pageData}
+      <DefaultTable
+        sortColumn={sortColumn}
+        sortDirection={sortDirection}
+        columns={adminColumns}
+        handleSort={(key) => console.log(`sorting by ${key}`)}
+      >
+        {pageData}
+      </DefaultTable>
     </>
   );
 }

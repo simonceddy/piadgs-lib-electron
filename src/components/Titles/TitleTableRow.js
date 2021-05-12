@@ -1,11 +1,11 @@
 import { TableCell, TableRow } from '../../shared/components/Tables';
 
-function TitleTableRow({ title, columns }) {
+function TitleTableRow({ title, columns, onClick }) {
   return (
-    <TableRow>
-      {columns.map(({ key }) => (
+    <TableRow onClick={onClick}>
+      {columns.map(({ key, Component }) => (
         <TableCell key={`${key}-${title.id}`}>
-          {title[key] || ''}
+          {Component ? (<Component values={title[key]} />) : title[key] || ''}
         </TableCell>
       ))}
     </TableRow>

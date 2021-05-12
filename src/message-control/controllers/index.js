@@ -54,3 +54,9 @@ export const getAuthors = () => controllerMessage('get-authors', 'send-authors')
 export const updateSubjectData = (params) => controllerMessage('update-subject', 'update-subject-result', params);
 
 export const attemptLogin = (args) => controllerMessage('login', 'login-result', args);
+
+export const countTitles = () => controllerMessage('count-titles', 'send-titles-count');
+
+export const countAuthors = () => controllerMessage('count-authors', 'send-authors-count');
+
+export const countSubjects = () => controllerMessage('count-subjects', 'send-subjects-count');

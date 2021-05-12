@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import TitleSummary from '../../../containers/Titles/TitleSummary';
-import { THEME_COLOUR_CLASSES } from '../../consts';
+import { ThemedDiv } from '../Styled';
 
 const titleStyles = 'py-1 px-2 my-0.5 flex flex-1 flex-row justify-between items-center';
 
@@ -15,9 +15,9 @@ function TitleListItem({
   const Summary = useMemo(() => <TitleSummary title={title} />, [title]);
 
   return (
-    <div
+    <ThemedDiv
       key={title.id}
-      className={`justify-between items-center ${THEME_COLOUR_CLASSES} w-full flex flex-col border rounded-lg my-0.5`}
+      className="justify-between items-center w-full flex flex-col border rounded-lg my-0.5"
     >
       <div className="w-full flex flex-row justify-between items-center">
         <button
@@ -48,7 +48,7 @@ function TitleListItem({
         ) : <span className={titleStyles}>{title.title}</span>}
       </div>
       {!viewSummary ? null : Summary }
-    </div>
+    </ThemedDiv>
   );
 }
 

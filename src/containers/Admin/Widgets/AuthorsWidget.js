@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { countAuthors } from '../../../message-control/controllers';
 import { FlexRow } from '../../../shared/components/Flex';
 
 function AuthorsWidget() {
@@ -9,8 +9,8 @@ function AuthorsWidget() {
 
   useEffect(() => {
     if (!amount) {
-      axios.get('/authors/count')
-        .then((res) => setAmount(res.data.amount))
+      countAuthors()
+        .then((res) => setAmount(res))
         .catch((err) => console.log(err));
     }
   }, [amount]);
