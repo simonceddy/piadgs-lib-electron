@@ -19,6 +19,7 @@ module.exports = {
   ],
   rules: {
     'no-console': 'off',
+    'no-plusplus': 'off',
     'linebreak-style': 'off',
     'comma-dangle': 'off',
     'import/prefer-default-export': 'off',

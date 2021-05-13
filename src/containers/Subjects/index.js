@@ -1,38 +1,75 @@
 import { connect } from 'react-redux';
-import Results from './Results';
-import SubjectSearch from './SubjectSearch';
-import { sortSearchResults } from '../../store/actions/subjects';
+import { Route, Switch } from 'react-router-dom';
+import { useMemo, useState } from 'react';
 import Toolbar from '../../components/Toolbar';
-import { CreateIcon, SearchIcon } from '../../shared/components/Icons';
-import { FlexCol } from '../../shared/components/Flex';
+import {
+  CreateIcon,
+  ListIcon,
+  SearchIcon
+} from '../../shared/components/Icons';
+import { AppletLayout } from '../../shared/components/Layout';
+import AllSubjects from './AllSubjects';
+import Modal from '../../shared/components/Modal';
+import Subject from './Subject';
+import SearchSubjects from './SearchSubjects';
 
 const toolbarItems = [
   [
-    { key: 'createSubject', Icon: CreateIcon },
-    { key: 'search', Icon: SearchIcon }
+    {
+      key: 'createSubject',
+      Icon: CreateIcon,
+      to: '/subjects/create',
+      exact: true
+    },
+  ],
+  [
+    {
+      key: 'listSubjects',
+      Icon: ListIcon,
+      to: '/subjects',
+      exact: true
+    },
+    {
+      key: 'searchSubjects',
+      Icon: SearchIcon,
+      to: '/subjects/search',
+      exact: true
+    },
   ]
 ];
 
-function Subjects({ results, handleSort }) {
+function Subjects() {
+  const [subjectModal, setSubjectModal] = useState(false);
+
+  const onClose = () => setSubjectModal(false);
+
+  const SubjectModal = useMemo(() => (!subjectModal ? null : (
+    <Modal onClose={onClose}>
+      <Subject onClose={onClose} id={subjectModal.id} />
+    </Modal>
+  )), [subjectModal]);
   return (
-    <FlexCol className="w-full h-full justify-start items-center">
+    <AppletLayout>
+      {SubjectModal}
       <Toolbar items={toolbarItems} />
-      <FlexCol className="mx-auto sm:w-5/6 md:w-4/5 lg:w-3/4 xl:w-2/3 w-full h-full justify-start items-center">
-        <SubjectSearch />
-        {results.length > 0 ? (
-          <Results sortBy={handleSort} subjects={results} />
-        ) : null}
-      </FlexCol>
-    </FlexCol>
+      <Switch>
+        <Route
+          path="/subjects"
+          exact
+          render={() => (
+            <AllSubjects onRowClick={(subject) => setSubjectModal(subject)} />
+          )}
+        />
+        <Route
+          path="/subjects/search"
+          exact
+          render={() => (
+            <SearchSubjects onRowClick={(subject) => setSubjectModal(subject)} />
+          )}
+        />
+      </Switch>
+    </AppletLayout>
   );
 }
 
-const mapStateToProps = (state) => ({
-  results: state.subjects.subjectSearch.results
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  handleSort: (key) => dispatch(sortSearchResults(key))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Subjects);
+export default connect()(Subjects);

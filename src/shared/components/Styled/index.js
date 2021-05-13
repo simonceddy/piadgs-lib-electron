@@ -1,3 +1,4 @@
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { getColourMap } from '../../themes';
 
@@ -38,4 +39,20 @@ export const AppContainer = styled.div`
 export const ThemeH1 = styled.h1`
   color: ${primary};
   text-shadow: ${text} 1px 1px 1px;
+`;
+
+export const ThemedNavLink = styled(NavLink)`
+  background-color: ${background};
+  color: ${primary};
+  border-color: ${background};
+
+  &:hover {
+    background-color: ${primary};
+    color: ${background};
+    border-color: ${background};
+  }
+
+  &.active {
+    border-color: ${primary};
+  }
 `;

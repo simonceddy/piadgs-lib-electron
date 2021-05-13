@@ -2,7 +2,7 @@
 import {
   BiSearch as Search,
   IoCreate as Create,
-  FcDocument as List,
+  BsList as List,
   FcDocument as Delete,
 } from 'react-icons/all';
 // import { getColourMap } from '../themes';

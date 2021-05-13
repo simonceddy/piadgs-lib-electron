@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
-import SearchSubjectsForm from '../../components/Subjects/SearchSubjectsForm';
+import { SingleFieldForm } from '../../shared/components/Forms';
 import { performSearch, setSearchInput } from '../../store/actions/subjects';
 
 function SubjectSearch({ submitSearch, input, setInput }) {
   return (
-    <SearchSubjectsForm
+    <SingleFieldForm
+      submitLabel="Search Subjects"
       input={input}
       setInput={setInput}
       onSubmit={submitSearch}

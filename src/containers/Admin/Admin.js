@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import AdminLayout from '../../components/Admin/AdminLayout';
 import Dashboard from './Dashboard';
-import Titles from '../Titles';
 import CreateTitle from './CreateTitle';
 import ViewAuthors from './ViewAuthors';
 import ViewSubjects from './ViewSubjects';
@@ -45,13 +44,6 @@ function Admin() {
         />
         <Route path={`${baseUri}/subjects`} exact component={ViewSubjects} />
         <Route path={`${baseUri}/authors`} exact component={ViewAuthors} />
-        <Route
-          path={`${baseUri}/titles/:page`}
-          exact
-          render={({ match }) => (
-            <Titles page={Number(match.params.page)} />
-          )}
-        />
         <Route path={`${baseUri}/pasteFromWorks`} exact component={PasteFromWorks} />
         <Route
           path={`${baseUri}/title/:id`}

@@ -6,17 +6,18 @@ import {
   NavbarLink,
   NavbarSpace
 } from './components/Layout';
-import Search from './containers/Titles/Search';
+import Search from './containers/Search';
 import Login from './containers/Login';
 import Admin from './containers/Admin/Admin';
 import { AdminBar, LogoutButton } from './components/Admin';
-import Results from './containers/Titles/Results';
+import Results from './containers/Search/Results';
 // import useQuery from '../hooks/useQuery';
 import { logOutUser } from './store/actions';
 import AuthGuard from './containers/AuthGuard';
 import { FlexCol, FlexRow } from './shared/components/Flex';
 import Subjects from './containers/Subjects';
 import Authors from './containers/Authors';
+import Titles from './containers/Titles';
 // import TestApp from './TestApp';
 
 function App({ loggedIn = false, logOut, themeMode }) {
@@ -68,6 +69,16 @@ function App({ loggedIn = false, logOut, themeMode }) {
               <AuthGuard
                 render={() => (
                   <Subjects />
+                )}
+              />
+            )}
+          />
+          <Route
+            path="/titles"
+            render={() => (
+              <AuthGuard
+                render={() => (
+                  <Titles />
                 )}
               />
             )}

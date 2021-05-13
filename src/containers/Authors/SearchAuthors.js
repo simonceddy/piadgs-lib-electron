@@ -1,41 +1,78 @@
 import { useState } from 'react';
 import { connect } from 'react-redux';
-import AuthorSearchForm from '../../components/Authors/AuthorSearchForm';
-import { ThemedButton, ThemedTextInput } from '../../shared/components/Styled';
+import ResultRow from '../../components/Authors/ResultRow';
+import { SingleFieldForm } from '../../shared/components/Forms';
+import { DefaultTable } from '../../shared/components/Tables';
 import { fetchSearchResults } from '../../store/actions/authors';
 
-function SearchAuthors({ submitSearch }) {
-  const [inputVal, setInputVal] = useState('');
+// TODO move to own thing so can be shared
+const fields = [
+  {
+    key: 'surname',
+    name: 'Surname'
+  },
+  {
+    key: 'given_names',
+    name: 'Given Names'
+  },
+];
+
+const columns = [
+  ...fields,
+  {
+    key: 'titles',
+    name: 'Number of Titles'
+  }
+];
+
+function SearchAuthors({
+  searchResults = [],
+  sortCol,
+  sortDirection,
+  handleSort,
+  submitSearch,
+  onRowClick = () => null
+}) {
+  const [input, setInput] = useState('');
 
   return (
-    <AuthorSearchForm
-      onSubmit={() => submitSearch(inputVal)}
-    >
-      <ThemedTextInput
-        required
-        label="Search authors:"
-        labelClassName="text-xl"
-        className="text-xl"
-        value={inputVal}
-        onChange={(e) => setInputVal(e.target.value)}
+    <>
+      <SingleFieldForm
+        submitLabel="Search Authors"
+        input={input}
+        setInput={setInput}
+        onSubmit={submitSearch}
       />
-      <ThemedButton
-        submits
-        className="m-2"
-      >
-        Search Authors
-      </ThemedButton>
-    </AuthorSearchForm>
+      {searchResults.length < 1 ? null : (
+        <DefaultTable
+          sortColumn={sortCol}
+          sortDirection={sortDirection}
+          handleSort={handleSort}
+          columns={columns}
+        >
+          {searchResults.map((author = {}) => (
+            <ResultRow
+              onClick={() => onRowClick(author)}
+              key={author.id}
+              author={author}
+              columns={fields}
+            />
+          ))}
+        </DefaultTable>
+      )}
+    </>
   );
 }
 
-// const mapStateToProps = (state) => ({
-//   // inputVal: state.authors.authorSearch.input
-// });
+const mapStateToProps = (state) => ({
+  searchResults: state.authors.authorSearch.results,
+  sortCol: state.authors.authorSearch.sortCol,
+  sortDirection: state.authors.authorSearch.sortDirection
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  // setInputVal: (val) => dispatch(setSearchInput(val)),
+  // handleSort: (key) => dispatch(sortSearchResults(key)),
   submitSearch: (input) => dispatch(fetchSearchResults(input))
 });
 
-export default connect(null, mapDispatchToProps)(SearchAuthors);
+export default connect(mapStateToProps, mapDispatchToProps)(SearchAuthors);

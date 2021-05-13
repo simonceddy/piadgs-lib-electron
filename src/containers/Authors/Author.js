@@ -1,11 +1,11 @@
 /* eslint-disable no-unused-vars */
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import AuthorSummary from '../../components/Authors/AuthorSummary';
 import MessageBox from '../../components/Authors/MessageBox';
 import { getLibraryAuthor } from '../../message-control/controllers';
+import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import {
   setAuthorMessage,
@@ -37,7 +37,7 @@ function Author({
     if (!isLoaded) {
       getLibraryAuthor({ id })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.id) {
             return Promise.resolve(setData(res))
               .then(() => Promise.resolve(setTitles(Object.fromEntries(
@@ -58,7 +58,7 @@ function Author({
   }
 
   return (
-    <ThemedDiv className="m-4 p-4 flex-1 border-2 rounded-lg overflow-y-scroll w-11/12">
+    <ModalAppletLayout>
       <ThemedDiv className="flex flex-row p-2 justify-between items-center">
         <ThemedButton
           onClick={() => setIsEditing(!isEditing)}
@@ -81,7 +81,7 @@ function Author({
           onSelect={handleChecked}
         />
       ) : (<AuthorSummary author={data} />)}
-    </ThemedDiv>
+    </ModalAppletLayout>
   );
 }
 

@@ -64,7 +64,7 @@ function AdminBar({ children }) {
         <SubjectsIcon size={26} />
         <LinkLabel>Subjects</LinkLabel>
       </NavbarLink>
-      <NavbarLink className="" to="/admin/titles/1" exact>
+      <NavbarLink className="" to="/titles" exact>
         <TitlesIcon size={26} /><LinkLabel>Titles</LinkLabel>
       </NavbarLink>
       <NavbarButton

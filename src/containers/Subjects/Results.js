@@ -1,9 +1,6 @@
-import { useMemo, useState } from 'react';
 import { connect } from 'react-redux';
-import Modal from '../../components/Subjects/Modal';
 import SubjectResultRow from '../../components/Subjects/SubjectResultRow';
 import { sortSearchResults } from '../../store/actions/subjects';
-import Subject from './Subject';
 
 const columns = [
   {
@@ -20,22 +17,13 @@ function Results({
   results = [],
   handleSort = () => null,
   sortKey,
-  sortDirection
+  sortDirection,
+  onRowClick
 }) {
   console.log(sortKey, sortDirection);
-  const [subjectModalId, setSubjectModalId] = useState(false);
-
-  const onClose = () => setSubjectModalId(false);
-
-  const SubjectModal = useMemo(() => (!subjectModalId ? null : (
-    <Modal onClose={onClose}>
-      <Subject onClose={onClose} id={subjectModalId} />
-    </Modal>
-  )), [subjectModalId]);
 
   return (
     <>
-      {SubjectModal}
       <div className="p-2 w-full h-full overflow-scroll flex-1 flex-col flex justify-start items-start">
         <table className="w-full">
           <thead>
@@ -50,7 +38,7 @@ function Results({
           <tbody className="w-full">
             {results.map((subject = {}) => (
               <SubjectResultRow
-                onClick={() => setSubjectModalId(subject.id)}
+                onClick={() => onRowClick(subject)}
                 key={`subject-row-${subject.id}`}
                 subject={subject}
               />

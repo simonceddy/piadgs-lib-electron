@@ -1,6 +1,7 @@
 function SubjectForm({ children }) {
   return (
     <form
+      className=""
       onSubmit={(e) => {
         e.preventDefault();
       }}
