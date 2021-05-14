@@ -18,7 +18,7 @@ function AuthorsWidget() {
   return (
     <FlexRow className="p-1 w-full justify-between items-center">
       {amount ? `From ${amount} total authors` : '...'}
-      <NavLink to="/admin/authors" exact>View Authors</NavLink>
+      <NavLink to="/authors" exact>View Authors</NavLink>
     </FlexRow>
   );
 }

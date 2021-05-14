@@ -16,7 +16,11 @@ const columns = [
   }
 ];
 
-function AllSubjects({ subjects = [], getSubjects }) {
+function AllSubjects({
+  subjects = [],
+  getSubjects,
+  onRowClick = () => null
+}) {
   const [subjectsLoaded, setSubjectsLoaded] = useState(subjects.length > 0);
   useEffect(async () => {
     if (!subjectsLoaded) {
@@ -36,7 +40,7 @@ function AllSubjects({ subjects = [], getSubjects }) {
       columns={columns}
     >
       {subjects.map((subject) => (
-        <SubjectResultRow key={subject.id} subject={subject} />
+        <SubjectResultRow key={subject.id} subject={subject} onClick={() => onRowClick(subject)} />
       ))}
     </DefaultTable>
   );

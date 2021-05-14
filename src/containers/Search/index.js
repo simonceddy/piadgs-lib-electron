@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import { useState } from 'react';
 import {
-  submitSearchForm,
-  updateSearchValues,
-  resetFormValues
+  submitLibrarySearchForm,
+  updateLibrarySearchValues,
+  resetLibraryFormValues
 } from '../../store/actions';
 import SearchForm from '../../components/Search/SearchForm';
 import Results from './Results';
@@ -38,16 +38,16 @@ function Search({
 }
 
 const mapStateToProps = (state) => ({
-  values: state.titles.search.values,
-  isSubmitted: state.titles.search.isSubmitted,
-  results: state.titles.search.results
+  values: state.search.values,
+  isSubmitted: state.search.isSubmitted,
+  results: state.search.results
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setValues: (values = {}) => dispatch(updateSearchValues(values)),
+  setValues: (values = {}) => dispatch(updateLibrarySearchValues(values)),
   // setIsSubmitted: (isSubmitted) => dispatch(setFormSubmitted(isSubmitted)),
-  submitSearch: (params) => dispatch(submitSearchForm(params)),
-  resetForm: () => dispatch(resetFormValues())
+  submitSearch: (params) => dispatch(submitLibrarySearchForm(params)),
+  resetForm: () => dispatch(resetLibraryFormValues())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

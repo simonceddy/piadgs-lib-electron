@@ -17,7 +17,7 @@ function TitlesWidget() {
   return (
     <FlexRow className="p-1 w-full justify-between items-center">
       {amount ? `${amount} total titles in database` : '...'}
-      <NavLink to="/admin/titles" exact>View Titles</NavLink>
+      <NavLink to="/titles" exact>View Titles</NavLink>
     </FlexRow>
   );
 }

@@ -7,6 +7,7 @@ import appReducer from './appReducer';
 import errorsReducer from './errorsReducer';
 import subjects from './subjects';
 import authors from './authors';
+import librarySearchReducer from './librarySearchReducer';
 
 const rootReducer = combineReducers({
   login: loginFormReducer,
@@ -16,7 +17,8 @@ const rootReducer = combineReducers({
   errors: errorsReducer,
   titles,
   subjects,
-  authors
+  authors,
+  search: librarySearchReducer
 });
 
 export default rootReducer;

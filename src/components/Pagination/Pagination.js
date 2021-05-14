@@ -30,7 +30,7 @@ function Pagination({
         <PageSelect
           current={currentPage}
           lastPage={lastPage}
-          onChange={(e) => setPage(e.target.value)}
+          onChange={(e) => setPage(Number(e.target.value))}
         />
       </div>
       <span className="mr-2">Page {currentPage} of {lastPage}</span>

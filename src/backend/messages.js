@@ -1,22 +1,24 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { ipcMain } = require('electron');
 const {
-  searchTitles,
+  searchLibrary,
   login,
   searchAuthors,
   searchSubjects,
   getAll,
   getFrom,
-  getAllTitles
+  getAllTitles,
+  searchTitles
 } = require('./controllers');
 const countModels = require('./controllers/countModels');
 const getAuthorTitles = require('./helpers/getAuthorTitles');
 const getSubjectTitles = require('./helpers/getSubjectTitles');
 const loadTitleRelations = require('./helpers/loadTitleRelations');
 
-ipcMain.on('search-titles', (event, params) => searchTitles(event, params));
+ipcMain.on('search-library', (event, params) => searchLibrary(event, params));
 ipcMain.on('search-authors', (event, params) => searchAuthors(event, params));
 ipcMain.on('search-subjects', (event, params) => searchSubjects(event, params));
+ipcMain.on('search-titles', (event, params) => searchTitles(event, params));
 
 ipcMain.on('count-titles', (ev) => countModels('titles', (results) => ev.reply('send-titles-count', results)));
 ipcMain.on('count-authors', (ev) => countModels('authors', (results) => ev.reply('send-authors-count', results)));

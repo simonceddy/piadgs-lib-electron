@@ -50,7 +50,7 @@ const columns = [
   },
   {
     name: 'Location',
-    key: 'callNumber',
+    key: 'call_number',
     sortable: true,
   },
 ];

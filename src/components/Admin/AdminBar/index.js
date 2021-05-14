@@ -3,19 +3,19 @@ import theme from 'styled-theming';
 import {
   GoDashboard as DashIcon,
   ImBooks as TitlesIcon,
-  IoCreate as CreateIcon,
-  BiBook as AddTitleIcon,
-  BsPerson as AddAuthorIcon,
-  MdSubject as AddSubjectIcon,
-  FaPaste as PasteFromWorksIcon,
+  // IoCreate as CreateIcon,
+  // BiBook as AddTitleIcon,
+  // BsPerson as AddAuthorIcon,
+  // MdSubject as AddSubjectIcon,
+  // FaPaste as PasteFromWorksIcon,
   BsPen as AuthorsIcon,
   MdInfo as SubjectsIcon
 } from 'react-icons/all';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { FlexRow } from '../../../shared/components/Flex';
 import { NavbarLink } from '../../Layout';
 import { colourMaps } from '../../../shared/themes';
-import CreateMenu from './CreateMenu';
+// import CreateMenu from './CreateMenu';
 
 const secondary = theme('mode', colourMaps.secondary);
 
@@ -29,26 +29,28 @@ const LinkLabel = ({ children }) => (
   </span>
 );
 
-const NavbarButton = ({
-  children,
-  onClick,
-  className = '',
-  onMouseLeave,
-  onMouseEnter
-}) => (
-  <button
-    onMouseEnter={onMouseEnter}
-    onMouseLeave={onMouseLeave}
-    className={`flex flex-row justify-between items-center p-2 no-underline hover:underline m-2 ${className}`}
-    type="button"
-    onClick={onClick}
-  >
-    {children}
-  </button>
-);
+// const NavbarButton = ({
+//   children,
+//   onClick,
+//   className = '',
+//   onMouseLeave,
+//   onMouseEnter
+// }) => (
+//   <button
+//     onMouseEnter={onMouseEnter}
+//     onMouseLeave={onMouseLeave}
+//     className={
+// `flex flex-row justify-between items-center p-2 no-underline hover:underline m-2 ${className}`
+// }
+//     type="button"
+//     onClick={onClick}
+//   >
+//     {children}
+//   </button>
+// );
 
 function AdminBar({ children }) {
-  const [toggleCreateMenu, setToggleCreateMenu] = useState(false);
+  // const [toggleCreateMenu, setToggleCreateMenu] = useState(false);
 
   return (
     <StyledAdminBar className="flex-1 justify-around items-center rounded-md m-2">
@@ -67,7 +69,7 @@ function AdminBar({ children }) {
       <NavbarLink className="" to="/titles" exact>
         <TitlesIcon size={26} /><LinkLabel>Titles</LinkLabel>
       </NavbarLink>
-      <NavbarButton
+      {/* <NavbarButton
         className=""
         onMouseEnter={() => setToggleCreateMenu(true)}
         onMouseLeave={() => setToggleCreateMenu(false)}
@@ -109,7 +111,7 @@ function AdminBar({ children }) {
           Create
           <span>{toggleCreateMenu ? '▲' : '▼'}</span>
         </LinkLabel>
-      </NavbarButton>
+      </NavbarButton> */}
       {children}
     </StyledAdminBar>
   );

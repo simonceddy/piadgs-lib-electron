@@ -42,7 +42,7 @@ function Results({
 }
 
 const mapStateToProps = (state) => ({
-  results: state.titles.search.results,
+  results: state.search.results,
   sortColumn: state.titles.titles.sortColumn,
   sortDirection: state.titles.titles.sortDirection
 });

@@ -1,4 +1,4 @@
-import { searchLibraryTitles } from '../../../message-control/controllers';
+import { searchLibrary } from '../../../message-control/controllers';
 
 export const UPDATE_SEARCH_VALUES = 'UPDATE_SEARCH_VALUES';
 export const SET_FORM_SUBMITTED = 'SET_FORM_SUBMITTED';
@@ -28,7 +28,7 @@ export const setSearchResults = (results) => ({
 });
 
 // eslint-disable-next-line no-unused-vars
-export const submitSearchForm = (params = {}) => (dispatch) => searchLibraryTitles(params)
+export const submitSearchForm = (params = {}) => (dispatch) => searchLibrary(params)
   .then(async (response) => {
     await dispatch(setSearchResults(response.results));
     dispatch(setFormSubmitted(true));

@@ -11,6 +11,7 @@ import { FlexCol } from '../../shared/components/Flex';
 import Modal from '../../shared/components/Modal';
 import Title from './Title';
 import AllTitles from './AllTitles';
+import CreateTitle from './CreateTitle';
 
 const toolbarItems = [
   [
@@ -58,6 +59,13 @@ function Titles() {
           exact
           render={() => (
             <AllTitles onRowClick={(title) => setTitleModal(title)} />
+          )}
+        />
+        <Route
+          path="/titles/create"
+          exact
+          render={() => (
+            <CreateTitle onRowClick={(title) => setTitleModal(title)} />
           )}
         />
       </Switch>

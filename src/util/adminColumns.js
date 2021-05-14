@@ -16,7 +16,7 @@ const adminColumns = [
   },
   ...columns,
   {
-    key: 'accessionNumber',
+    key: 'accession_number',
     name: 'Accession Number',
     sortable: true,
   },

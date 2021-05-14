@@ -18,7 +18,7 @@ function SubjectsWidget() {
   return (
     <FlexRow className="p-1 w-full justify-between items-center">
       {amount ? `Covering ${amount} total subjects` : '...'}
-      <NavLink to="/admin/subjects" exact>View subjects</NavLink>
+      <NavLink to="/subjects" exact>View subjects</NavLink>
     </FlexRow>
   );
 }

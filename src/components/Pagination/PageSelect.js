@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react';
+import { useEffect, useMemo, useState, } from 'react';
 import { StyledSelect } from '../../shared/components/Styled';
 
 const getOptions = (max) => {
@@ -11,22 +11,26 @@ const getOptions = (max) => {
 };
 
 function PageSelect({ lastPage, current, onChange }) {
+  console.log(current);
   const options = useMemo(() => getOptions(lastPage), [lastPage]);
+  const [selected, setSelected] = useState(current);
 
-  const Selector = useCallback(() => (
-    <StyledSelect
-      className="p-1 border-2 rounded-xl text-lg"
-      defaultValue={current}
-      onChange={onChange}
-    >
-      {options.map((Option, index) => <Option key={index} />)}
-    </StyledSelect>
-  ), [current]);
+  useEffect(() => {
+    if (current !== selected) {
+      setSelected(current);
+    }
+  }, [current]);
 
   return (
     <div className="flex flex-row justify-between items-center">
       <span className="mr-3">Select page:</span>
-      <Selector />
+      <StyledSelect
+        className="p-1 border-2 rounded-xl text-lg"
+        defaultValue={selected}
+        onChange={onChange}
+      >
+        {options.map((Option, index) => <Option key={index} />)}
+      </StyledSelect>
     </div>
   );
 }
