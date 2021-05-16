@@ -2,31 +2,29 @@ import types from '../../backend/messageTypes';
 import controllerMessage from './controllerMessage';
 
 export const getLibraryTitle = (params) => controllerMessage(
-  types.getTitle.send,
-  types.getTitle.reply,
+  types.getTitle,
   params
 );
 
 export const searchLibraryTitles = (params) => controllerMessage(
-  types.searchTitles.send,
-  types.searchTitles.reply,
+  types.searchTitles,
   params
 );
 
 export const getTitles = () => controllerMessage(
-  types.getAllTitles.send,
-  types.getAllTitles.reply,
+  types.getAllTitles,
 );
 
 export const countTitles = () => controllerMessage(
-  types.countTitles.send,
-  types.countTitles.reply
+  types.countTitles,
 );
 
-export const createTitles = (params) => controllerMessage('create-titles', 'send-titles-created', params);
+export const createTitles = (params) => controllerMessage({
+  send: 'create-titles',
+  reply: 'send-titles-created'
+}, params);
 
 export const createTitle = (params) => controllerMessage(
-  types.createTitle.send,
-  types.createTitle.reply,
+  types.createTitle,
   params
 );

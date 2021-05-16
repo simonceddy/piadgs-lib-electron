@@ -6,9 +6,10 @@ export * from './authorControllers';
 export * from './subjectControllers';
 
 export const searchLibrary = (params) => controllerMessage(
-  types.searchLibrary.send,
-  types.searchLibrary.reply,
+  types.searchLibrary,
   params
 );
 
-export const attemptLogin = (args) => controllerMessage('login', 'login-result', args);
+export const attemptLogin = (args) => controllerMessage({
+  send: 'login', reply: 'login-result'
+}, args);
