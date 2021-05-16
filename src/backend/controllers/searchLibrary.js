@@ -85,7 +85,7 @@ const searchQuery = (data = {}) => {
         }
       }
     }
-    console.log(currentQuery.toString());
+    currentQuery.groupBy('titles.id');
     return currentQuery;
   };
 
@@ -109,10 +109,10 @@ const searchLibrary = async (event, params) => {
       }
 
       // TODO fix query
-      const unique = results.filter((title, index, self) => index === self.findIndex(
-        (t) => (t.id === title.id)
-      ));
-      return Promise.all(unique.map((title) => loadTitleRelations(title)
+      // const unique = results.filter((title, index, self) => index === self.findIndex(
+      //   (t) => (t.id === title.id)
+      // ));
+      return Promise.all(results.map((title) => loadTitleRelations(title)
         .then((loaded) => loaded)))
         .then((titles) => respond(event, {
           ...searchResponseBody,

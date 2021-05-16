@@ -23,3 +23,28 @@ export const sortTitleSubjects = (titles = []) => titles.sort(
   (a, b) => (a.subjects[0] ? a.subjects[0].name : '')
     .localeCompare(b.subjects[0] ? b.subjects[0].name : '')
 );
+
+export const sortSubjects = (subjects, col) => {
+  switch (col) {
+    default:
+      return sortPropAZ(subjects, col);
+  }
+};
+
+export const sortAuthors = (authors, col) => {
+  switch (col) {
+    default:
+      return sortPropAZ(authors, col);
+  }
+};
+
+export const sortTitles = (titles, col) => {
+  switch (col) {
+    case 'authors':
+      return sortTitleAuthors(titles);
+    case 'subjects':
+      return sortTitleSubjects(titles);
+    default:
+      return sortPropAZ(titles, col);
+  }
+};

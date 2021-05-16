@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { SingleFieldForm } from '../../shared/components/Forms';
-import { performSearch, setSearchInput } from '../../store/actions/subjects';
+import { performSubjectSearch, setSubjectSearchInput } from '../../store/actions/subjects';
 
 function SubjectSearch({ submitSearch, input, setInput }) {
   return (
@@ -18,8 +18,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setInput: (input) => dispatch(setSearchInput(input)),
-  submitSearch: (input) => dispatch(performSearch(input))
+  setInput: (input) => dispatch(setSubjectSearchInput(input)),
+  submitSearch: (input) => dispatch(performSubjectSearch(input))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SubjectSearch);

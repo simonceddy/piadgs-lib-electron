@@ -3,6 +3,7 @@ import { getTitles } from '../../../message-control/controllers';
 // import { isArray } from 'lodash';
 // import makeSearchQuery from '../../../util/makeSearchQuery';
 import { paginate } from '../../../util/paginate';
+import { sortTitles } from '../../../util/sort';
 
 export const FETCH_TITLES_DATA = 'FETCH_TITLES_DATA';
 export const SET_TITLES_DATA = 'SET_TITLES_DATA';
@@ -36,20 +37,29 @@ export const setTitlesSort = ({ sortColumn, sortDirection }) => ({
   payload: { sortColumn, sortDirection }
 });
 
-export const fetchTitlesData = () => (dispatch, getState) => getTitles()
-  .then((result) => dispatch(setTitlesData(
-    paginate(result, getState().titles.itemsPerPage || 32)
-  )))
+export const sortAndSetTitles = (data) => (dispatch, getState) => {
+  const { sortColumn, sortDirection, itemsPerPage } = getState().titles.titles;
+
+  const sorted = sortTitles(data, sortColumn);
+
+  return dispatch(setTitlesData(paginate(
+    sortDirection === 'ASC' ? sorted : sorted.reverse(),
+    itemsPerPage || 32
+  )));
+};
+
+export const fetchTitlesData = () => (dispatch) => getTitles()
+  .then((result) => dispatch(sortAndSetTitles(result)))
   .catch((err) => console.log(err));
 
-export function sortTitles(
-  { sortColumn, sortDirection },
-  callback = () => null
-) {
-  return (dispatch, getState) => Promise.resolve(dispatch(setTitlesSort({
-    sortColumn,
-    sortDirection
-  })))
-    .then(() => callback(getState))
-    .catch((err) => console.log(err));
-}
+// export function sortTitles(
+//   { sortColumn, sortDirection },
+//   callback = () => null
+// ) {
+//   return (dispatch, getState) => Promise.resolve(dispatch(setTitlesSort({
+//     sortColumn,
+//     sortDirection
+//   })))
+//     .then(() => callback(getState))
+//     .catch((err) => console.log(err));
+// }

@@ -59,7 +59,7 @@ function AllTitles({
             sortColumn={sortColumn}
             sortDirection={sortDirection}
             columns={adminColumns}
-            handleSort={(key) => console.log(`sorting by ${key}`)}
+            handleSort={(e) => console.log(`sorting by ${e.target.id}`)}
           >
             {pageData}
           </DefaultTable>
