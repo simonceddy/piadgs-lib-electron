@@ -1,6 +1,7 @@
 const db = require('../db');
+const types = require('../messageTypes');
 
-const respond = (event, message) => event.reply('update-subject-result', {
+const respond = (event, message) => event.reply(types.updateSubject.reply, {
   message
 });
 

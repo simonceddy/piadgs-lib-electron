@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+import types from '../../backend/messageTypes';
+
 const electron = window.require('electron');
 const { ipcRenderer } = electron;
 

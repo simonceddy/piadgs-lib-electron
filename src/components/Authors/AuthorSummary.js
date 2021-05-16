@@ -4,7 +4,7 @@ function AuthorSummary({ author = {} }) {
   return (
     <>
       <div className="text-2xl p-2">
-        {author.surname}{!author.givenNames ? null : `, ${author.givenNames}`}
+        {author.surname}{!author.given_names ? null : `, ${author.given_names}`}
       </div>
       {!author.titles ? null : (
         <TitleList titles={author.titles} />

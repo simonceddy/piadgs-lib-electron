@@ -20,12 +20,12 @@ const event = {
   }
 };
 // deleteModel('authors', 782);
-associate('subject', 'title', 1453, 1194)
-  .then((result) => console.log(result));
+// associate('subject', 'title', 1453, 1194)
+//   .then((result) => console.log(result));
 
-// searchSubjects(event, {
-//   name: 'zest'
-// });
+searchSubjects(event, {
+  name: 'vic'
+});
 
 // searchTitles(event, {
 //   title: 'test'

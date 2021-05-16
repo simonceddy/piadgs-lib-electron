@@ -23,7 +23,7 @@ const columns = [
   }
 ];
 
-function AllAuthors({ authors = [], getAuthors }) {
+function AllAuthors({ authors = [], getAuthors, onRowClick = () => null }) {
   const [authorsLoaded, setAuthorsLoaded] = useState(authors.length > 0);
   useEffect(async () => {
     if (!authorsLoaded) {
@@ -41,7 +41,12 @@ function AllAuthors({ authors = [], getAuthors }) {
       columns={columns}
     >
       {authors.map((author) => (
-        <ResultRow columns={fields} key={author.id} author={author} />
+        <ResultRow
+          onClick={() => onRowClick(author)}
+          columns={fields}
+          key={author.id}
+          author={author}
+        />
       ))}
     </DefaultTable>
   );

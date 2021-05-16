@@ -1,14 +1,27 @@
+import types from '../../backend/messageTypes';
 import controllerMessage from './controllerMessage';
 
 export const getLibraryAuthor = (params) => controllerMessage(
-  'get-author',
-  'fetched-author',
+  types.getAuthor.send,
+  types.getAuthor.reply,
   params
 );
 export const searchLibraryAuthors = (params) => controllerMessage(
-  'search-authors',
-  'authors-search-results',
+  types.searchAuthors.send,
+  types.searchAuthors.reply,
   params
 );
-export const getAuthors = () => controllerMessage('get-authors', 'send-authors');
-export const countAuthors = () => controllerMessage('count-authors', 'send-authors-count');
+export const getAuthors = () => controllerMessage(
+  types.getAllAuthors.send,
+  types.getAllAuthors.reply,
+);
+export const countAuthors = () => controllerMessage(
+  types.countAuthors.send,
+  types.countAuthors.reply
+);
+
+export const createAuthor = (params) => controllerMessage(
+  types.createAuthor.send,
+  types.createAuthor.reply,
+  params
+);

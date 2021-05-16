@@ -4,6 +4,7 @@ const { Knex } = require('knex');
 const contains = require('../helpers/contains');
 const db = require('../db');
 const loadTitleRelations = require('../helpers/loadTitleRelations');
+const types = require('../messageTypes');
 
 const searchResponseBody = {
   success: false,
@@ -36,7 +37,7 @@ const fields = {
   }
 };
 
-const respond = (event, data) => event.reply('library-search-results', data);
+const respond = (event, data) => event.reply(types.searchLibrary.reply, data);
 
 /**
  * Build the search query

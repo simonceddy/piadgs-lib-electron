@@ -1,0 +1,26 @@
+const types = {
+  updateSubject: { send: 'update-subject', reply: 'subject-updated' },
+  updateAuthor: { send: 'update-author', reply: 'author-updated' },
+  updateTitle: { send: 'update-title', reply: 'title-updated' },
+  createSubject: { send: 'create-subject', reply: 'subject-created' },
+  createAuthor: { send: 'create-author', reply: 'author-created' },
+  createTitle: { send: 'create-title', reply: 'title-created' },
+  getAllTitles: { send: 'get-all-titles', reply: 'all-titles-fetched' },
+  getAllSubjects: { send: 'get-all-subjects', reply: 'all-subjects-fetched' },
+  getAllAuthors: { send: 'get-all-authors', reply: 'all-authors-fetched' },
+  getTitle: { send: 'get-title', reply: 'title-fetched' },
+  getAuthor: { send: 'get-author', reply: 'author-fetched' },
+  getSubject: { send: 'get-subject', reply: 'subject-fetched' },
+  countTitles: { send: 'count-titles', reply: 'titles-counted' },
+  countAuthors: { send: 'count-authors', reply: 'authors-counted' },
+  countSubjects: { send: 'count-subjects', reply: 'subjects-counted' },
+  deleteTitle: { send: 'delete-title', reply: 'title-deleted' },
+  deleteSubject: { send: 'delete-subject', reply: 'subject-deleted' },
+  deleteAuthor: { send: 'delete-author', reply: 'author-deleted' },
+  searchTitles: { send: 'search-titles', reply: 'titles-search-results' },
+  searchAuthors: { send: 'search-authors', reply: 'authors-search-results' },
+  searchSubjects: { send: 'search-subjects', reply: 'subjects-search-results' },
+  searchLibrary: { send: 'search-library', reply: 'library-search-results' },
+};
+
+module.exports = types;

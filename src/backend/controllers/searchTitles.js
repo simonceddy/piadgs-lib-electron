@@ -2,6 +2,7 @@
 const contains = require('../helpers/contains');
 const db = require('../db');
 const { titleModel } = require('../models');
+const types = require('../messageTypes');
 
 /**
  * Create a search query function
@@ -38,14 +39,14 @@ const searchTitles = (event, params) => {
   // TODO - handle searching different columns
   const q = searchQuery(params);
   if (!q) {
-    return event.reply('titles-search-results', {
+    return event.reply(types.searchTitles.reply, {
       success: false
     });
   }
 
   return db.from('titles').where(q)
     .select()
-    .then((results) => event.reply('titles-search-results', {
+    .then((results) => event.reply(types.searchTitles.reply, {
       results,
       success: true
     }))
