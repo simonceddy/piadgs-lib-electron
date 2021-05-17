@@ -25,7 +25,7 @@ function ThemedTextInput({
   return (
     <label
       htmlFor={id || name}
-      className="flex flex-row justify-between items-center m-2 w-full"
+      className="flex flex-row justify-between items-center p-2 w-full"
     >
       {!label ? null : (
         <span className={`${labelClassName} mr-2 p-2`}>

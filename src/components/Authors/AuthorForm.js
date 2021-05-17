@@ -22,8 +22,8 @@ function AuthorForm({
         id="author-surname"
       />
       <ThemedTextInput
-        value={author.givenNames}
-        onChange={(e) => setValue({ givenNames: e.target.value })}
+        value={author.given_names}
+        onChange={(e) => setValue({ given_names: e.target.value })}
         label="Given Names"
         id="author-given-names"
       />

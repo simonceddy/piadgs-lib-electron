@@ -1,5 +1,6 @@
 export * from './authorSearchActions';
 export * from './authorActions';
+export * from './authorFormActions';
 
 export const SET_AUTHOR_MESSAGE = 'SET_AUTHOR_MESSAGE';
 

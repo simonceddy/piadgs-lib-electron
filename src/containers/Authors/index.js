@@ -12,6 +12,7 @@ import {
 } from '../../shared/components/Icons';
 import Toolbar from '../../components/Toolbar';
 import AllAuthors from './AllAuthors';
+import CreateAuthor from './CreateAuthor';
 
 const toolbarItems = [
   [{
@@ -28,7 +29,6 @@ const toolbarItems = [
 ];
 
 function Authors() {
-  // console.log(searchResults);
   const [authorModalId, setAuthorModalId] = useState(false);
 
   const onClose = () => setAuthorModalId(false);
@@ -56,6 +56,13 @@ function Authors() {
           exact
           render={() => (
             <SearchAuthors onRowClick={(author) => setAuthorModalId(author.id)} />
+          )}
+        />
+        <Route
+          path="/authors/create"
+          exact
+          render={() => (
+            <CreateAuthor />
           )}
         />
       </Switch>

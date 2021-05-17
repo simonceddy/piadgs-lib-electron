@@ -68,6 +68,13 @@ function Titles() {
             <CreateTitle onRowClick={(title) => setTitleModal(title)} />
           )}
         />
+        <Route
+          path="/titles/search"
+          exact
+          render={() => (
+            <CreateTitle onRowClick={(title) => setTitleModal(title)} />
+          )}
+        />
       </Switch>
     </FlexCol>
   );
