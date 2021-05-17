@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { DefaultTable } from '../../shared/components/Tables';
-import { fetchTitlesData, setCurrentPage } from '../../store/actions';
+import { fetchTitlesData, setCurrentPage, sortTitleRows } from '../../store/actions';
 import adminColumns from '../../util/adminColumns';
 
 function AllTitles({
@@ -13,28 +13,29 @@ function AllTitles({
   setPage,
   sortColumn,
   sortDirection,
-  onRowClick = () => null
+  onRowClick = () => null,
+  sortTitles
 }) {
   const [titlesLoaded, setTitlesLoaded] = useState(titles.length > 0);
+  const [loadedPage, setLoadedPage] = useState(currentPage);
 
   const lastPage = titles.length;
 
   useEffect(async () => {
+    if (currentPage !== loadedPage) {
+      setLoadedPage(currentPage);
+      await getTitles();
+    }
     if (!titlesLoaded) {
       await getTitles();
       setTitlesLoaded(true);
     }
-  }, [titles]);
+  }, [currentPage]);
 
   const pageData = useMemo(() => {
-    if (titles.length < 1) {
-      return null;
-    }
-    const page = currentPage > lastPage ? lastPage : currentPage;
-    const data = titles[page - 1];
-    if (!data) return null;
+    if (!titles) return null;
 
-    return data.map((title = {}) => (
+    return titles.map((title = {}) => (
       <TitleTableRow
         onClick={() => onRowClick(title)}
         key={title.id}
@@ -44,7 +45,7 @@ function AllTitles({
         {title.title}
       </TitleTableRow>
     ));
-  }, [currentPage, titles]);
+  }, [currentPage]);
 
   return (
     <>
@@ -59,7 +60,7 @@ function AllTitles({
             sortColumn={sortColumn}
             sortDirection={sortDirection}
             columns={adminColumns}
-            handleSort={(e) => console.log(`sorting by ${e.target.id}`)}
+            handleSort={(e) => sortTitles(e.target.id)}
           >
             {pageData}
           </DefaultTable>
@@ -80,12 +81,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   getTitles: () => dispatch(fetchTitlesData()),
-  setPage: (page) => dispatch(setCurrentPage(page))
-  /* setTitlesPerPage: (amount) => dispatch(setItemsPerPage(amount)),
-  setSort: (sortColumn, sortDirection) => dispatch(setTitlesSort({
-    sortColumn,
-    sortDirection
-  })) */
+  setPage: (page) => dispatch(setCurrentPage(page)),
+  sortTitles: (col) => dispatch(sortTitleRows(col))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTitles);

@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
 import FormTitleList from '../../components/Titles/FormTitleList';
-import { FlexRow } from '../../shared/components/Flex';
+import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
-import { ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
+import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
 import { setAuthorFormInput } from '../../store/actions/authors';
 
 function CreateAuthor({ vals = {}, titles = [], setVals = () => null }) {
@@ -29,8 +29,16 @@ function CreateAuthor({ vals = {}, titles = [], setVals = () => null }) {
           />
         </ThemedDiv>
         <ThemedDiv className="flex-1 p-2 border-2 rounded-xl ml-6 h-full">
-          Titles
-          <FormTitleList titles={titles} />
+          <FlexCol className="justify-start items-center p-2">
+            <FlexRow className="w-full justify-start items-center">
+              <ThemedButton
+                onClick={() => console.log('add title')}
+              >
+                Add author&apos;s titles
+              </ThemedButton>
+            </FlexRow>
+            <FormTitleList titles={titles} />
+          </FlexCol>
         </ThemedDiv>
       </FlexRow>
       {}

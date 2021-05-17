@@ -1,9 +1,6 @@
-// import axios from 'axios';
 import { getTitles } from '../../../message-control/controllers';
-// import { isArray } from 'lodash';
-// import makeSearchQuery from '../../../util/makeSearchQuery';
-import { paginate } from '../../../util/paginate';
-import { sortTitles } from '../../../util/sort';
+// import { paginate } from '../../../util/paginate';
+import { flipDirection, sortTitles } from '../../../util/sort';
 
 export const FETCH_TITLES_DATA = 'FETCH_TITLES_DATA';
 export const SET_TITLES_DATA = 'SET_TITLES_DATA';
@@ -32,34 +29,32 @@ export const setTitlesData = (titles = []) => ({
   payload: { titles }
 });
 
-export const setTitlesSort = ({ sortColumn, sortDirection }) => ({
+export const setTitlesSort = (sortColumn, sortDirection) => ({
   type: SET_TITLES_SORT,
   payload: { sortColumn, sortDirection }
 });
 
 export const sortAndSetTitles = (data) => (dispatch, getState) => {
-  const { sortColumn, sortDirection, itemsPerPage } = getState().titles.titles;
+  const { sortColumn, sortDirection } = getState().titles.titles;
 
   const sorted = sortTitles(data, sortColumn);
 
-  return dispatch(setTitlesData(paginate(
-    sortDirection === 'ASC' ? sorted : sorted.reverse(),
-    itemsPerPage || 32
-  )));
+  return dispatch(setTitlesData(sortDirection === 'ASC' ? sorted : sorted.reverse()));
 };
 
-export const fetchTitlesData = () => (dispatch) => getTitles()
-  .then((result) => dispatch(sortAndSetTitles(result)))
-  .catch((err) => console.log(err));
+export const fetchTitlesData = () => (dispatch, getState) => {
+  const { currentPage, itemsPerPage } = getState().titles.titles;
+  return getTitles(currentPage, itemsPerPage)
+    .then((result) => {
+      console.log(result);
+      return dispatch(sortAndSetTitles(result));
+    })
+    .catch((err) => console.log(err));
+};
 
-// export function sortTitles(
-//   { sortColumn, sortDirection },
-//   callback = () => null
-// ) {
-//   return (dispatch, getState) => Promise.resolve(dispatch(setTitlesSort({
-//     sortColumn,
-//     sortDirection
-//   })))
-//     .then(() => callback(getState))
-//     .catch((err) => console.log(err));
-// }
+export const sortTitleRows = (col) => (dispatch, getState) => {
+  const { sortColumn, sortDirection, titles = [] } = getState().titles.titles;
+  const direction = col === sortColumn ? flipDirection(sortDirection) : sortDirection;
+  return Promise.resolve(dispatch(setTitlesSort(col, direction)))
+    .then(() => dispatch(sortAndSetTitles(titles.flat())));
+};

@@ -5,12 +5,12 @@ export const SET_AUTHORS_SEARCH_INPUT = 'SET_AUTHORS_SEARCH_INPUT';
 export const SET_AUTHORS_SEARCH_RESULTS = 'SET_AUTHORS_SEARCH_RESULTS';
 export const SET_AUTHORS_SORT_AUTHORS = 'SET_AUTHORS_SORT_AUTHORS';
 
-export const setSearchInput = (input) => ({
+export const setAuthorsSearchInput = (input) => ({
   type: SET_AUTHORS_SEARCH_INPUT,
   payload: { input }
 });
 
-export const setSearchResults = (results) => ({
+export const setAuthorsSearchResults = (results) => ({
   type: SET_AUTHORS_SEARCH_RESULTS,
   payload: { results }
 });
@@ -31,17 +31,19 @@ const sortCols = (key, data) => {
   }
 };
 
-export const fetchSearchResults = (name) => (dispatch, getState) => searchLibraryAuthors({ name })
+export const fetchAuthorsSearchResults = (name) => (
+  dispatch, getState
+) => searchLibraryAuthors({ name })
   .then((res) => {
     const { sortCol, sortDirection } = getState().authors.authorSearch;
 
     if (!res.results || res.results.length < 1) {
-      return dispatch(setSearchResults([]));
+      return dispatch(setAuthorsSearchResults([]));
     }
 
     const sorted = sortCols(sortCol, res.results);
     // console.log(sortCol, sortDirection, sorted);
-    return dispatch(setSearchResults(
+    return dispatch(setAuthorsSearchResults(
       sortDirection === 'DESC'
         ? sorted.reverse()
         : sorted
@@ -49,7 +51,7 @@ export const fetchSearchResults = (name) => (dispatch, getState) => searchLibrar
   })
   .catch(console.log);
 
-export const sortSearchResults = (key) => async (dispatch, getState) => {
+export const sortAuthorSearchResults = (key) => async (dispatch, getState) => {
   const { results, sortCol, sortDirection } = getState().authors.authorSearch;
   const isSameKey = key === sortCol;
   // console.log(sortDirection, isSameKey);
@@ -63,7 +65,7 @@ export const sortSearchResults = (key) => async (dispatch, getState) => {
     .then(() => {
       const sorted = sortCols(key, results);
 
-      return dispatch(setSearchResults(
+      return dispatch(setAuthorsSearchResults(
         direction === 'DESC'
           ? sorted.reverse()
           : sorted

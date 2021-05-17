@@ -4,7 +4,9 @@ const defaultState = {
   data: [],
   fetched: false,
   sortCol: 'name',
-  sortDirection: 'ASC'
+  sortDirection: 'ASC',
+  currentPage: 1,
+  itemsPerPage: 32
 };
 
 export default function subjectsReducer(state = defaultState, action) {

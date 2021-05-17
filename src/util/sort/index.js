@@ -26,6 +26,8 @@ export const sortTitleSubjects = (titles = []) => titles.sort(
 
 export const sortSubjects = (subjects, col) => {
   switch (col) {
+    case 'titles':
+      return sortPropLength(subjects, 'titles');
     default:
       return sortPropAZ(subjects, col);
   }
@@ -33,6 +35,8 @@ export const sortSubjects = (subjects, col) => {
 
 export const sortAuthors = (authors, col) => {
   switch (col) {
+    case 'titles':
+      return sortPropLength(authors, 'titles');
     default:
       return sortPropAZ(authors, col);
   }

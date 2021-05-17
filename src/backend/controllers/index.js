@@ -8,6 +8,8 @@ const searchLibrary = require('./searchLibrary');
 const searchTitles = require('./searchTitles');
 const updateSubject = require('./updateSubject');
 const getAllTitles = require('./getAllTitles');
+const getAllAuthors = require('./getAllAuthors');
+const getAllSubjects = require('./getAllSubjects');
 const createTitle = require('./createTitle');
 const createAuthor = require('./createAuthor');
 const createSubject = require('./createSubject');
@@ -29,4 +31,6 @@ module.exports = {
   createTitle,
   createAuthor,
   createSubject,
+  getAllAuthors,
+  getAllSubjects
 };

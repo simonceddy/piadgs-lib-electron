@@ -1,4 +1,5 @@
 import { getSubjects } from '../../../message-control/controllers';
+import { flipDirection, sortSubjects } from '../../../util/sort';
 // import { flipDirection, sortPropAZ, sortPropLength } from '../../../util/sort';
 
 export const SET_SUBJECTS_DATA = 'SET_SUBJECTS_DATA';
@@ -39,13 +40,26 @@ const setAndSortData = (data, col) => (dispatch, getState) => {
   // Sort data
 }; */
 
+export const sortAndSetSubjects = (data) => (dispatch, getState) => {
+  const { sortCol, sortDirection } = getState().subjects.subjects;
+
+  const sorted = sortSubjects(data, sortCol);
+
+  return dispatch(setSubjectsData(
+    sortDirection === 'ASC' ? sorted : sorted.reverse(),
+  ));
+};
+
 export const fetchSubjects = () => (dispatch) => {
   console.log('fetching subjects');
   return getSubjects()
-    .then((res) => dispatch(setSubjectsData(res)))
+    .then((res) => dispatch(sortAndSetSubjects(res)))
     .catch((err) => console.log(err));
 };
 
-export const sortSubjects = (sortCol) => {
-  console.log(sortCol);
+export const sortSubjectRows = (col) => (dispatch, getState) => {
+  const { sortCol, sortDirection, data = [] } = getState().subjects.subjects;
+  const direction = col === sortCol ? flipDirection(sortDirection) : sortDirection;
+  return Promise.resolve(dispatch(setSortSubjects(col, direction)))
+    .then(() => dispatch(sortAndSetSubjects(data)));
 };

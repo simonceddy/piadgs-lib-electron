@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import ResultRow from '../../components/Authors/ResultRow';
 import { SingleFieldForm } from '../../shared/components/Forms';
 import { DefaultTable } from '../../shared/components/Tables';
-import { fetchSearchResults } from '../../store/actions/authors';
+import { fetchAuthorsSearchResults } from '../../store/actions/authors';
 
 // TODO move to own thing so can be shared
 const fields = [
@@ -72,7 +72,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   // handleSort: (key) => dispatch(sortSearchResults(key)),
-  submitSearch: (input) => dispatch(fetchSearchResults(input))
+  submitSearch: (input) => dispatch(fetchAuthorsSearchResults(input))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchAuthors);
