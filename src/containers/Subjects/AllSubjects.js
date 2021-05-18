@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { fetchSubjects, setSubjectsCurrentPage, sortSubjectRows } from '../../store/actions';
 import { DefaultTable } from '../../shared/components/Tables';
 import SubjectResultRow from '../../components/Subjects/SubjectResultRow';
+import { Pagination } from '../../components/Pagination';
 
 const columns = [
   {
@@ -29,29 +30,41 @@ function AllSubjects({
   lastPage
 }) {
   useEffect(async () => {
+    console.log('fetching subjects');
     await getSubjects();
   }, [currentPage]);
 
-  console.log(currentPage, lastPage);
+  console.log(lastPage);
 
-  if (!subjects.length < 1) {
+  if (subjects.length < 1) {
     return <div>Loading subjects...</div>;
   }
 
   return (
-    <DefaultTable
-      columns={columns}
-      sortColumn={sortCol}
-      sortDirection={sortDirection}
-      handleSort={(e) => {
-        console.log(e.target.id);
-        sortSubjects(e.target.id);
-      }}
-    >
-      {subjects.map((subject) => (
-        <SubjectResultRow key={subject.id} subject={subject} onClick={() => onRowClick(subject)} />
-      ))}
-    </DefaultTable>
+    <>
+      <Pagination
+        current={currentPage}
+        lastPage={lastPage}
+        setPage={(page) => console.log(page)}
+      />
+      <DefaultTable
+        columns={columns}
+        sortColumn={sortCol}
+        sortDirection={sortDirection}
+        handleSort={(e) => {
+          console.log(e.target.id);
+          sortSubjects(e.target.id);
+        }}
+      >
+        {subjects.map((subject) => (
+          <SubjectResultRow
+            key={subject.id}
+            subject={subject}
+            onClick={() => onRowClick(subject)}
+          />
+        ))}
+      </DefaultTable>
+    </>
   );
 }
 

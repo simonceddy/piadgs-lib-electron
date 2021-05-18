@@ -6,6 +6,7 @@ const {
   getFrom,
   searchLibrary,
   getAllSubjects,
+  getAllAuthors
 } = require('./src/backend/controllers');
 // const { getFrom } = require('./src/backend/controllers');
 // const getAuthorTitles = require('./src/backend/helpers/getAuthorTitles');
@@ -26,6 +27,33 @@ const event = {
     console.log(args, args[1] ? args[1].length : null);
   }
 };
+
+// db.from((sq) => sq.count('title_id', { as: 'titles' })
+//   .where('subjects_titles.subject_id', 1450)
+//   .from('subjects_titles'))
+//   .leftOuterJoin('subjects', 'subjects_titles.subject_id', 'subjects.id')
+//   .then((result) => console.log(result));
+
+// SELECT s.id,
+//        s.title
+// FROM   song s
+//        LEFT OUTER JOIN votes v
+//                     ON s.id = v.songid
+// GROUP  BY s.id,
+//           s.title
+// ORDER  BY Count(v.songid) DESC
+const testing = db('subjects')
+  .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
+  .columns('subjects.id', 'subjects.name')
+  .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
+  .limit(19)
+  .groupBy('subjects.id', 'subjects.name')
+  .orderByRaw('total DESC');
+
+const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
+// console.log(testing.toSQL());
+// testing.then((res) => console.log(res));
+
 // deleteModel('authors', 782);
 // associate('subject', 'title', 1453, 1194)
 //   .then((result) => console.log(result));
@@ -67,12 +95,12 @@ const event = {
 //   .select()
 //   .then((result) => console.log(result));
 
-getTotal('titles')
-  .then((result) => console.log(Math.ceil(result / 10)));
+// getTotal('titles')
+//   .then((result) => console.log(Math.ceil(result / 10)));
 
-getAllSubjects(event, {
-  page: 12,
+getAllAuthors(event, {
+  page: 1,
   itemsPerPage: 10,
-  sortColumn: 'name',
+  sortColumn: 'titles',
   sortDirection: 'DESC'
 });

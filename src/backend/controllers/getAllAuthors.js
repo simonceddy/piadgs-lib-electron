@@ -2,6 +2,15 @@ const db = require('../db');
 const getAuthorTitles = require('../helpers/getAuthorTitles');
 const types = require('../messageTypes');
 
+const sortBy = (col) => {
+  switch (col) {
+    case 'titles':
+      return 'total';
+    default:
+      return `authors.${col}`;
+  }
+};
+
 // TODO make more efficient
 const getAllAuthors = (event, {
   itemsPerPage = 32,
@@ -11,11 +20,14 @@ const getAllAuthors = (event, {
 }) => {
   const offset = (page * itemsPerPage) - itemsPerPage;
   const q = db('authors')
-    .orderBy(sortColumn, sortDirection)
+    .leftOuterJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
+    .columns('authors.id', 'authors.surname')
+    .modify((qb) => qb.count('authors_titles.author_id', { as: 'total' }))
+    .orderBy(sortBy(sortColumn), sortDirection)
     .offset(offset)
     .limit(itemsPerPage)
-    .groupBy('id')
-    .select('id', 'surname', 'given_names');
+    .groupBy('authors.id')
+    .select('authors.id', 'authors.surname', 'authors.given_names');
 
   return q.then((rows) => Promise.all(rows.map((author) => getAuthorTitles(author)
     .then((titles) => ({ ...author, titles }))))

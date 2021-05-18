@@ -15,7 +15,7 @@ function ResultRow({ author = {}, columns = [], onClick }) {
           {author[key] || ''}
         </td>
       ))}
-      <td className="border">{author.titles ? author.titles.length : 0} titles</td>
+      <td className="border">{author.total ? author.total : 0} titles</td>
     </StyledHoverableRow>
   );
 }

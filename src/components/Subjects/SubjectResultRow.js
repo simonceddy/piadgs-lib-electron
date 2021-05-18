@@ -5,7 +5,7 @@ function SubjectResultRow({ subject = {}, onClick }) {
         {subject.name}
       </td>
       <td>
-        {subject.titles ? subject.titles.length : '0'}
+        {subject.total ? subject.total : '0'}
       </td>
     </tr>
   );

@@ -4,11 +4,17 @@ import { flipDirection } from '../../../util/sort';
 export const SET_AUTHORS_DATA = 'SET_AUTHORS_DATA';
 export const SET_SORT_AUTHORS = 'SET_SORT_AUTHORS';
 export const SET_AUTHORS_CURRENT_PAGE = 'SET_AUTHORS_CURRENT_PAGE';
+export const SET_AUTHORS_LAST_PAGE = 'SET_AUTHORS_LAST_PAGE';
 export const SET_AUTHORS_ITEMS_PER_PAGE = 'SET_AUTHORS_ITEMS_PER_PAGE';
 
 export const setAuthorsItemsPerPage = (itemsPerPage) => ({
   type: SET_AUTHORS_ITEMS_PER_PAGE,
   payload: { itemsPerPage }
+});
+
+export const setAuthorsLastPage = (lastPage) => ({
+  type: SET_AUTHORS_LAST_PAGE,
+  payload: { lastPage }
 });
 
 export const setAuthorsCurrentPage = (currentPage) => ({

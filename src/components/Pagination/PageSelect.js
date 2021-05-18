@@ -11,7 +11,6 @@ const getOptions = (max) => {
 };
 
 function PageSelect({ lastPage, current, onChange }) {
-  console.log(current);
   const options = useMemo(() => getOptions(lastPage), [lastPage]);
   const [selected, setSelected] = useState(current);
 

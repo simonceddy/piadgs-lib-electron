@@ -2,6 +2,7 @@ import {
   SET_AUTHORS_CURRENT_PAGE,
   SET_AUTHORS_DATA,
   SET_AUTHORS_ITEMS_PER_PAGE,
+  SET_AUTHORS_LAST_PAGE,
   SET_SORT_AUTHORS
 } from '../../actions';
 
@@ -11,7 +12,8 @@ const defaultState = {
   sortCol: 'surname',
   sortDirection: 'ASC',
   currentPage: 1,
-  itemsPerPage: 32
+  itemsPerPage: 32,
+  lastPage: null
 };
 
 export default function authorsReducer(state = defaultState, action) {
@@ -20,6 +22,8 @@ export default function authorsReducer(state = defaultState, action) {
       return { ...state, itemsPerPage: action.payload.itemsPerPage };
     case SET_AUTHORS_CURRENT_PAGE:
       return { ...state, currentPage: action.payload.currentPage };
+    case SET_AUTHORS_LAST_PAGE:
+      return { ...state, lastPage: action.payload.lastPage };
     case SET_SORT_AUTHORS:
       return {
         ...state,

@@ -2,6 +2,15 @@ const db = require('../db');
 const getSubjectTitles = require('../helpers/getSubjectTitles');
 const types = require('../messageTypes');
 
+const sortBy = (col) => {
+  switch (col) {
+    case 'titles':
+      return 'total';
+    default:
+      return `subjects.${col}`;
+  }
+};
+
 // TODO make more efficient
 const getAllSubjects = (event, {
   itemsPerPage = 32,
@@ -11,11 +20,13 @@ const getAllSubjects = (event, {
 }) => {
   const offset = (page * itemsPerPage) - itemsPerPage;
   const q = db('subjects')
-    .orderBy(sortColumn, sortDirection)
+    .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
+    .columns('subjects.id', 'subjects.name')
+    .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
+    .orderBy(sortBy(sortColumn), sortDirection)
     .offset(offset)
     .limit(itemsPerPage)
-    .groupBy('id')
-    .select('id', 'name');
+    .groupBy('subjects.id', 'subjects.name');
 
   return q.then((rows) => Promise.all(rows.map((subject) => getSubjectTitles(subject)
     .then((titles) => ({ ...subject, titles }))))
