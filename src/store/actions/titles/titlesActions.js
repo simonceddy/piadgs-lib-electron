@@ -1,4 +1,4 @@
-import { getTitles } from '../../../message-control/controllers';
+import { getTitles, countTitles } from '../../../message-control/controllers';
 // import { paginate } from '../../../util/paginate';
 import { flipDirection, sortTitles } from '../../../util/sort';
 
@@ -34,6 +34,7 @@ export const setTitlesSort = (sortColumn, sortDirection) => ({
   payload: { sortColumn, sortDirection }
 });
 
+// Local sorting
 export const sortAndSetTitles = (data) => (dispatch, getState) => {
   const { sortColumn, sortDirection } = getState().titles.titles;
 
@@ -42,19 +43,21 @@ export const sortAndSetTitles = (data) => (dispatch, getState) => {
   return dispatch(setTitlesData(sortDirection === 'ASC' ? sorted : sorted.reverse()));
 };
 
-export const fetchTitlesData = () => (dispatch, getState) => {
-  const { currentPage, itemsPerPage } = getState().titles.titles;
-  return getTitles(currentPage, itemsPerPage)
-    .then((result) => {
-      console.log(result);
-      return dispatch(sortAndSetTitles(result));
-    })
+export const fetchTitlesData = () => async (dispatch, getState) => {
+  const {
+    currentPage, itemsPerPage, sortColumn, sortDirection
+  } = getState().titles.titles;
+  const total = await countTitles()
+    .catch(console.log);
+  return getTitles(currentPage, itemsPerPage, sortColumn, sortDirection)
+    .then((result) => Promise.resolve(dispatch(setLastPage(Math.ceil(total / itemsPerPage))))
+      .then(() => dispatch(setTitlesData(result))))
     .catch((err) => console.log(err));
 };
 
 export const sortTitleRows = (col) => (dispatch, getState) => {
-  const { sortColumn, sortDirection, titles = [] } = getState().titles.titles;
+  const { sortColumn, sortDirection } = getState().titles.titles;
   const direction = col === sortColumn ? flipDirection(sortDirection) : sortDirection;
   return Promise.resolve(dispatch(setTitlesSort(col, direction)))
-    .then(() => dispatch(sortAndSetTitles(titles.flat())));
+    .then(() => dispatch(fetchTitlesData()));
 };

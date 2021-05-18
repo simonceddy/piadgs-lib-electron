@@ -1,6 +1,11 @@
 /* eslint-disable no-unused-vars */
 const {
-  searchTitles, searchAuthors, searchSubjects, getFrom, searchLibrary
+  searchTitles,
+  searchAuthors,
+  searchSubjects,
+  getFrom,
+  searchLibrary,
+  getAllSubjects,
 } = require('./src/backend/controllers');
 // const { getFrom } = require('./src/backend/controllers');
 // const getAuthorTitles = require('./src/backend/helpers/getAuthorTitles');
@@ -11,13 +16,14 @@ const getAllTitles = require('./src/backend/controllers/getAllTitles');
 const db = require('./src/backend/db');
 const associate = require('./src/backend/helpers/associate');
 const deleteModel = require('./src/backend/helpers/deleteModel');
+const getTotal = require('./src/backend/helpers/getTotal');
 const saveModel = require('./src/backend/helpers/saveModel');
 const updateModel = require('./src/backend/helpers/updateModel');
 // const getTotal = require('./src/backend/helpers/getTotal');
 
 const event = {
   reply(...args) {
-    console.log(...args);
+    console.log(args, args[1] ? args[1].length : null);
   }
 };
 // deleteModel('authors', 782);
@@ -53,10 +59,20 @@ const event = {
 //   author: 'edd'
 // });
 
-db('authors')
-  .innerJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
-  .innerJoin('titles', 'titles.id', 'authors_titles.title_id')
-  .where('authors.surname', 'like', 'eddy')
-  .groupBy('titles.id')
-  .select()
-  .then((result) => console.log(result));
+// db('authors')
+//   .innerJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
+//   .innerJoin('titles', 'titles.id', 'authors_titles.title_id')
+//   .where('authors.surname', 'like', 'eddy')
+//   .groupBy('titles.id')
+//   .select()
+//   .then((result) => console.log(result));
+
+getTotal('titles')
+  .then((result) => console.log(Math.ceil(result / 10)));
+
+getAllSubjects(event, {
+  page: 12,
+  itemsPerPage: 10,
+  sortColumn: 'name',
+  sortDirection: 'DESC'
+});

@@ -10,8 +10,11 @@ export const searchLibrarySubjects = (params) => controllerMessage(
   params
 );
 
-export const getSubjects = () => controllerMessage(
+export const getSubjects = (page, itemsPerPage, sortColumn, sortDirection) => controllerMessage(
   types.getAllSubjects,
+  {
+    page, itemsPerPage, sortColumn, sortDirection
+  }
 );
 
 export const updateSubjectData = (params) => controllerMessage(

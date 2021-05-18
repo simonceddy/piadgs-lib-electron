@@ -9,8 +9,9 @@ export const searchLibraryAuthors = (params) => controllerMessage(
   types.searchAuthors,
   params
 );
-export const getAuthors = () => controllerMessage(
+export const getAuthors = (params) => controllerMessage(
   types.getAllAuthors,
+  params
 );
 export const countAuthors = () => controllerMessage(
   types.countAuthors

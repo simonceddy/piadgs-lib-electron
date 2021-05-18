@@ -48,6 +48,8 @@ export const sortTitles = (titles, col) => {
       return sortTitleAuthors(titles);
     case 'subjects':
       return sortTitleSubjects(titles);
+    case 'id':
+      return sortPropNumeric(titles, col);
     default:
       return sortPropAZ(titles, col);
   }

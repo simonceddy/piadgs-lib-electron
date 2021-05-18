@@ -1,19 +1,19 @@
 import columns from './columns';
 
 const adminColumns = [
-  {
-    key: 'id',
-    name: 'ID',
-    sortable: true,
-    FormComponent: ({ value }) => (
-      <input
-        value={value}
-        type="hidden"
-        id="id"
-        name="id"
-      />
-    )
-  },
+  // {
+  //   key: 'id',
+  //   name: 'ID',
+  //   sortable: true,
+  //   FormComponent: ({ value }) => (
+  //     <input
+  //       value={value}
+  //       type="hidden"
+  //       id="id"
+  //       name="id"
+  //     />
+  //   )
+  // },
   ...columns,
   {
     key: 'accession_number',

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
@@ -14,55 +14,36 @@ function AllTitles({
   sortColumn,
   sortDirection,
   onRowClick = () => null,
-  sortTitles
+  sortTitles,
+  lastPage
 }) {
-  const [titlesLoaded, setTitlesLoaded] = useState(titles.length > 0);
-  const [loadedPage, setLoadedPage] = useState(currentPage);
-
-  const lastPage = titles.length;
-
   useEffect(async () => {
-    if (currentPage !== loadedPage) {
-      setLoadedPage(currentPage);
-      await getTitles();
-    }
-    if (!titlesLoaded) {
-      await getTitles();
-      setTitlesLoaded(true);
-    }
-  }, [currentPage]);
-
-  const pageData = useMemo(() => {
-    if (!titles) return null;
-
-    return titles.map((title = {}) => (
-      <TitleTableRow
-        onClick={() => onRowClick(title)}
-        key={title.id}
-        title={title}
-        columns={adminColumns}
-      >
-        {title.title}
-      </TitleTableRow>
-    ));
-  }, [currentPage]);
+    await getTitles();
+  }, [currentPage, sortColumn, sortDirection]);
 
   return (
     <>
-      {!titlesLoaded ? 'Loading...' : (
+      <Pagination
+        current={currentPage}
+        lastPage={lastPage}
+        setPage={setPage}
+      />
+      {titles.length < 1 ? 'Loading...' : (
         <>
-          <Pagination
-            current={currentPage}
-            lastPage={lastPage}
-            setPage={setPage}
-          />
           <DefaultTable
             sortColumn={sortColumn}
             sortDirection={sortDirection}
             columns={adminColumns}
             handleSort={(e) => sortTitles(e.target.id)}
           >
-            {pageData}
+            {titles.map((title = {}) => (
+              <TitleTableRow
+                onClick={() => onRowClick(title)}
+                key={title.id}
+                title={title}
+                columns={adminColumns}
+              />
+            ))}
           </DefaultTable>
         </>
       )}

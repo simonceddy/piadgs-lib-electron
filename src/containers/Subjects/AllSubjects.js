@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { connect } from 'react-redux';
 // import { FlexCol } from '../../shared/components/Flex';
-import { fetchSubjects, sortSubjectRows } from '../../store/actions';
+import { fetchSubjects, setSubjectsCurrentPage, sortSubjectRows } from '../../store/actions';
 import { DefaultTable } from '../../shared/components/Tables';
 import SubjectResultRow from '../../components/Subjects/SubjectResultRow';
 
@@ -24,19 +24,17 @@ function AllSubjects({
   onRowClick = () => null,
   sortSubjects,
   sortCol,
-  sortDirection
+  sortDirection,
+  currentPage,
+  lastPage
 }) {
-  const [subjectsLoaded, setSubjectsLoaded] = useState(subjects.length > 0);
   useEffect(async () => {
-    if (!subjectsLoaded) {
-      await getSubjects();
-      setSubjectsLoaded(true);
-    }
-  }, [subjectsLoaded]);
+    await getSubjects();
+  }, [currentPage]);
 
-  console.log(subjects[0]);
+  console.log(currentPage, lastPage);
 
-  if (!subjectsLoaded) {
+  if (!subjects.length < 1) {
     return <div>Loading subjects...</div>;
   }
 
@@ -62,11 +60,14 @@ const mapStateToProps = (state) => ({
   fetched: state.admin.subjects.fetched,
   sortCol: state.admin.subjects.sortCol,
   sortDirection: state.admin.subjects.sortDirection,
+  currentPage: state.admin.subjects.currentPage,
+  lastPage: state.admin.subjects.lastPage,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getSubjects: () => dispatch(fetchSubjects()),
-  sortSubjects: (col) => dispatch(sortSubjectRows(col))
+  sortSubjects: (col) => dispatch(sortSubjectRows(col)),
+  setPage: (page) => dispatch(setSubjectsCurrentPage(page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllSubjects);

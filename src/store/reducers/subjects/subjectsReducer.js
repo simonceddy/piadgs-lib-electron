@@ -1,4 +1,9 @@
-import { SET_SORT_SUBJECTS, SET_SUBJECTS_DATA } from '../../actions/subjects';
+import {
+  SET_SORT_SUBJECTS,
+  SET_SUBJECTS_CURRENT_PAGE,
+  SET_SUBJECTS_DATA,
+  SET_SUBJECTS_ITEMS_PER_PAGE
+} from '../../actions/subjects';
 
 const defaultState = {
   data: [],
@@ -6,11 +11,16 @@ const defaultState = {
   sortCol: 'name',
   sortDirection: 'ASC',
   currentPage: 1,
-  itemsPerPage: 32
+  itemsPerPage: 32,
+  lastPage: null
 };
 
 export default function subjectsReducer(state = defaultState, action) {
   switch (action.type) {
+    case SET_SUBJECTS_ITEMS_PER_PAGE:
+      return { ...state, itemsPerPage: action.payload.itemsPerPage };
+    case SET_SUBJECTS_CURRENT_PAGE:
+      return { ...state, currentPage: action.payload.currentPage };
     case SET_SORT_SUBJECTS:
       return {
         ...state,
