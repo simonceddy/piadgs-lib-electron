@@ -5,6 +5,7 @@ import Toolbar from '../../components/Toolbar';
 import {
   CreateIcon,
   ListIcon,
+  PasteFromWorksIcon,
   SearchIcon
 } from '../../shared/components/Icons';
 import { FlexCol } from '../../shared/components/Flex';
@@ -36,6 +37,14 @@ const toolbarItems = [
       exact: true
     },
   ],
+  [
+    {
+      key: 'pasteFromWorks',
+      Icon: PasteFromWorksIcon,
+      to: '/titles/search',
+      exact: true
+    },
+  ]
 ];
 
 function Titles() {

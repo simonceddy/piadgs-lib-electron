@@ -88,7 +88,7 @@ function Author({
 const mapStateToProps = (state) => ({
   data: state.authors.author.data,
   selectedTitles: state.authors.author.selectedTitles,
-  message: state.authors.messages.message
+  message: state.messages.authors
 });
 
 const mapDispatchToProps = (dispatch) => ({
