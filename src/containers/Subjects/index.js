@@ -12,6 +12,9 @@ import AllSubjects from './AllSubjects';
 import Modal from '../../shared/components/Modal';
 import Subject from './Subject';
 import SearchSubjects from './SearchSubjects';
+import CreateSubject from './CreateSubject';
+import { clearMessage } from '../../store/actions';
+import Messages from '../../components/Messages';
 
 const toolbarItems = [
   [
@@ -38,9 +41,9 @@ const toolbarItems = [
   ]
 ];
 
-function Subjects() {
+function Subjects({ messages, clearMessages }) {
   const [subjectModal, setSubjectModal] = useState(false);
-
+  console.log(messages);
   const onClose = () => setSubjectModal(false);
 
   const SubjectModal = useMemo(() => (!subjectModal ? null : (
@@ -51,7 +54,9 @@ function Subjects() {
   return (
     <AppletLayout>
       {SubjectModal}
-      <Toolbar items={toolbarItems} />
+      <Toolbar items={toolbarItems}>
+        <Messages message={messages} clearMessage={clearMessages} />
+      </Toolbar>
       <Switch>
         <Route
           path="/subjects"
@@ -67,9 +72,24 @@ function Subjects() {
             <SearchSubjects onRowClick={(subject) => setSubjectModal(subject)} />
           )}
         />
+        <Route
+          path="/subjects/create"
+          exact
+          render={() => (
+            <CreateSubject />
+          )}
+        />
       </Switch>
     </AppletLayout>
   );
 }
 
-export default connect()(Subjects);
+const mapStateToProps = (state) => ({
+  messages: state.messages.subjects
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  clearMessages: () => dispatch(clearMessage('subjects'))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Subjects);

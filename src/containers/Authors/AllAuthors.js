@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { fetchAuthors } from '../../store/actions';
+import { fetchAuthors, setAuthorsCurrentPage, sortAuthorRows } from '../../store/actions';
 import { DefaultTable } from '../../shared/components/Tables';
 import ResultRow from '../../components/Authors/ResultRow';
 import { Pagination } from '../../components/Pagination';
@@ -8,11 +8,13 @@ import { Pagination } from '../../components/Pagination';
 const fields = [
   {
     key: 'surname',
-    name: 'Surname'
+    name: 'Surname',
+    sortable: true,
   },
   {
     key: 'given_names',
-    name: 'Given Names'
+    name: 'Given Names',
+    sortable: true,
   },
 ];
 
@@ -20,7 +22,8 @@ const columns = [
   ...fields,
   {
     key: 'titles',
-    name: 'Number of Titles'
+    name: 'Number of Titles',
+    sortable: true,
   }
 ];
 
@@ -29,14 +32,18 @@ function AllAuthors({
   getAuthors,
   onRowClick = () => null,
   currentPage,
-  lastPage
+  lastPage,
+  handleSort,
+  sortCol,
+  sortDirection,
+  setPage
 }) {
   useEffect(async () => {
-    console.log('fetching authors');
+    // console.log('fetching authors');
     await getAuthors();
   }, [currentPage]);
 
-  console.log(currentPage);
+  // console.log(currentPage);
 
   if (authors.length < 1) {
     return <div>Loading authors...</div>;
@@ -47,10 +54,16 @@ function AllAuthors({
       <Pagination
         current={currentPage}
         lastPage={lastPage}
-        setPage={(page) => console.log(page)}
+        setPage={setPage}
       />
       <DefaultTable
         columns={columns}
+        sortColumn={sortCol}
+        sortDirection={sortDirection}
+        handleSort={(e) => {
+          console.log(e.target.id);
+          handleSort(e.target.id);
+        }}
       >
         {authors.map((author) => (
           <ResultRow
@@ -76,7 +89,9 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getAuthors: () => dispatch(fetchAuthors())
+  getAuthors: () => dispatch(fetchAuthors()),
+  handleSort: (col) => dispatch(sortAuthorRows(col)),
+  setPage: (page) => dispatch(setAuthorsCurrentPage(page))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllAuthors);

@@ -27,10 +27,11 @@ function AllSubjects({
   sortCol,
   sortDirection,
   currentPage,
-  lastPage
+  lastPage,
+  setPage
 }) {
   useEffect(async () => {
-    console.log('fetching subjects');
+    // console.log('fetching subjects');
     await getSubjects();
   }, [currentPage]);
 
@@ -45,7 +46,7 @@ function AllSubjects({
       <Pagination
         current={currentPage}
         lastPage={lastPage}
-        setPage={(page) => console.log(page)}
+        setPage={setPage}
       />
       <DefaultTable
         columns={columns}
@@ -69,12 +70,12 @@ function AllSubjects({
 }
 
 const mapStateToProps = (state) => ({
-  subjects: state.admin.subjects.data,
-  fetched: state.admin.subjects.fetched,
-  sortCol: state.admin.subjects.sortCol,
-  sortDirection: state.admin.subjects.sortDirection,
-  currentPage: state.admin.subjects.currentPage,
-  lastPage: state.admin.subjects.lastPage,
+  subjects: state.subjects.subjects.data,
+  fetched: state.subjects.subjects.fetched,
+  sortCol: state.subjects.subjects.sortCol,
+  sortDirection: state.subjects.subjects.sortDirection,
+  currentPage: state.subjects.subjects.currentPage,
+  lastPage: state.subjects.subjects.lastPage,
 });
 
 const mapDispatchToProps = (dispatch) => ({

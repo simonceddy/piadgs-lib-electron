@@ -1,7 +1,7 @@
 import { FlexRow } from '../../shared/components/Flex';
 import ToolbarButton from './ToolbarButton';
 
-function Toolbar({ items = [] }) {
+function Toolbar({ items = [], children }) {
   return (
     <FlexRow className="w-full justify-start items-center p-2">
       {items.length < 1 ? null : items.map((group = [], index) => (
@@ -20,6 +20,7 @@ function Toolbar({ items = [] }) {
           ))}
         </span>
       ))}
+      {children}
     </FlexRow>
   );
 }

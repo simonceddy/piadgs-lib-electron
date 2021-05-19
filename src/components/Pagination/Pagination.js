@@ -10,7 +10,7 @@ function Pagination({
   const currentPage = current <= lastPage ? current : lastPage;
 
   return (
-    <div className="flex flex-row border border-black p-3 flex-1 items-center justify-between w-full">
+    <div className="flex flex-row border border-black p-3 items-center justify-between w-full">
       <div className="flex flex-row items-center justify-between">
         <PageLink onClick={() => setPage(1)} disabled={currentPage === 1}>
           First

@@ -15,7 +15,7 @@ export const setAuthorsSearchResults = (results) => ({
   payload: { results }
 });
 
-export const setSortAuthors = (col, direction) => ({
+export const setSortAuthorsSearch = (col, direction) => ({
   type: SET_AUTHORS_SORT_AUTHORS,
   payload: { col, direction }
 });
@@ -58,7 +58,7 @@ export const sortAuthorSearchResults = (key) => async (dispatch, getState) => {
 
   const direction = isSameKey ? flipDirection(sortDirection) : sortDirection;
 
-  return Promise.resolve(dispatch(setSortAuthors(
+  return Promise.resolve(dispatch(setSortAuthorsSearch(
     key,
     direction
   )))

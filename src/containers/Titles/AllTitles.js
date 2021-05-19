@@ -18,7 +18,7 @@ function AllTitles({
   lastPage
 }) {
   useEffect(async () => {
-    console.log('fetching titles');
+    // console.log('fetching titles');
     await getTitles();
   }, [currentPage, sortColumn, sortDirection]);
 

@@ -8,6 +8,7 @@ import errorsReducer from './errorsReducer';
 import subjects from './subjects';
 import authors from './authors';
 import librarySearchReducer from './librarySearchReducer';
+import messageReducer from './messageReducer';
 
 const rootReducer = combineReducers({
   login: loginFormReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   admin: adminReducer,
   app: appReducer,
   errors: errorsReducer,
+  messages: messageReducer,
   titles,
   subjects,
   authors,

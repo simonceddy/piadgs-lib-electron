@@ -11,6 +11,7 @@ const getSubjectTitles = (params) => {
   return db('titles')
     .innerJoin('subjects_titles', 'titles.id', 'subjects_titles.title_id')
     .where('subjects_titles.subject_id', subjectId)
+    .groupBy('titles.id')
     .select()
     .then((results) => Promise.all(
       results.map((title) => getTitleAuthors(title)

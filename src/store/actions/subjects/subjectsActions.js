@@ -1,4 +1,4 @@
-import { getSubjects } from '../../../message-control/controllers';
+import { countSubjects, getSubjects } from '../../../message-control/controllers';
 import { flipDirection, sortSubjects } from '../../../util/sort';
 // import { flipDirection, sortPropAZ, sortPropLength } from '../../../util/sort';
 
@@ -43,18 +43,22 @@ export const sortAndSetSubjects = (data) => (dispatch, getState) => {
   ));
 };
 
-export const fetchSubjects = () => (dispatch, getState) => {
+export const fetchSubjects = () => async (dispatch, getState) => {
   console.log('fetching subjects');
   const {
     sortCol, sortDirection, currentPage, itemsPerPage
   } = getState().subjects.subjects;
 
-  return getSubjects(currentPage, itemsPerPage, sortCol, sortDirection)
-    .then((res) => {
-      console.log(res);
-      return dispatch(setSubjectsData(res));
-    })
-    .catch((err) => console.log(err));
+  const total = await countSubjects()
+    .catch(console.log);
+
+  return Promise.resolve(dispatch(setSubjectsLastPage(Math.ceil(total / itemsPerPage))))
+    .then(() => getSubjects(currentPage, itemsPerPage, sortCol, sortDirection)
+      .then((res) => {
+        console.log(res);
+        return dispatch(setSubjectsData(res));
+      })
+      .catch((err) => console.log(err)));
 };
 
 export const sortSubjectRows = (col) => (dispatch, getState) => {

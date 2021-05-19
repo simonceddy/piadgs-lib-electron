@@ -28,7 +28,7 @@ function ThemedTextInput({
       className="flex flex-row justify-between items-center p-2 w-full"
     >
       {!label ? null : (
-        <span className={`${labelClassName} mr-2 p-2`}>
+        <span className={`${labelClassName} mr-2 p-2 capitalize`}>
           {label}
         </span>
       )}

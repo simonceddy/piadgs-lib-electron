@@ -1,4 +1,4 @@
-import { getAuthors } from '../../../message-control/controllers';
+import { countAuthors, getAuthors } from '../../../message-control/controllers';
 import { flipDirection } from '../../../util/sort';
 
 export const SET_AUTHORS_DATA = 'SET_AUTHORS_DATA';
@@ -31,22 +31,20 @@ export const setAuthorsData = (data) => ({
   payload: { data }
 });
 
-export const fetchAuthors = () => (dispatch, getState) => {
-  console.log('fetching subjects');
+export const fetchAuthors = () => async (dispatch, getState) => {
   const {
     sortCol, sortDirection, currentPage, itemsPerPage
   } = getState().admin.authors;
-  getAuthors({
-    sortCol, sortDirection, currentPage, itemsPerPage
-  })
-    .then((res) => {
-      console.log(res);
-      return dispatch(setAuthorsData(res));
-    })
-    .catch((err) => console.log(err));
+
+  const total = await countAuthors()
+    .catch(console.log);
+  return Promise.resolve(dispatch(setAuthorsLastPage(Math.ceil(total / itemsPerPage))))
+    .then(() => getAuthors(currentPage, itemsPerPage, sortCol, sortDirection)
+      .then((res) => dispatch(setAuthorsData(res)))
+      .catch((err) => console.log(err)));
 };
 
-export const sortSubjectRows = (col) => (dispatch, getState) => {
+export const sortAuthorRows = (col) => (dispatch, getState) => {
   const { sortCol, sortDirection } = getState().admin.authors;
   const direction = col === sortCol ? flipDirection(sortDirection) : sortDirection;
   return Promise.resolve(dispatch(setSortAuthors(col, direction)))

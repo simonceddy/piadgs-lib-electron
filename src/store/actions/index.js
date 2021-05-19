@@ -7,3 +7,4 @@ export * from './authActions';
 export * from './admin';
 export * from './errorsActions';
 export * from './librarySearchActions';
+export * from './messagesActions';
