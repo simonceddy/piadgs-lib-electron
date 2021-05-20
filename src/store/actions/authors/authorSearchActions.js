@@ -1,5 +1,5 @@
 import { searchLibraryAuthors } from '../../../message-control/controllers';
-import { sortPropAZ, sortPropLength } from '../../../util/sort';
+import { flipDirection } from '../../../util/sort';
 
 export const SET_AUTHORS_SEARCH_INPUT = 'SET_AUTHORS_SEARCH_INPUT';
 export const SET_AUTHORS_SEARCH_RESULTS = 'SET_AUTHORS_SEARCH_RESULTS';
@@ -15,61 +15,34 @@ export const setAuthorsSearchResults = (results) => ({
   payload: { results }
 });
 
-export const setSortAuthorsSearch = (col, direction) => ({
+export const setSortAuthorsSearch = (sortCol, sortDirection) => ({
   type: SET_AUTHORS_SORT_AUTHORS,
-  payload: { col, direction }
+  payload: { sortCol, sortDirection }
 });
-
-const flipDirection = (direction) => (direction === 'ASC' ? 'DESC' : 'ASC');
-
-const sortCols = (key, data) => {
-  switch (key) {
-    case 'titles':
-      return sortPropLength(data, 'titles');
-    default:
-      return sortPropAZ(data, key);
-  }
-};
 
 export const fetchAuthorsSearchResults = (name) => (
   dispatch, getState
-) => searchLibraryAuthors({ name })
-  .then((res) => {
-    const { sortCol, sortDirection } = getState().authors.authorSearch;
+) => {
+  const { sortCol, sortDirection, } = getState().authors.authorSearch;
 
-    if (!res.results || res.results.length < 1) {
-      return dispatch(setAuthorsSearchResults([]));
-    }
-
-    const sorted = sortCols(sortCol, res.results);
-    // console.log(sortCol, sortDirection, sorted);
-    return dispatch(setAuthorsSearchResults(
-      sortDirection === 'DESC'
-        ? sorted.reverse()
-        : sorted
-    ));
+  return searchLibraryAuthors({
+    name,
+    sortColumn: sortCol,
+    sortDirection,
   })
-  .catch(console.log);
-
-export const sortAuthorSearchResults = (key) => async (dispatch, getState) => {
-  const { results, sortCol, sortDirection } = getState().authors.authorSearch;
-  const isSameKey = key === sortCol;
-  // console.log(sortDirection, isSameKey);
-
-  const direction = isSameKey ? flipDirection(sortDirection) : sortDirection;
-
-  return Promise.resolve(dispatch(setSortAuthorsSearch(
-    key,
-    direction
-  )))
-    .then(() => {
-      const sorted = sortCols(key, results);
-
-      return dispatch(setAuthorsSearchResults(
-        direction === 'DESC'
-          ? sorted.reverse()
-          : sorted
-      ));
+    .then((res) => {
+      if (!res.results || res.results.length < 1) {
+        return dispatch(setAuthorsSearchResults([]));
+      }
+      // console.log(sortCol, sortDirection, sorted);
+      return dispatch(setAuthorsSearchResults(res.results));
     })
-    .catch((err) => console.log(err));
+    .catch(console.log);
+};
+
+export const sortAuthorsResultRows = (col) => (dispatch, getState) => {
+  const { sortCol, sortDirection, input } = getState().authors.authorSearch;
+  const direction = col === sortCol ? flipDirection(sortDirection) : sortDirection;
+  return Promise.resolve(dispatch(setSortAuthorsSearch(col, direction)))
+    .then(() => dispatch(fetchAuthorsSearchResults(input)));
 };

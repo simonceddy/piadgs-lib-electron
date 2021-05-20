@@ -12,10 +12,11 @@ export default function authorSearchReducer(state = defaultState, action) {
     case SET_AUTHORS_SORT_AUTHORS:
       return {
         ...state,
-        sortCol: action.payload.col,
-        sortDirection: action.payload.direction,
+        sortCol: action.payload.sortCol,
+        sortDirection: action.payload.sortDirection,
       };
     case SET_AUTHORS_SEARCH_INPUT:
+      console.log(action);
       return { ...state, input: action.payload.input };
     case SET_AUTHORS_SEARCH_RESULTS:
       return { ...state, results: action.payload.results };

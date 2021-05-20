@@ -1,19 +1,21 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { connect } from 'react-redux';
 import ResultRow from '../../components/Authors/ResultRow';
 import { SingleFieldForm } from '../../shared/components/Forms';
 import { DefaultTable } from '../../shared/components/Tables';
-import { fetchAuthorsSearchResults } from '../../store/actions/authors';
+import { fetchAuthorsSearchResults, setAuthorsSearchInput, sortAuthorsResultRows } from '../../store/actions';
 
 // TODO move to own thing so can be shared
 const fields = [
   {
     key: 'surname',
-    name: 'Surname'
+    name: 'Surname',
+    sortable: true
   },
   {
     key: 'given_names',
-    name: 'Given Names'
+    name: 'Given Names',
+    sortable: true
   },
 ];
 
@@ -21,7 +23,8 @@ const columns = [
   ...fields,
   {
     key: 'titles',
-    name: 'Number of Titles'
+    name: 'Number of Titles',
+    sortable: true
   }
 ];
 
@@ -31,10 +34,10 @@ function SearchAuthors({
   sortDirection,
   handleSort,
   submitSearch,
-  onRowClick = () => null
+  onRowClick = () => null,
+  input,
+  setInput
 }) {
-  const [input, setInput] = useState('');
-
   return (
     <>
       <SingleFieldForm
@@ -47,7 +50,10 @@ function SearchAuthors({
         <DefaultTable
           sortColumn={sortCol}
           sortDirection={sortDirection}
-          handleSort={handleSort}
+          handleSort={(e) => {
+            // console.log(e.target.id);
+            handleSort(e.target.id);
+          }}
           columns={columns}
         >
           {searchResults.map((author = {}) => (
@@ -65,14 +71,16 @@ function SearchAuthors({
 }
 
 const mapStateToProps = (state) => ({
+  input: state.authors.authorSearch.input,
   searchResults: state.authors.authorSearch.results,
   sortCol: state.authors.authorSearch.sortCol,
   sortDirection: state.authors.authorSearch.sortDirection
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // handleSort: (key) => dispatch(sortSearchResults(key)),
-  submitSearch: (input) => dispatch(fetchAuthorsSearchResults(input))
+  handleSort: (key) => dispatch(sortAuthorsResultRows(key)),
+  submitSearch: (input) => dispatch(fetchAuthorsSearchResults(input)),
+  setInput: (input) => dispatch(setAuthorsSearchInput(input))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchAuthors);

@@ -1,15 +1,7 @@
 const db = require('../db');
 const getSubjectTitles = require('../helpers/getSubjectTitles');
+const subjectSortBy = require('../helpers/subjectSortBy');
 const types = require('../messageTypes');
-
-const sortBy = (col) => {
-  switch (col) {
-    case 'titles':
-      return 'total';
-    default:
-      return `subjects.${col}`;
-  }
-};
 
 // TODO make more efficient
 const getAllSubjects = (event, {
@@ -23,7 +15,7 @@ const getAllSubjects = (event, {
     .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
     .columns('subjects.id', 'subjects.name')
     .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
-    .orderBy(sortBy(sortColumn), sortDirection)
+    .orderBy(subjectSortBy(sortColumn), sortDirection)
     .offset(offset)
     .limit(itemsPerPage)
     .groupBy('subjects.id', 'subjects.name');

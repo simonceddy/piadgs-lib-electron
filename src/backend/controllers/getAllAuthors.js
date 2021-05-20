@@ -1,15 +1,7 @@
 const db = require('../db');
+const authorSortBy = require('../helpers/authorSortBy');
 const getAuthorTitles = require('../helpers/getAuthorTitles');
 const types = require('../messageTypes');
-
-const sortBy = (col) => {
-  switch (col) {
-    case 'titles':
-      return 'total';
-    default:
-      return `authors.${col}`;
-  }
-};
 
 // TODO make more efficient
 const getAllAuthors = (event, {
@@ -24,7 +16,7 @@ const getAllAuthors = (event, {
     .leftOuterJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
     .columns('authors.id', 'authors.surname', 'authors.given_names')
     .modify((qb) => qb.count('authors_titles.author_id', { as: 'total' }))
-    .orderBy(sortBy(sortColumn), sortDirection)
+    .orderBy(authorSortBy(sortColumn), sortDirection)
     .offset(offset)
     .limit(itemsPerPage)
     .groupBy('authors.id');
