@@ -14,7 +14,8 @@ const {
   createTitle,
   createSubject,
   getAllAuthors,
-  getAllSubjects
+  getAllSubjects,
+  updateTitle
 } = require('./controllers');
 const countModels = require('./controllers/countModels');
 const getAuthorTitles = require('./helpers/getAuthorTitles');
@@ -113,3 +114,5 @@ ipcMain.on(
   types.createSubject.send,
   (event, params) => createSubject(event, params)
 );
+
+ipcMain.on(types.updateTitle.send, (event, params) => updateTitle(event, params));

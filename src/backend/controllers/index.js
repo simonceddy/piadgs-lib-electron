@@ -7,6 +7,7 @@ const searchSubjects = require('./searchSubjects');
 const searchLibrary = require('./searchLibrary');
 const searchTitles = require('./searchTitles');
 const updateSubject = require('./updateSubject');
+const updateTitle = require('./updateTitle');
 const getAllTitles = require('./getAllTitles');
 const getAllAuthors = require('./getAllAuthors');
 const getAllSubjects = require('./getAllSubjects');
@@ -27,6 +28,7 @@ module.exports = {
   searchLibrary,
   searchTitles,
   updateSubject,
+  updateTitle,
   getAllTitles,
   createTitle,
   createAuthor,

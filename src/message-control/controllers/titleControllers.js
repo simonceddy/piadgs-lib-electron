@@ -31,3 +31,8 @@ export const createTitle = (params) => controllerMessage(
   types.createTitle,
   params
 );
+
+export const updateTitle = (params) => controllerMessage(
+  types.updateTitle,
+  params
+);
