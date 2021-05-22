@@ -13,6 +13,7 @@ function Title({ title = {}, onClose }) {
   const submitChanges = () => {
     updateTitle(values)
       .then((result) => {
+        console.log(result);
         if (result.result !== 1) {
           return setStatusMessage('An error occurred trying to save changes!');
         }
@@ -22,7 +23,11 @@ function Title({ title = {}, onClose }) {
 
   return (
     <ModalAppletLayout>
-      {statusMessage || null}
+      {statusMessage ? (
+        <span role="presentation" onClick={() => setStatusMessage(null)}>
+          {statusMessage}
+        </span>
+      ) : null}
       <ThemedDiv className="flex flex-row p-2 justify-between items-center">
         <ThemedButton
           onClick={() => setIsEditing(!isEditing)}

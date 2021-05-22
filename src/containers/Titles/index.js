@@ -13,6 +13,7 @@ import Modal from '../../shared/components/Modal';
 import Title from './Title';
 import AllTitles from './AllTitles';
 import CreateTitle from './CreateTitle';
+import SearchTitles from './SearchTitles';
 
 const toolbarItems = [
   [
@@ -81,7 +82,7 @@ function Titles() {
           path="/titles/search"
           exact
           render={() => (
-            <CreateTitle onRowClick={(title) => setTitleModal(title)} />
+            <SearchTitles onRowClick={(title) => setTitleModal(title)} />
           )}
         />
       </Switch>

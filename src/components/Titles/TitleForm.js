@@ -10,7 +10,7 @@ function TitleForm({
 }) {
   const { authors, subjects } = values || [];
 
-  console.log(authors, subjects);
+  // console.log(authors, subjects);
   return (
     <DefaultForm
       onSubmit={(e) => {

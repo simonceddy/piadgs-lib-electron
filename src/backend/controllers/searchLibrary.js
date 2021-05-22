@@ -101,7 +101,7 @@ const searchLibrary = async (event, params) => {
 
   // TODO handle loading relations correctly
   const resolved = await q.select(
-    'titles.id', 'titles.title', 'titles.call_number'
+    // 'titles.id', 'titles.title', 'titles.call_number'
   )
     .then((results = []) => {
       if (results.length < 1) {
