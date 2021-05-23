@@ -4,6 +4,10 @@ export const UPDATE_LIBRARY_SEARCH_VALUES = 'UPDATE_LIBRARY_SEARCH_VALUES';
 export const SET_LIBRARY_FORM_SUBMITTED = 'SET_LIBRARY_FORM_SUBMITTED';
 export const RESET_LIBRARY_FORM_VALUES = 'RESET_LIBRARY_FORM_VALUES';
 
+export const SET_LIBRARY_SEARCH_SORTING = 'SET_LIBRARY_SEARCH_SORTING';
+export const SET_LIBRARY_SEARCH_ITEMS_PER_PAGE = 'SET_LIBRARY_SEARCH_ITEMS_PER_PAGE';
+export const SET_LIBRARY_SEARCH_CURRENT_PAGE = 'SET_LIBRARY_SEARCH_CURRENT_PAGE';
+
 export const SET_LIBRARY_SEARCH_RESULTS = 'SET_LIBRARY_SEARCH_RESULTS';
 
 export const updateLibrarySearchValues = (values = {}) => ({
@@ -11,14 +15,29 @@ export const updateLibrarySearchValues = (values = {}) => ({
   payload: { values }
 });
 
-export const setLibraryFormSubmitted = (isSubmitted = true) => ({
+export const setLibrarySearchFormSubmitted = (isSubmitted = true) => ({
   type: SET_LIBRARY_FORM_SUBMITTED,
   payload: {
     isSubmitted
   }
 });
 
-export const resetLibraryFormValues = () => ({
+export const setLibrarySearchSorting = (sortCol, sortDirection) => ({
+  type: SET_LIBRARY_SEARCH_SORTING,
+  payload: { sortCol, sortDirection }
+});
+
+export const setLibrarySearchItemsPerPage = (itemsPerPage) => ({
+  type: SET_LIBRARY_SEARCH_ITEMS_PER_PAGE,
+  payload: { itemsPerPage }
+});
+
+export const setLibrarySearchCurrentPage = (currentPage) => ({
+  type: SET_LIBRARY_SEARCH_CURRENT_PAGE,
+  payload: { currentPage }
+});
+
+export const resetLibrarySearchFormValues = () => ({
   type: RESET_LIBRARY_FORM_VALUES
 });
 
@@ -31,11 +50,11 @@ export const setLibrarySearchResults = (results) => ({
 export const submitLibrarySearchForm = (params = {}) => (dispatch) => searchLibrary(params)
   .then(async (response) => {
     await dispatch(setLibrarySearchResults(response.results));
-    dispatch(setLibraryFormSubmitted(true));
+    dispatch(setLibrarySearchFormSubmitted(true));
   })
   .catch((err) => console.log(err));
 
 export const resetLibrarySearch = () => (dispatch) => Promise.resolve(
-  dispatch(resetLibraryFormValues())
+  dispatch(resetLibrarySearchFormValues())
 )
-  .then(() => dispatch(setLibraryFormSubmitted(false)));
+  .then(() => dispatch(setLibrarySearchFormSubmitted(false)));

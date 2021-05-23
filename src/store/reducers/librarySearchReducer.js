@@ -13,7 +13,11 @@ const defaultState = {
     callNumber: ''
   },
   isSubmitted: false,
-  results: []
+  results: [],
+  sortCol: 'title',
+  sortDirection: 'ASC',
+  currentPage: 1,
+  itemsPerPage: 32
 };
 
 export default function librarySearchReducer(state = defaultState, action) {

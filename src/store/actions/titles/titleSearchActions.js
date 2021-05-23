@@ -8,6 +8,8 @@ export const SET_TITLE_SEARCH_INPUT = 'SET_TITLE_SEARCH_INPUT';
 
 export const SET_TITLE_SEARCH_RESULTS = 'SET_TITLE_SEARCH_RESULTS';
 
+export const SET_TITLE_SEARCH_COLUMN = 'SET_TITLE_SEARCH_COLUMN';
+
 export const updateSearchValues = (values = {}) => ({
   type: UPDATE_SEARCH_VALUES,
   payload: { values }
@@ -34,15 +36,27 @@ export const setTitleSearchInput = (input) => ({
   payload: { input }
 });
 
+export const setTitleSearchColumn = (searchCol) => ({
+  type: SET_TITLE_SEARCH_COLUMN,
+  payload: { searchCol }
+});
+
 // eslint-disable-next-line no-unused-vars
-export const submitTitleSearch = () => (dispatch, getState) => searchLibrary({
-  title: getState().titles.search.input
-})
-  .then(async (response) => {
-    await dispatch(setTitleSearchResults(response.results));
-    dispatch(setFormSubmitted(true));
-  })
-  .catch((err) => console.log(err));
+export const submitTitleSearch = () => (dispatch, getState) => {
+  const { input, searchCol } = getState().titles.search;
+  const searchParams = searchCol === 'all' ? ({
+    title: input,
+    // author: input,
+    // subject: input,
+    // callNumber: input
+  }) : ({ [searchCol]: input });
+  searchLibrary(searchParams)
+    .then(async (response) => {
+      await dispatch(setTitleSearchResults(response.results));
+      dispatch(setFormSubmitted(true));
+    })
+    .catch((err) => console.log(err));
+};
 
 export const resetSearch = () => (dispatch) => Promise.resolve(dispatch(resetFormValues()))
   .then(() => dispatch(setFormSubmitted(false)));

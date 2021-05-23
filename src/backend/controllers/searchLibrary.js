@@ -5,6 +5,18 @@ const contains = require('../helpers/contains');
 const db = require('../db');
 const loadTitleRelations = require('../helpers/loadTitleRelations');
 const types = require('../messageTypes');
+const titleModel = require('../models/title');
+
+const sortBy = (field) => {
+  switch (field) {
+    case 'author':
+      return 'authors.surname';
+    case 'subject':
+      return 'subjects.name';
+    default:
+      return `titles.${field}`;
+  }
+};
 
 const searchResponseBody = {
   success: false,
@@ -14,7 +26,7 @@ const searchResponseBody = {
 
 const fields = {
   title: {
-    col: 'title',
+    col: 'titles.title',
     handle(value) {
       return (query) => query.where(...contains('titles.title', value));
     }
@@ -33,7 +45,7 @@ const fields = {
     }
   },
   callNumber: {
-    col: 'call_number'
+    col: 'titles.call_number'
   }
 };
 
@@ -61,7 +73,9 @@ const searchQuery = (data = {}) => {
       .innerJoin('subjects_titles', 'titles.id', '=', 'subjects_titles.title_id')
       .innerJoin('subjects', 'subjects.id', '=', 'subjects_titles.subject_id');
 
-    if (params.length < 1) {
+    const totalParams = params.length;
+
+    if (totalParams < 1) {
     // TODO handle no params
       return query;
     }
@@ -74,8 +88,8 @@ const searchQuery = (data = {}) => {
       currentQuery = query.where(fields[params[0]].col, 'like', `%${data[params[0]]}%`);
     }
 
-    if (params.length > 1) {
-      for (let i = 1; i < params.length; i++) {
+    if (totalParams > 1) {
+      for (let i = 1; i < totalParams; i++) {
         if (fields[params[i]].handle) {
           currentQuery = currentQuery.andWhere(fields[params[i]].handle(data[params[i]]));
         } else {
@@ -85,24 +99,41 @@ const searchQuery = (data = {}) => {
         }
       }
     }
-    currentQuery.groupBy('titles.id');
     return currentQuery;
   };
 
   return makeQuery;
 };
 
-const searchLibrary = async (event, params) => {
-  // TODO handle all inputs
+const selectCols = Object.keys(titleModel).map((col) => `titles.${col}`);
 
-  const q = searchQuery(params)(db('titles'));
+const searchLibrary = async (event, {
+  sortCol = 'title',
+  sortDirection = 'ASC',
+  title,
+  callNumber,
+  author,
+  subject,
+  page = 1,
+  itemsPerPage = 32,
+}) => {
+  const q = searchQuery({
+    title,
+    callNumber,
+    author,
+    subject
+  })(db('titles'));
 
+  const offset = (page * itemsPerPage) - itemsPerPage;
   // event.reply('titles-search-results', q.toString());
 
   // TODO handle loading relations correctly
-  const resolved = await q.select(
-    // 'titles.id', 'titles.title', 'titles.call_number'
-  )
+  const resolved = await q
+    .orderBy(sortBy(sortCol), sortDirection)
+    .groupBy('titles.id')
+    .offset(offset)
+    .limit(itemsPerPage)
+    .select('titles.id', ...selectCols)
     .then((results = []) => {
       if (results.length < 1) {
         return respond(event, { message: 'No results were found.', results });
@@ -112,7 +143,7 @@ const searchLibrary = async (event, params) => {
       // const unique = results.filter((title, index, self) => index === self.findIndex(
       //   (t) => (t.id === title.id)
       // ));
-      return Promise.all(results.map((title) => loadTitleRelations(title)
+      return Promise.all(results.map((t) => loadTitleRelations(t)
         .then((loaded) => loaded)))
         .then((titles) => respond(event, {
           ...searchResponseBody,

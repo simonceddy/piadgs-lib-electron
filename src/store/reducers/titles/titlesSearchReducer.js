@@ -1,6 +1,7 @@
 import {
   RESET_FORM_VALUES,
   SET_FORM_SUBMITTED,
+  SET_TITLE_SEARCH_COLUMN,
   SET_TITLE_SEARCH_INPUT,
   SET_TITLE_SEARCH_RESULTS,
   UPDATE_SEARCH_VALUES
@@ -15,11 +16,14 @@ const defaultState = {
   },
   input: '',
   isSubmitted: false,
-  results: []
+  results: [],
+  searchCol: 'all'
 };
 
 export default function titlesSearchReducer(state = defaultState, action) {
   switch (action.type) {
+    case SET_TITLE_SEARCH_COLUMN:
+      return { ...state, searchCol: action.payload.searchCol };
     case SET_FORM_SUBMITTED:
       return { ...state, isSubmitted: action.payload.isSubmitted };
     case SET_TITLE_SEARCH_RESULTS:
