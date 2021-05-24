@@ -24,7 +24,10 @@ const loadTitleRelations = require('./helpers/loadTitleRelations');
 
 ipcMain.on(
   types.searchLibrary.send,
-  (event, params) => searchLibrary(event, params)
+  (event, params) => {
+    console.log(params);
+    return searchLibrary(event, params);
+  }
 );
 ipcMain.on(
   types.searchAuthors.send,

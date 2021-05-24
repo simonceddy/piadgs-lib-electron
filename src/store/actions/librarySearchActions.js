@@ -1,4 +1,5 @@
 import { searchLibrary } from '../../message-control/controllers';
+import { flipDirection } from '../../util/sort';
 
 export const UPDATE_LIBRARY_SEARCH_VALUES = 'UPDATE_LIBRARY_SEARCH_VALUES';
 export const SET_LIBRARY_FORM_SUBMITTED = 'SET_LIBRARY_FORM_SUBMITTED';
@@ -47,14 +48,42 @@ export const setLibrarySearchResults = (results) => ({
 });
 
 // eslint-disable-next-line no-unused-vars
-export const submitLibrarySearchForm = (params = {}) => (dispatch) => searchLibrary(params)
-  .then(async (response) => {
-    await dispatch(setLibrarySearchResults(response.results));
-    dispatch(setLibrarySearchFormSubmitted(true));
+export const submitLibrarySearchForm = () => (dispatch, getState) => {
+  const {
+    values,
+    sortCol,
+    sortDirection,
+    currentPage,
+    itemsPerPage
+  } = getState().search;
+  searchLibrary({
+    ...values,
+    sortCol,
+    sortDirection,
+    currentPage,
+    itemsPerPage
   })
-  .catch((err) => console.log(err));
-
+    .then(async (response) => {
+      console.log(response);
+      await dispatch(setLibrarySearchResults(response.results));
+      dispatch(setLibrarySearchFormSubmitted(true));
+    })
+    .catch((err) => console.log(err));
+};
 export const resetLibrarySearch = () => (dispatch) => Promise.resolve(
   dispatch(resetLibrarySearchFormValues())
 )
   .then(() => dispatch(setLibrarySearchFormSubmitted(false)));
+
+export const sortLibrarySearchResults = (col) => async (dispatch, getState) => {
+  const { sortCol, sortDirection } = getState().search;
+
+  const direction = col === sortCol ? flipDirection(sortDirection) : sortDirection;
+
+  await Promise.resolve(dispatch(setLibrarySearchSorting(col, direction)))
+    .then(() => dispatch(submitLibrarySearchForm()));
+};
+
+export const setResultsPage = (page) => (dispatch) => Promise
+  .resolve(dispatch(setLibrarySearchCurrentPage(page)))
+  .then(dispatch(submitLibrarySearchForm()));

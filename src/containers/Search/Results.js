@@ -4,6 +4,7 @@ import { LgFormButton } from '../../shared/components/Forms';
 import columns from '../../util/columns';
 import TitlesTable from '../../components/Admin/Titles/TitlesTable';
 import { Pagination } from '../../components/Pagination';
+import { setResultsPage, sortLibrarySearchResults } from '../../store/actions';
 
 // TODO count total results in query and replace results.length
 function Results({
@@ -13,6 +14,8 @@ function Results({
   sortColumn,
   showForm = () => null,
   currentPage = 1,
+  lastPage = 12,
+  setPage = () => null
   // itemsPerPage = 32,
 }) {
   return (
@@ -23,8 +26,8 @@ function Results({
       </FlexRow>
       <Pagination
         current={currentPage}
-        lastPage={1}
-        setPage={(page) => console.log(page)}
+        lastPage={lastPage}
+        setPage={(page) => Promise.resolve(setPage(page))}
       />
       {results.length < 1 ? (
         <FlexCol>No results were found</FlexCol>
@@ -32,14 +35,7 @@ function Results({
         <TitlesTable
           columns={columns}
           sortCol={sortColumn}
-          handleSort={(e) => {
-            const { id } = e.target;
-            const newDirection = sortDirection === 'ASC' ? 'DESC' : 'ASC';
-            handleSort(
-              id,
-              id === sortColumn ? newDirection : sortDirection
-            );
-          }}
+          handleSort={(e) => handleSort(e.target.id)}
           sortDirection={sortDirection}
           titles={results}
           isEditing={false}
@@ -53,7 +49,14 @@ function Results({
 const mapStateToProps = (state) => ({
   results: state.search.results,
   sortColumn: state.search.sortCol,
-  sortDirection: state.search.sortDirection
+  sortDirection: state.search.sortDirection,
+  currentPage: state.search.currentPage,
+  itemsPerPage: state.search.itemsPerPage,
 });
 
-export default connect(mapStateToProps)(Results);
+const mapDispatchToProps = (dispatch) => ({
+  handleSort: (col) => dispatch(sortLibrarySearchResults(col)),
+  setPage: (page) => dispatch(setResultsPage(page))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Results);

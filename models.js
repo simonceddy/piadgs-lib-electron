@@ -24,7 +24,7 @@ const updateModel = require('./src/backend/helpers/updateModel');
 
 const event = {
   reply(...args) {
-    console.log(args, args[1] ? args[1].length : null);
+    console.log(args[1].results);
   }
 };
 
@@ -83,9 +83,9 @@ const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
 
 // getAllTitles(event);
 
-// searchLibrary(event, {
-//   author: 'edd'
-// });
+searchLibrary(event, {
+  author: 'edd'
+});
 
 // db('authors')
 //   .innerJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
@@ -98,9 +98,9 @@ const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
 // getTotal('titles')
 //   .then((result) => console.log(Math.ceil(result / 10)));
 
-getAllAuthors(event, {
-  page: 1,
-  itemsPerPage: 10,
-  sortColumn: 'titles',
-  sortDirection: 'DESC'
-});
+// getAllAuthors(event, {
+//   page: 1,
+//   itemsPerPage: 10,
+//   sortColumn: 'titles',
+//   sortDirection: 'DESC'
+// });

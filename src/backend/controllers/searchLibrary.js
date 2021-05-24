@@ -5,13 +5,13 @@ const contains = require('../helpers/contains');
 const db = require('../db');
 const loadTitleRelations = require('../helpers/loadTitleRelations');
 const types = require('../messageTypes');
-const titleModel = require('../models/title');
+// const titleModel = require('../models/title');
 
 const sortBy = (field) => {
   switch (field) {
-    case 'author':
+    case 'authors':
       return 'authors.surname';
-    case 'subject':
+    case 'subjects':
       return 'subjects.name';
     default:
       return `titles.${field}`;
@@ -20,6 +20,7 @@ const sortBy = (field) => {
 
 const searchResponseBody = {
   success: false,
+  totalResults: 0,
   results: [],
   message: null,
 };
@@ -105,7 +106,7 @@ const searchQuery = (data = {}) => {
   return makeQuery;
 };
 
-const selectCols = Object.keys(titleModel).map((col) => `titles.${col}`);
+// const selectCols = Object.keys(titleModel).map((col) => `titles.${col}`);
 
 const searchLibrary = async (event, {
   sortCol = 'title',
@@ -122,18 +123,19 @@ const searchLibrary = async (event, {
     callNumber,
     author,
     subject
-  })(db('titles'));
-
+  });
   const offset = (page * itemsPerPage) - itemsPerPage;
   // event.reply('titles-search-results', q.toString());
-
+  q(db('titles')).count('titles.id')
+    .then((result) => console.log(result));
   // TODO handle loading relations correctly
-  const resolved = await q
+  const resolved = await q(db('titles'))
     .orderBy(sortBy(sortCol), sortDirection)
     .groupBy('titles.id')
+    // .modify((qb) => qb.from('titles').count('titles.id', { as: 'total' }).groupBy('titles.id'))
     .offset(offset)
     .limit(itemsPerPage)
-    .select('titles.id', ...selectCols)
+    .select('titles.*')
     .then((results = []) => {
       if (results.length < 1) {
         return respond(event, { message: 'No results were found.', results });
