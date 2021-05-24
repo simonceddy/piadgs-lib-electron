@@ -126,40 +126,44 @@ const searchLibrary = async (event, {
   });
   const offset = (page * itemsPerPage) - itemsPerPage;
   // event.reply('titles-search-results', q.toString());
-  q(db('titles')).count('titles.id')
-    .then((result) => console.log(result));
-  // TODO handle loading relations correctly
-  const resolved = await q(db('titles'))
-    .orderBy(sortBy(sortCol), sortDirection)
-    .groupBy('titles.id')
-    // .modify((qb) => qb.from('titles').count('titles.id', { as: 'total' }).groupBy('titles.id'))
-    .offset(offset)
-    .limit(itemsPerPage)
-    .select('titles.*')
-    .then((results = []) => {
-      if (results.length < 1) {
-        return respond(event, { message: 'No results were found.', results });
-      }
+  return q(db('titles')).countDistinct('titles.id', { as: 'total' })
+    .then(async (result) => {
+      const { total } = result[0];
+      // TODO handle loading relations correctly
+      const resolved = await q(db('titles'))
+        .orderBy(sortBy(sortCol), sortDirection)
+        // .groupBy('titles.id')
+        // .modify((qb) => qb.countDistinct('titles.id', { as: 'total' }))
+        .distinct('titles.id')
+        .offset(offset)
+        .limit(itemsPerPage)
+        .select('titles.*')
+        .then((results = []) => {
+          if (results.length < 1) {
+            return respond(event, { message: 'No results were found.', results });
+          }
 
-      // TODO fix query
-      // const unique = results.filter((title, index, self) => index === self.findIndex(
-      //   (t) => (t.id === title.id)
-      // ));
-      return Promise.all(results.map((t) => loadTitleRelations(t)
-        .then((loaded) => loaded)))
-        .then((titles) => respond(event, {
+          // TODO fix query
+          // const unique = results.filter((title, index, self) => index === self.findIndex(
+          //   (t) => (t.id === title.id)
+          // ));
+          return Promise.all(results.map((t) => loadTitleRelations(t)
+            .then((loaded) => loaded)))
+            .then((titles) => respond(event, {
+              ...searchResponseBody,
+              results: titles,
+              success: true,
+              totalResults: total
+            }));
+        })
+        .catch((err) => respond(event, {
           ...searchResponseBody,
-          results: titles,
-          success: true,
+          message: 'An error has occurred',
+          err
         }));
-    })
-    .catch((err) => respond(event, {
-      ...searchResponseBody,
-      message: 'An error has occurred',
-      err
-    }));
 
-  return resolved;
+      return resolved;
+    });
 };
 
 module.exports = searchLibrary;

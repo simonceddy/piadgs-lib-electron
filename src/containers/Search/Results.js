@@ -14,20 +14,21 @@ function Results({
   sortColumn,
   showForm = () => null,
   currentPage = 1,
-  lastPage = 12,
-  setPage = () => null
-  // itemsPerPage = 32,
+  // lastPage = 12,
+  setPage = () => null,
+  itemsPerPage = 32,
+  totalResults
 }) {
   return (
     <FlexCol className="w-full flex-1 py-4 px-8 justify-between items-center">
       <FlexRow className="p-4 w-full justify-around items-center">
         <LgFormButton onClick={showForm}>Refine Search</LgFormButton>
-        <div className="text-xl">Found {results.length} results.</div>
+        <div className="text-xl">Found {totalResults || 0} results.</div>
       </FlexRow>
       <Pagination
         current={currentPage}
-        lastPage={lastPage}
-        setPage={(page) => Promise.resolve(setPage(page))}
+        lastPage={Math.ceil(totalResults / itemsPerPage)}
+        setPage={(page) => setPage(page)}
       />
       {results.length < 1 ? (
         <FlexCol>No results were found</FlexCol>
@@ -52,6 +53,7 @@ const mapStateToProps = (state) => ({
   sortDirection: state.search.sortDirection,
   currentPage: state.search.currentPage,
   itemsPerPage: state.search.itemsPerPage,
+  totalResults: state.search.totalResults,
 });
 
 const mapDispatchToProps = (dispatch) => ({

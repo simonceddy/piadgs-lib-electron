@@ -13,7 +13,8 @@ function Search({
   values,
   submitSearch,
   resetForm,
-  isSubmitted = false
+  isSubmitted = false,
+  // totalResults
 }) {
   const [showForm, setShowForm] = useState(!isSubmitted);
 
@@ -40,7 +41,8 @@ function Search({
 const mapStateToProps = (state) => ({
   values: state.search.values,
   isSubmitted: state.search.isSubmitted,
-  results: state.search.results
+  results: state.search.results,
+  // totalResults: state.search.totalResults
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -24,7 +24,7 @@ const updateModel = require('./src/backend/helpers/updateModel');
 
 const event = {
   reply(...args) {
-    console.log(args[1].results);
+    console.log(...args);
   }
 };
 

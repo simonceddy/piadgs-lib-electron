@@ -9,7 +9,14 @@ export const SET_LIBRARY_SEARCH_SORTING = 'SET_LIBRARY_SEARCH_SORTING';
 export const SET_LIBRARY_SEARCH_ITEMS_PER_PAGE = 'SET_LIBRARY_SEARCH_ITEMS_PER_PAGE';
 export const SET_LIBRARY_SEARCH_CURRENT_PAGE = 'SET_LIBRARY_SEARCH_CURRENT_PAGE';
 
+export const SET_LIBRARY_SEARCH_TOTAL_RESULTS = 'SET_LIBRARY_SEARCH_TOTAL_RESULTS';
+
 export const SET_LIBRARY_SEARCH_RESULTS = 'SET_LIBRARY_SEARCH_RESULTS';
+
+export const setLibrarySearchTotalResults = (totalResults) => ({
+  type: SET_LIBRARY_SEARCH_TOTAL_RESULTS,
+  payload: { totalResults }
+});
 
 export const updateLibrarySearchValues = (values = {}) => ({
   type: UPDATE_LIBRARY_SEARCH_VALUES,
@@ -60,11 +67,12 @@ export const submitLibrarySearchForm = () => (dispatch, getState) => {
     ...values,
     sortCol,
     sortDirection,
-    currentPage,
+    page: currentPage,
     itemsPerPage
   })
     .then(async (response) => {
-      console.log(response);
+      // console.log(response);
+      await dispatch(setLibrarySearchTotalResults(response.totalResults));
       await dispatch(setLibrarySearchResults(response.results));
       dispatch(setLibrarySearchFormSubmitted(true));
     })

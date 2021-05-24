@@ -5,7 +5,8 @@ import {
   SET_LIBRARY_FORM_SUBMITTED,
   SET_LIBRARY_SEARCH_RESULTS,
   UPDATE_LIBRARY_SEARCH_VALUES,
-  SET_LIBRARY_SEARCH_SORTING
+  SET_LIBRARY_SEARCH_SORTING,
+  SET_LIBRARY_SEARCH_TOTAL_RESULTS
 } from '../actions';
 
 const defaultState = {
@@ -20,11 +21,14 @@ const defaultState = {
   sortCol: 'title',
   sortDirection: 'ASC',
   currentPage: 1,
-  itemsPerPage: 32
+  itemsPerPage: 32,
+  totalResults: null
 };
 
 export default function librarySearchReducer(state = defaultState, action) {
   switch (action.type) {
+    case SET_LIBRARY_SEARCH_TOTAL_RESULTS:
+      return { ...state, totalResults: action.payload.totalResults };
     case SET_LIBRARY_SEARCH_ITEMS_PER_PAGE:
       return { ...state, itemsPerPage: action.payload.itemsPerPage };
     case SET_LIBRARY_SEARCH_CURRENT_PAGE:
