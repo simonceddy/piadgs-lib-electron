@@ -28,7 +28,7 @@ const searchAuthors = (event, {
     .orWhere(...contains('given_names', givenNames || name))
     .leftOuterJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
     .columns('authors.id', 'authors.surname', 'authors.given_names')
-    .modify((qb) => qb.count('authors_titles.author_id', { as: 'total' }))
+    .modify((qb) => qb.countDistinct('authors_titles.title_id', { as: 'total' }))
     .orderBy(authorSortBy(sortColumn), sortDirection)
     .offset(offset)
     .limit(itemsPerPage)

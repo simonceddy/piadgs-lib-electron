@@ -58,9 +58,9 @@ const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
 // associate('subject', 'title', 1453, 1194)
 //   .then((result) => console.log(result));
 
-/* searchSubjects(event, {
-  name: 'vic'
-}); */
+searchAuthors(event, {
+  name: 'edd'
+});
 
 // searchTitles(event, {
 //   title: 'test'
