@@ -90,19 +90,26 @@ function Subject({
         )}
       </div>
       {isEditing ? (
-        <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
-          <ThemedButton
-            onClick={() => submitChanges({ id, name: subjectName })}
-            isSubmit
-          >
-            Save Changes
-          </ThemedButton>
-          <ThemedButton
-            onClick={() => console.log('save as a new subject and add to checked titles')}
-          >
-            Save As New
-          </ThemedButton>
-        </ThemedDiv>
+        <>
+          <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
+            <ThemedButton
+              onClick={() => submitChanges({ id, name: subjectName })}
+              isSubmit
+            >
+              Save Changes
+            </ThemedButton>
+            <ThemedButton
+              onClick={() => console.log('save as a new subject and add to checked titles')}
+            >
+              Save As New
+            </ThemedButton>
+          </ThemedDiv>
+          <div>
+            <ThemedButton onChange={() => console.log('delete')}>
+              Delete Subject
+            </ThemedButton>
+          </div>
+        </>
       ) : null}
     </SubjectWindow>
   );

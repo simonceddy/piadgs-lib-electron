@@ -51,6 +51,11 @@ function AuthorForm({
           Save Changes
         </ThemedButton>
       </div>
+      <div>
+        <ThemedButton onChange={() => console.log('delete')}>
+          Delete Author
+        </ThemedButton>
+      </div>
     </form>
   );
 }

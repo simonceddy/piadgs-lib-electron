@@ -11,3 +11,5 @@ export const setSortingFor = (applet, sortCol, sortDirection) => ({
   type: SET_SORTING_FOR,
   payload: { applet, sortCol, sortDirection }
 });
+
+export const sort = () => {};

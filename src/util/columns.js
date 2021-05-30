@@ -18,7 +18,7 @@ const columns = [
             key={id}
             className="m-0.5"
           >
-            {author.surname}{author.givenNames ? `, ${author.givenNames}` : null}
+            {author.surname}{author.given_names ? `, ${author.given_names}` : null}
           </span>
         ))}
       </span>

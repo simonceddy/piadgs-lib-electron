@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 const { ipcMain } = require('electron');
 // eslint-disable-next-line no-unused-vars
-const types = require('./messageTypes');
+const types = require('../messageTypes');
 const {
   searchLibrary,
   login,
@@ -16,11 +16,11 @@ const {
   getAllAuthors,
   getAllSubjects,
   updateTitle
-} = require('./controllers');
-const countModels = require('./controllers/countModels');
-const getAuthorTitles = require('./helpers/getAuthorTitles');
-const getSubjectTitles = require('./helpers/getSubjectTitles');
-const loadTitleRelations = require('./helpers/loadTitleRelations');
+} = require('../controllers');
+const countModels = require('../controllers/countModels');
+const getAuthorTitles = require('../helpers/getAuthorTitles');
+const getSubjectTitles = require('../helpers/getSubjectTitles');
+const loadTitleRelations = require('../helpers/loadTitleRelations');
 
 ipcMain.on(
   types.searchLibrary.send,

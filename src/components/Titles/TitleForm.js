@@ -64,6 +64,11 @@ function TitleForm({
           Save Changes
         </ThemedButton>
       </FlexRow>
+      <div>
+        <ThemedButton onChange={() => console.log('delete')}>
+          Delete Title
+        </ThemedButton>
+      </div>
     </DefaultForm>
   );
 }
