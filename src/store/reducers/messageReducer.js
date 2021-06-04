@@ -15,6 +15,9 @@ export default function messageReducer(state = defaultState, action) {
   switch (action.type) {
     case CLEAR_MESSAGE:
       return { ...state, [action.payload.type]: null };
+    case 'ADD_MESSAGE':
+      return { ...state, [action.payload.type]: action.payload.message };
+    // TODO tidy
     case SET_AUTHOR_MESSAGE:
       return {
         ...state,
