@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
-import FormTitleList from '../../components/Titles/FormTitleList';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
 import { setAuthorFormInput } from '../../store/actions/authors';
+import TitlesSubForm from '../Titles/TitlesSubForm';
 
 function CreateAuthor({ vals = {}, titles = [], setVals = () => null }) {
   return (
@@ -37,7 +37,7 @@ function CreateAuthor({ vals = {}, titles = [], setVals = () => null }) {
                 Add author&apos;s titles
               </ThemedButton>
             </FlexRow>
-            <FormTitleList titles={titles} />
+            <TitlesSubForm titles={titles} />
           </FlexCol>
         </ThemedDiv>
       </FlexRow>

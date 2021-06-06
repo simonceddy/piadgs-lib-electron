@@ -1,11 +1,12 @@
+import TitlesSubForm from '../../containers/Titles/TitlesSubForm';
 import { ThemedButton, ThemedTextInput } from '../../shared/components/Styled';
 
 function AuthorForm({
   author = {},
   onSubmit = () => null,
   setValue,
-  selectedTitles,
-  onSelect
+  // selectedTitles,
+  // onSelect
 }) {
   return (
     <form
@@ -32,18 +33,7 @@ function AuthorForm({
           <span>
             Titles:
           </span>
-          {author.titles.map((title = {}) => (
-            <ThemedTextInput
-              label={title.title}
-              name={`title-subject-${title.id}`}
-              id={`title-subject-${title.id}`}
-              type="checkbox"
-              className="ml-2 p-2"
-              value={title.id}
-              checked={selectedTitles[title.id] === true}
-              onChange={() => onSelect(title.id)}
-            />
-          ))}
+          <TitlesSubForm titles={author.titles} />
         </div>
       )}
       <div>

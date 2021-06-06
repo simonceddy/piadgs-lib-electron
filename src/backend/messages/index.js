@@ -119,3 +119,5 @@ ipcMain.on(
 );
 
 ipcMain.on(types.updateTitle.send, (event, params) => updateTitle(event, params));
+
+// console.log(ipcMain);

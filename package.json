@@ -34,6 +34,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "dv": "electron .",
     "dev": "concurrently \"BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electron .\"",
     "tailwind": "tailwind build src/shared/styles/tailwind.src.css -o src/shared/styles/tailwind.css",
     "models": "nodemon models.js"

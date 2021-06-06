@@ -1,5 +1,5 @@
+import { useState } from 'react';
 import { connect } from 'react-redux';
-import FormTitleList from '../../components/Titles/FormTitleList';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
@@ -8,6 +8,7 @@ import {
   saveSubject,
   setSubjectFormInput
 } from '../../store/actions';
+import TitlesSubForm from '../Titles/TitlesSubForm';
 
 function CreareSubject({
   vals = {},
@@ -16,6 +17,9 @@ function CreareSubject({
   submitForm = () => null,
   resetForm,
 }) {
+  // eslint-disable-next-line no-unused-vars
+  const [selectedTitles, setSelectedTitles] = useState(titles);
+
   return (
     <DefaultForm
       className="w-full h-full flex flex-col"
@@ -43,7 +47,7 @@ function CreareSubject({
                 Add subject&apos;s titles
               </ThemedButton>
             </FlexRow>
-            <FormTitleList titles={titles} />
+            <TitlesSubForm titles={titles} />
           </FlexCol>
         </ThemedDiv>
       </FlexRow>
