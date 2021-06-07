@@ -6,6 +6,7 @@ import './shared/styles/tailwind.css';
 import axios from 'axios';
 import { Provider } from 'react-redux';
 import App from './App';
+// import TestApp from './TestApp';
 import reportWebVitals from './reportWebVitals';
 import config from './config';
 import store from './store';
@@ -17,6 +18,7 @@ ReactDOM.render(
     <Provider store={store}>
       <Router>
         <App />
+        {/* <TestApp /> */}
       </Router>
     </Provider>
   </React.StrictMode>,

@@ -1,39 +1,28 @@
-import { useState } from 'react';
-import { getSubjects } from './message-control/controllers';
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from 'react';
+// import { getSubjects } from './message-control/controllers';
 
 // import sendAsync from './message-control/renderer';
+import TitlesSubForm from './containers/Titles/TitlesSubForm';
+import { getTitles } from './message-control/controllers';
 
 function TestApp() {
-  const [response, setResponse] = useState();
+  const [titles, setTitles] = useState([]);
 
-  function send() {
-    getSubjects().then((result) => setResponse(result));
-  }
+  // function send() {
+  //   getSubjects().then((result) => setResponse(result));
+  // }
+
+  useEffect(() => {
+    if (titles.length < 1) {
+      getTitles(13, 15, 'title', 'ASC')
+        .then((res) => setTitles(res));
+    }
+  }, []);
 
   return (
     <div className="App w-full h-full bg-black text-green-300">
-      <header className="App-header">
-        <h1>
-          Standalone application with Electron, React, and
-          SQLite stack.
-        </h1>
-      </header>
-      <article>
-        <p>
-          Say <i>ping</i> to the main process.
-        </p>
-
-        <button type="button" onClick={() => send()}>
-          Send
-        </button>
-        <br />
-        <p>Main process responses:</p>
-        <br />
-        <pre>
-          {(response && JSON.stringify(response, null, 2))
-            || 'No query results yet!'}
-        </pre>
-      </article>
+      <TitlesSubForm titles={titles} />
     </div>
   );
 }

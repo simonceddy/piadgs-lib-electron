@@ -4,7 +4,9 @@
   ],
   "ignoreUnresolved": [],
   "ignoreUnimported": [],
-  "ignoreUnused": [],
+  "ignoreUnused": [
+    "tailwindcss", "sqlite3"
+  ],
   "ignorePatterns": [
     "**/node_modules/**",
     "**/*.stories.{js,jsx,ts,tsx}",

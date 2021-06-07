@@ -7,21 +7,27 @@ function TitlesSubForm({
   titles = []
 }) {
   const { selectedTitles, handleSelectTitle } = useTitlesSubForm(titles);
+  console.log(selectedTitles);
+  const titleList = useMemo(() => titles.map((title = {}) => (
+    <li key={title.id} className="flex flex-row justify-between items-center w-full">
+      <TitleSubformItem title={title} />
+      <input
+        type="checkbox"
+        checked={selectedTitles[title.id]}
+        onChange={() => handleSelectTitle(title.id)}
+      />
+    </li>
+  )), [titles]);
+
+  if (titles.length < 1) {
+    return null;
+  }
 
   return (
     <ul
       className="flex flex-col justify-start items-start w-full"
     >
-      {selectedTitles.map((title = {}) => (
-        <li key={title.id} className="flex flex-row justify-between items-center w-full">
-          <TitleSubformItem title={title} />
-          <input
-            type="checkbox"
-            checked={selectedTitles[title.id]}
-            onChange={() => handleSelectTitle(title.id)}
-          />
-        </li>
-      ))}
+      {titleList}
     </ul>
   );
 }
