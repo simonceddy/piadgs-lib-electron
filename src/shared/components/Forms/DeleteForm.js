@@ -1,17 +1,33 @@
+import { confirmAlert } from 'react-confirm-alert';
+import ThemedButton from '../Styled/ThemedButton';
+
 function DeleteForm({
-  onDelete,
+  onDelete = () => null,
   confirmMsg = 'Confirm deletion?',
   children
 }) {
   return (
-    <button
-      type="button"
+    <ThemedButton
       onClick={() => {
-        onDelete();
+        console.log('here');
+        return confirmAlert({
+          title: 'Confirm Deletion',
+          message: confirmMsg,
+          buttons: [
+            {
+              label: 'YES, CONFIRM',
+              onClick: onDelete
+            },
+            {
+              label: 'NO!',
+              onClick: () => null
+            }
+          ]
+        });
       }}
     >
       {children || 'Delete'}
-    </button>
+    </ThemedButton>
   );
 }
 

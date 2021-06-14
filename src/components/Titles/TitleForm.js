@@ -2,6 +2,7 @@ import { titleModel } from '../../backend/models';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
+import DeleteForm from '../../shared/components/Forms/DeleteForm';
 
 function TitleForm({
   values = {},
@@ -65,9 +66,9 @@ function TitleForm({
         </ThemedButton>
       </FlexRow>
       <div>
-        <ThemedButton onChange={() => console.log('delete')}>
+        <DeleteForm onDelete={() => console.log('delete')}>
           Delete Title
-        </ThemedButton>
+        </DeleteForm>
       </div>
     </DefaultForm>
   );

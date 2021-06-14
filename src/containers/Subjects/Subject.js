@@ -4,6 +4,7 @@ import SubjectWindow from '../../components/Subjects/SubjectWindow';
 import SubjectNameField from '../../components/Subjects/SubjectNameField';
 import SubjectTitleList from '../../components/Subjects/SubjectTitleList';
 import { ThemedDiv, ThemedButton } from '../../shared/components/Styled';
+import DefaultForm from '../../shared/components/Forms/DefaultForm';
 import {
   fetchSubject,
   setSubjectMessage,
@@ -105,9 +106,9 @@ function Subject({
             </ThemedButton>
           </ThemedDiv>
           <div>
-            <ThemedButton onChange={() => console.log('delete')}>
+            <DefaultForm onDelete={() => console.log('delete')}>
               Delete Subject
-            </ThemedButton>
+            </DefaultForm>
           </div>
         </>
       ) : null}

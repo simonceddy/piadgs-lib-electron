@@ -1,5 +1,6 @@
 import TitlesSubForm from '../../containers/Titles/TitlesSubForm';
 import { ThemedButton, ThemedTextInput } from '../../shared/components/Styled';
+import DeleteForm from '../../shared/components/Forms/DeleteForm';
 
 function AuthorForm({
   author = {},
@@ -42,9 +43,9 @@ function AuthorForm({
         </ThemedButton>
       </div>
       <div>
-        <ThemedButton onChange={() => console.log('delete')}>
+        <DeleteForm onDelete={() => console.log('delete')}>
           Delete Author
-        </ThemedButton>
+        </DeleteForm>
       </div>
     </form>
   );

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { HashRouter as Router } from 'react-router-dom';
 import './shared/styles/index.css';
+import './shared/styles/react-confirm-alert.css';
 import './shared/styles/tailwind.css';
 import axios from 'axios';
 import { Provider } from 'react-redux';

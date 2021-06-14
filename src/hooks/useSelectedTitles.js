@@ -4,7 +4,11 @@ const getSelectedTitles = (titles = []) => Object.fromEntries(
   titles.map((title) => ([title.id, true]))
 );
 
-export default function useTitlesSubForm(titles = []) {
+const applySelectedToAll = (ids = [], selected = true) => Object.fromEntrie(
+  ids.map((id) => ([id, selected]))
+);
+
+export default function useSelectedTitles(titles = []) {
   const initialSelectedTitles = useMemo(
     () => getSelectedTitles(titles),
     [titles]
@@ -17,11 +21,20 @@ export default function useTitlesSubForm(titles = []) {
     [id]: !selectedTitles[id]
   });
 
+  const selectAll = () => setSelectedTitles(
+    applySelectedToAll(Object.keys(selectedTitles))
+  );
+  const selectNone = () => setSelectedTitles(
+    applySelectedToAll(Object.keys(selectedTitles), false)
+  );
+
   const resetState = () => setSelectedTitles(initialSelectedTitles);
 
   return {
     selectedTitles,
     handleSelectTitle,
-    resetState
+    selectAll,
+    selectNone,
+    resetState,
   };
 }

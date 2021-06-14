@@ -42,12 +42,12 @@ function AdminBar({ children }) {
         <AuthorsIcon size={26} />
         <LinkLabel>Authors</LinkLabel>
       </NavbarLink>
+      <NavbarLink className="" to="/titles" exact>
+        <TitlesIcon size={26} /><LinkLabel>Titles</LinkLabel>
+      </NavbarLink>
       <NavbarLink className="" to="/subjects" exact>
         <SubjectsIcon size={26} />
         <LinkLabel>Subjects</LinkLabel>
-      </NavbarLink>
-      <NavbarLink className="" to="/titles" exact>
-        <TitlesIcon size={26} /><LinkLabel>Titles</LinkLabel>
       </NavbarLink>
       {children}
     </StyledAdminBar>
