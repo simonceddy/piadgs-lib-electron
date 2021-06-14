@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { DefaultTable } from '../../shared/components/Tables';
+import { titleCols } from '../../shared/data/titleCols';
 import { fetchTitlesData, setCurrentPage, sortTitleRows } from '../../store/actions';
-import adminColumns from '../../util/adminColumns';
 
 function AllTitles({
   titles = [],
@@ -34,7 +34,7 @@ function AllTitles({
           <DefaultTable
             sortColumn={sortColumn}
             sortDirection={sortDirection}
-            columns={adminColumns}
+            columns={titleCols}
             handleSort={(e) => sortTitles(e.target.id)}
           >
             {titles.map((title = {}) => (
@@ -42,7 +42,7 @@ function AllTitles({
                 onClick={() => onRowClick(title)}
                 key={title.id}
                 title={title}
-                columns={adminColumns}
+                columns={titleCols}
               />
             ))}
           </DefaultTable>

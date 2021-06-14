@@ -2,22 +2,7 @@
 const { ipcMain } = require('electron');
 // eslint-disable-next-line no-unused-vars
 const types = require('../messageTypes');
-const {
-  searchLibrary,
-  login,
-  searchAuthors,
-  searchSubjects,
-  getFrom,
-  getAllTitles,
-  searchTitles,
-  createAuthor,
-  createTitle,
-  createSubject,
-  getAllAuthors,
-  getAllSubjects,
-  updateTitle
-} = require('../controllers');
-const countModels = require('../controllers/countModels');
+const controllers = require('../controllers');
 const getAuthorTitles = require('../helpers/getAuthorTitles');
 const getSubjectTitles = require('../helpers/getSubjectTitles');
 const loadTitleRelations = require('../helpers/loadTitleRelations');
@@ -26,58 +11,58 @@ ipcMain.on(
   types.searchLibrary.send,
   (event, params) => {
     console.log(params);
-    return searchLibrary(event, params);
+    return controllers.searchLibrary(event, params);
   }
 );
 ipcMain.on(
   types.searchAuthors.send,
-  (event, params) => searchAuthors(event, params)
+  controllers.searchAuthors
 );
 ipcMain.on(
   types.searchSubjects.send,
-  (event, params) => searchSubjects(event, params)
+  controllers.searchSubjects
 );
 ipcMain.on(
   types.searchTitles.send,
-  (event, params) => searchTitles(event, params)
+  controllers.searchTitles
 );
 
 ipcMain.on(
   types.countTitles.send,
-  (ev) => countModels('titles', (results) => ev.reply(types.countTitles.reply, results))
+  (ev) => controllers.countModels('titles', (results) => ev.reply(types.countTitles.reply, results))
 );
 ipcMain.on(
   types.countAuthors.send,
-  (ev) => countModels('authors', (results) => ev.reply(types.countAuthors.reply, results))
+  (ev) => controllers.countModels('authors', (results) => ev.reply(types.countAuthors.reply, results))
 );
 ipcMain.on(
   types.countSubjects.send,
-  (ev) => countModels('subjects', (results) => ev.reply(types.countSubjects.reply, results))
+  (ev) => controllers.countModels('subjects', (results) => ev.reply(types.countSubjects.reply, results))
 );
 
 ipcMain.on(
   types.getAllTitles.send,
-  (ev, params) => getAllTitles(ev, params)
+  controllers.getAllTitles
 );
 ipcMain.on(
   types.getAllSubjects.send,
-  (ev, params) => getAllSubjects(ev, params)
+  controllers.getAllSubjects
 );
 ipcMain.on(
   types.getAllAuthors.send,
-  (ev, params) => getAllAuthors(ev, params)
+  controllers.getAllAuthors
 );
 
 ipcMain.on(
   types.getTitle.send,
-  (event, params) => getFrom('titles', params)
+  (event, params) => controllers.getFrom('titles', params)
     .then((title) => loadTitleRelations(title))
     .then((result) => event.reply(types.getTitle.reply, result))
 );
 
 ipcMain.on(
   types.getSubject.send,
-  (event, params) => getFrom('subjects', params)
+  (event, params) => controllers.getFrom('subjects', params)
     .then((result) => {
       console.log(result);
       if (result.id) {
@@ -93,7 +78,7 @@ ipcMain.on(
 
 ipcMain.on(
   types.getAuthor.send,
-  (event, params) => getFrom('authors', params)
+  (event, params) => controllers.getFrom('authors', params)
     .then((author) => getAuthorTitles(author)
       .then((titles) => ({ ...author, titles }))
       .catch((err) => event.reply(types.getAuthor.reply, err)))
@@ -102,22 +87,25 @@ ipcMain.on(
 );
 
 ipcMain.on(
-  'login', (event, { username, password }) => login({ username, password }, event)
+  'login', (event, { username, password }) => controllers.login({ username, password }, event)
 );
 
 ipcMain.on(
   types.createTitle.send,
-  (event, params) => createTitle(event, params)
+  controllers.createTitle
 );
 ipcMain.on(
   types.createAuthor.send,
-  (event, params) => createAuthor(event, params)
+  controllers.createAuthor
 );
 ipcMain.on(
   types.createSubject.send,
-  (event, params) => createSubject(event, params)
+  controllers.createSubject
 );
 
-ipcMain.on(types.updateTitle.send, (event, params) => updateTitle(event, params));
+ipcMain.on(types.updateTitle.send, controllers.updateTitle);
 
 // console.log(ipcMain);
+ipcMain.on(types.deleteAuthor.send, controllers.deleteAuthor);
+ipcMain.on(types.deleteSubject.send, controllers.deleteSubject);
+ipcMain.on(types.deleteTitle.send, controllers.deleteTitle);

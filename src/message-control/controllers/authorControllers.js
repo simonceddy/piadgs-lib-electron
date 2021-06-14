@@ -23,3 +23,8 @@ export const createAuthor = (params) => controllerMessage(
   types.createAuthor,
   params
 );
+
+export const deleteAuthor = (id) => controllerMessage(
+  types.deleteAuthor,
+  { id }
+);

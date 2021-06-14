@@ -14,10 +14,13 @@ const getAllSubjects = require('./getAllSubjects');
 const createTitle = require('./createTitle');
 const createAuthor = require('./createAuthor');
 const createSubject = require('./createSubject');
+const deleteAuthor = require('./deleteAuthor');
+const deleteSubject = require('./deleteSubject');
+const deleteTitle = require('./deleteTitle');
 
 const countAuthorsForTitle = () => {};
 
-module.exports = {
+const controllers = {
   getAll,
   getFrom,
   countModels,
@@ -34,5 +37,10 @@ module.exports = {
   createAuthor,
   createSubject,
   getAllAuthors,
-  getAllSubjects
+  getAllSubjects,
+  deleteAuthor,
+  deleteSubject,
+  deleteTitle,
 };
+
+module.exports = controllers;

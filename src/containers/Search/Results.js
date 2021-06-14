@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { LgFormButton } from '../../shared/components/Forms';
-import columns from '../../util/columns';
+// import columns from '../../util/columns';
 import TitlesTable from '../../components/Admin/Titles/TitlesTable';
 import { Pagination } from '../../components/Pagination';
 import { setResultsPage, sortLibrarySearchResults } from '../../store/actions';
+import { publicCols } from '../../shared/data/titleCols';
 
 // TODO count total results in query and replace results.length
 function Results({
@@ -34,7 +35,7 @@ function Results({
         <FlexCol>No results were found</FlexCol>
       ) : (
         <TitlesTable
-          columns={columns}
+          columns={publicCols}
           sortCol={sortColumn}
           handleSort={(e) => handleSort(e.target.id)}
           sortDirection={sortDirection}

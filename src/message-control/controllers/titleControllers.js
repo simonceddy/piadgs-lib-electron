@@ -36,3 +36,8 @@ export const updateTitle = (params) => controllerMessage(
   types.updateTitle,
   params
 );
+
+export const deleteTitle = (id) => controllerMessage(
+  types.deleteTitle,
+  { id }
+);

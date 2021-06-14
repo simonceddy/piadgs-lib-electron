@@ -4,7 +4,8 @@ import { FlexCol } from '../../shared/components/Flex';
 import { SingleFieldForm } from '../../shared/components/Forms';
 import { DefaultTable } from '../../shared/components/Tables';
 import { setTitleSearchInput, submitTitleSearch } from '../../store/actions';
-import adminColumns from '../../util/adminColumns';
+// import adminColumns from '../../util/adminColumns';
+import { titleCols } from '../../shared/data/titleCols';
 
 function SearchTitles({
   input,
@@ -24,14 +25,14 @@ function SearchTitles({
       {results.length < 1 ? null : (
         <FlexCol className="w-full">
           <DefaultTable
-            columns={adminColumns}
+            columns={titleCols}
           >
             {results.map((title = {}) => (
               <TitleTableRow
                 onClick={() => onRowClick(title)}
                 key={title.id}
                 title={title}
-                columns={adminColumns}
+                columns={titleCols}
               />
             ))}
           </DefaultTable>

@@ -13,3 +13,8 @@ export const searchLibrary = (params) => controllerMessage(
 export const attemptLogin = (args) => controllerMessage({
   send: 'login', reply: 'login-result'
 }, args);
+
+export const logout = () => controllerMessage({
+  send: 'logout',
+  reply: 'logout-result'
+});

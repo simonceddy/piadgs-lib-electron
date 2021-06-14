@@ -30,3 +30,8 @@ export const createSubject = (params) => controllerMessage(
   types.createSubject,
   params
 );
+
+export const deleteSubject = (id) => controllerMessage(
+  types.deleteSubject,
+  { id }
+);
