@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 const getSelectedTitles = (titles = []) => Object.fromEntries(
   titles.map((title) => ([title.id, true]))
@@ -21,12 +21,12 @@ export default function useSelectedTitles(titles = []) {
     [id]: !selectedTitles[id]
   });
 
-  const selectAll = () => setSelectedTitles(
+  const selectAll = () => useCallback(setSelectedTitles(
     applySelectedToAll(Object.keys(selectedTitles))
-  );
-  const selectNone = () => setSelectedTitles(
+  ), [initialSelectedTitles]);
+  const selectNone = () => useCallback(setSelectedTitles(
     applySelectedToAll(Object.keys(selectedTitles), false)
-  );
+  ), [initialSelectedTitles]);
 
   const resetState = () => setSelectedTitles(initialSelectedTitles);
 

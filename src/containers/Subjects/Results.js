@@ -16,11 +16,11 @@ const columns = [
 function Results({
   results = [],
   handleSort = () => null,
-  sortKey,
-  sortDirection,
+  // sortKey,
+  // sortDirection,
   onRowClick
 }) {
-  console.log(sortKey, sortDirection);
+  // console.log(sortKey, sortDirection);
 
   return (
     <>

@@ -7,7 +7,7 @@ function TitlesSubForm({
   titles = []
 }) {
   const { selectedTitles, handleSelectTitle } = useSelectedTitles(titles);
-  console.log(selectedTitles);
+  // console.log(selectedTitles);
 
   const titleList = useMemo(() => titles.map((title = {}) => (
     <li key={title.id} className="flex flex-row justify-between items-center w-full">

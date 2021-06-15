@@ -4,13 +4,13 @@ import SubjectWindow from '../../components/Subjects/SubjectWindow';
 import SubjectNameField from '../../components/Subjects/SubjectNameField';
 import SubjectTitleList from '../../components/Subjects/SubjectTitleList';
 import { ThemedDiv, ThemedButton } from '../../shared/components/Styled';
-import DefaultForm from '../../shared/components/Forms/DefaultForm';
 import {
   fetchSubject,
   setSubjectMessage,
   setSubjectName,
   setSubjectSelectedTitles, updateSubject
 } from '../../store/actions/subjects';
+import DeleteForm from '../../shared/components/Forms/DeleteForm';
 
 // TODO - less props - split responsibilities
 function Subject({
@@ -106,9 +106,9 @@ function Subject({
             </ThemedButton>
           </ThemedDiv>
           <div>
-            <DefaultForm onDelete={() => console.log('delete')}>
+            <DeleteForm onDelete={() => console.log('delete')}>
               Delete Subject
-            </DefaultForm>
+            </DeleteForm>
           </div>
         </>
       ) : null}

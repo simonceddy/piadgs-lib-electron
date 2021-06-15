@@ -32,7 +32,7 @@ function createWindow() {
 
 app.on('ready', () => {
   // console.log(app);
-  createWindow();
+  return createWindow();
 });
 
 app.on('window-all-closed', () => {

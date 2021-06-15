@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import Toolbar from '../../components/Toolbar';
 import {
   CreateIcon,
@@ -43,17 +43,17 @@ const toolbarItems = [
 
 function Subjects({ messages, clearMessages }) {
   const [subjectModal, setSubjectModal] = useState(false);
-  console.log(messages);
+  // console.log(messages);
   const onClose = () => setSubjectModal(false);
 
-  const SubjectModal = useMemo(() => (!subjectModal ? null : (
+  const SubjectModal = () => (!subjectModal ? null : (
     <Modal onClose={onClose}>
       <Subject onClose={onClose} id={subjectModal.id} />
     </Modal>
-  )), [subjectModal]);
+  ));
   return (
     <AppletLayout>
-      {SubjectModal}
+      <SubjectModal />
       <Toolbar items={toolbarItems}>
         <Messages message={messages} clearMessage={clearMessages} />
       </Toolbar>

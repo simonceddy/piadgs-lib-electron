@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Toolbar from '../../components/Toolbar';
@@ -53,15 +53,15 @@ function Titles() {
 
   const onClose = () => setTitleModal(false);
 
-  const TitleModal = useMemo(() => (!titleModal ? null : (
+  const TitleModal = () => (!titleModal ? null : (
     <Modal onClose={onClose}>
       <Title onClose={onClose} title={titleModal} />
     </Modal>
-  )), [titleModal]);
+  ));
 
   return (
     <FlexCol className="w-full h-full justify-start items-center">
-      {TitleModal}
+      <TitleModal />
       <Toolbar items={toolbarItems} />
       <Switch>
         <Route

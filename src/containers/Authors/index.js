@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AppletLayout } from '../../shared/components/Layout';
@@ -33,15 +33,15 @@ function Authors() {
 
   const onClose = () => setAuthorModalId(false);
 
-  const AuthorModal = useMemo(() => (!authorModalId ? null : (
+  const AuthorModal = () => (!authorModalId ? null : (
     <Modal onClose={onClose}>
       <Author onClose={onClose} id={authorModalId} />
     </Modal>
-  )), [authorModalId]);
+  ));
 
   return (
     <AppletLayout>
-      {AuthorModal}
+      <AuthorModal />
       <Toolbar items={toolbarItems} />
       <Switch>
         <Route
