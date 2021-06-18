@@ -1,5 +1,21 @@
+import { useMemo } from 'react';
+import { StyledSelect } from '../../shared/components/Styled';
 import PageLink from './PageLink';
-import PageSelect from './PageSelect';
+
+const normalizePage = (page, lastPage) => {
+  if (page < 1) return 1;
+  if (page > lastPage) return lastPage;
+  return page;
+};
+
+const getOptions = (max) => {
+  const options = [];
+  for (let i = 1; i <= max; i++) {
+    options.push(() => <option id={i} value={i} label={i} />);
+  }
+
+  return options;
+};
 
 function Pagination({
   current = 1,
@@ -7,7 +23,13 @@ function Pagination({
   setPage = () => null
 }) {
   // console.log(current);
-  const currentPage = current <= lastPage ? current : lastPage;
+  const currentPage = normalizePage(current, lastPage);
+
+  const options = useMemo(
+    () => getOptions(lastPage)
+      .map((Option, index) => <Option key={index} />),
+    [lastPage]
+  );
 
   return (
     <div className="flex flex-row border border-black p-3 items-center justify-between w-full">
@@ -27,11 +49,16 @@ function Pagination({
         </PageLink>
       </div>
       <div>
-        <PageSelect
-          current={currentPage}
-          lastPage={lastPage}
-          onChange={(e) => setPage(Number(e.target.value))}
-        />
+        <div className="flex flex-row justify-between items-center">
+          <span className="mr-3">Select page:</span>
+          <StyledSelect
+            className="p-1 border-2 rounded-xl text-lg"
+            defaultValue={currentPage}
+            onChange={(e) => setPage(Number(e.target.value))}
+          >
+            {options}
+          </StyledSelect>
+        </div>
       </div>
       <span className="mr-2">Page {currentPage} of {lastPage}</span>
     </div>

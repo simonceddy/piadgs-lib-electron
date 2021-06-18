@@ -27,10 +27,10 @@ body.react-confirm-alert-body-element {
   -ms-align-items: center;
   align-items: center;
   opacity: 0;
-  -webkit-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
-  -moz-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
-  -o-animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
-  animation: react-confirm-alert-fadeIn 0.5s 0.2s forwards;
+  -webkit-animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
+  -moz-animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
+  -o-animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
+  animation: react-confirm-alert-fadeIn 0.2s 0.2s forwards;
 }
 
 .react-confirm-alert-body {
