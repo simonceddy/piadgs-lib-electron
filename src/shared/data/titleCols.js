@@ -44,6 +44,7 @@ export const titleCols = [
     name: 'Title',
     isPublic: true,
     sortable: true,
+    required: true,
   },
   {
     key: 'imprint',
