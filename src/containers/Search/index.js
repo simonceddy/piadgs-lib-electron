@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   submitLibrarySearchForm,
   updateLibrarySearchValues,
-  resetLibraryFormValues
+  resetLibrarySearchFormValues
 } from '../../store/actions';
 import SearchForm from '../../components/Search/SearchForm';
 import Results from './Results';
@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch) => ({
   setValues: (values = {}) => dispatch(updateLibrarySearchValues(values)),
   // setIsSubmitted: (isSubmitted) => dispatch(setFormSubmitted(isSubmitted)),
   submitSearch: (params) => dispatch(submitLibrarySearchForm(params)),
-  resetForm: () => dispatch(resetLibraryFormValues())
+  resetForm: () => dispatch(resetLibrarySearchFormValues())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Search);

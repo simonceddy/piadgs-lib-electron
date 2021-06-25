@@ -2,11 +2,16 @@ import { SET_LOGGED_IN_USER, SET_LOGGED_OUT } from '../actions';
 
 // Logged in by default for dev
 const defaultState = {
-  loggedIn: true,
-  user: {
-    username: 'simon'
-  }
+  loggedIn: false,
+  user: null
 };
+
+// const loggedInState = {
+//   loggedIn: true,
+//   user: {
+//     username: 'simon'
+//   }
+// };
 
 export default function authReducer(state = defaultState, action) {
   switch (action.type) {

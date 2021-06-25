@@ -12,6 +12,7 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
+    icon: './icon.icns',
     show: false,
     webPreferences: {
       nodeIntegration: true,

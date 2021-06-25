@@ -15,13 +15,13 @@ const defaultValues = {
   accessionNumber: '',
 };
 
-export default function useTitleForm() {
-  const [values, setValues] = useState(defaultValues);
+export default function useTitleForm(initialValues = defaultValues) {
+  const [values, setValues] = useState(initialValues);
   const [message, setMessage] = useState(null);
 
   const setValue = (vals = {}) => setValues({ ...values, ...vals });
 
-  const resetForm = () => setValues(defaultValues);
+  const resetForm = () => setValues(initialValues);
 
   return {
     values,

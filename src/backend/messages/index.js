@@ -87,7 +87,7 @@ ipcMain.on(
 );
 
 ipcMain.on(
-  'login', (event, { username, password }) => controllers.login({ username, password }, event)
+  'login', (event, { username, password }) => controllers.loginController({ username, password }, event)
 );
 
 ipcMain.on(
