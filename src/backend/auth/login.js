@@ -1,4 +1,4 @@
-// const { session } = require('electron');
+const { session } = require('electron');
 const { compare } = require('bcrypt');
 const db = require('../db');
 
@@ -19,6 +19,9 @@ const login = ({ username, password }) => db.from('users')
         if (success) {
         // Login successful
         // Authorize session
+          const ses = session.fromPartition('persist:auth');
+          console.log(ses);
+
           return { success, message: 'Logged in', user };
         }
         // Otherwise login failed
