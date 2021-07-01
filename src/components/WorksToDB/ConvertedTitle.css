@@ -1,0 +1,15 @@
+.converted-title-container {
+  width: 90%;
+}
+
+@media (min-width: 768px) {
+  .converted-title-container {
+    width: 45%;
+  }
+}
+
+@media (min-width: 1024px) {
+  .converted-title-container {
+    width: 30%;
+  }
+}

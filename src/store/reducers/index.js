@@ -9,6 +9,7 @@ import subjects from './subjects';
 import authors from './authors';
 import librarySearchReducer from './librarySearchReducer';
 import messageReducer from './messageReducer';
+import worksToDbDataReducer from './worksToDbDataReducer';
 
 const rootReducer = combineReducers({
   login: loginFormReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   titles,
   subjects,
   authors,
-  search: librarySearchReducer
+  search: librarySearchReducer,
+  worksToDb: worksToDbDataReducer,
 });
 
 export default rootReducer;

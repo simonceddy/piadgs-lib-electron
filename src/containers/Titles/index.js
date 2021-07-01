@@ -12,8 +12,9 @@ import { FlexCol } from '../../shared/components/Flex';
 import Modal from '../../shared/components/Modal';
 import Title from './Title';
 import AllTitles from './AllTitles';
-import CreateTitle from './CreateTitle';
 import SearchTitles from './SearchTitles';
+import TitleForm from '../Forms/TitleForm';
+import WorksToDb from '../WorksToDb';
 
 const toolbarItems = [
   [
@@ -42,7 +43,7 @@ const toolbarItems = [
     {
       key: 'pasteFromWorks',
       Icon: PasteFromWorksIcon,
-      to: '/titles/search',
+      to: '/titles/fromWorks',
       exact: true
     },
   ]
@@ -75,7 +76,8 @@ function Titles() {
           path="/titles/create"
           exact
           render={() => (
-            <CreateTitle onRowClick={(title) => setTitleModal(title)} />
+            <TitleForm />
+            // <CreateTitle onRowClick={(title) => setTitleModal(title)} />
           )}
         />
         <Route
@@ -83,6 +85,13 @@ function Titles() {
           exact
           render={() => (
             <SearchTitles onRowClick={(title) => setTitleModal(title)} />
+          )}
+        />
+        <Route
+          path="/titles/fromWorks"
+          exact
+          render={() => (
+            <WorksToDb />
           )}
         />
       </Switch>

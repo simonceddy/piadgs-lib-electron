@@ -13,3 +13,9 @@ export const StyledSelect = styled.select`
   color: ${text};
   background-color: ${background};
 `;
+
+export const StyledTextarea = styled.textarea`
+  border-color: ${primary};
+  color: ${text};
+  background-color: ${background};
+`;

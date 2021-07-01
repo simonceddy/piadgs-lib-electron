@@ -8,7 +8,6 @@ import ViewSubjects from './ViewSubjects';
 import ViewTitle from '../../components/Admin/ViewTitle';
 import ViewAuthor from '../../components/Admin/ViewAuthor';
 import ViewSubject from '../../components/Admin/ViewSubject';
-import PasteFromWorks from './PasteFromWorks';
 import EditTitle from './EditTitle';
 import CreateAuthor from './CreateAuthor';
 import CreateSubject from './CreateSubject';
@@ -44,7 +43,6 @@ function Admin() {
         />
         <Route path={`${baseUri}/subjects`} exact component={ViewSubjects} />
         <Route path={`${baseUri}/authors`} exact component={ViewAuthors} />
-        <Route path={`${baseUri}/pasteFromWorks`} exact component={PasteFromWorks} />
         <Route
           path={`${baseUri}/title/:id`}
           exact

@@ -5,8 +5,6 @@ import RelationsSubform from '../../components/Forms/RelationsSubform';
 import useInputSuggestions from '../../hooks/useInputSuggestions';
 import useRelationsSection from '../../hooks/useRelationsSection';
 import titleFields from '../../shared/data/titleFields';
-import ManageAuthors from './ManageAuthors';
-import ManageSubjects from './ManageSubjects';
 
 const suggestAuthors = (input, setter) => {
   switch (input) {
