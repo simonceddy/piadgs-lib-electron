@@ -1,6 +1,7 @@
-const { session } = require('electron');
+// const { session } = require('electron');
 const { compare } = require('bcrypt');
 const db = require('../db');
+const { logUserIn } = require('./boganAuthenticate');
 
 const failedResponse = (
   message = 'Incorrect username or password'
@@ -19,8 +20,7 @@ const login = ({ username, password }) => db.from('users')
         if (success) {
         // Login successful
         // Authorize session
-          const ses = session.fromPartition('persist:auth');
-          console.log(ses);
+          logUserIn({ username });
 
           return { success, message: 'Logged in', user };
         }

@@ -6,6 +6,9 @@ const controllers = require('../controllers');
 const getAuthorTitles = require('../helpers/getAuthorTitles');
 const getSubjectTitles = require('../helpers/getSubjectTitles');
 const loadTitleRelations = require('../helpers/loadTitleRelations');
+const authorize = require('../controllers/authorize');
+
+const authMiddleware = (next) => (event, params) => authorize(event, params, next);
 
 ipcMain.on(
   types.searchLibrary.send,
@@ -94,18 +97,20 @@ ipcMain.on(
   types.createTitle.send,
   controllers.createTitle
 );
+
 ipcMain.on(
   types.createAuthor.send,
-  controllers.createAuthor
+  authMiddleware(controllers.createAuthor)
 );
+
 ipcMain.on(
   types.createSubject.send,
-  controllers.createSubject
+  authMiddleware(controllers.createSubject)
 );
 
 ipcMain.on(types.updateTitle.send, controllers.updateTitle);
 
 // console.log(ipcMain);
-ipcMain.on(types.deleteAuthor.send, controllers.deleteAuthor);
-ipcMain.on(types.deleteSubject.send, controllers.deleteSubject);
-ipcMain.on(types.deleteTitle.send, controllers.deleteTitle);
+ipcMain.on(types.deleteAuthor.send, authMiddleware(controllers.deleteAuthor));
+ipcMain.on(types.deleteSubject.send, authMiddleware(controllers.deleteSubject));
+ipcMain.on(types.deleteTitle.send, authMiddleware(controllers.deleteTitle));
