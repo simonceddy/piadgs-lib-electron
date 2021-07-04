@@ -4,15 +4,11 @@ import { HashRouter as Router } from 'react-router-dom';
 import './shared/styles/index.css';
 import './shared/styles/react-confirm-alert.css';
 import './shared/styles/tailwind.css';
-import axios from 'axios';
 import { Provider } from 'react-redux';
 import App from './App';
 // import TestApp from './TestApp';
 import reportWebVitals from './reportWebVitals';
-import config from './config';
 import store from './store';
-
-axios.defaults.baseURL = config.client.baseUrl;
 
 ReactDOM.render(
   <React.StrictMode>
