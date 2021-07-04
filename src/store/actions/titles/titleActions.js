@@ -6,6 +6,7 @@ export const removeTitle = (id) => (dispatch) => Promise
   ))
   .then((result) => {
     console.log(result);
+    return dispatch({});
   });
 
 export const addAuthorsToTitle = (authors = []) => {

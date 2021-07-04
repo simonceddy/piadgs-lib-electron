@@ -5,7 +5,7 @@ import TitleWindow from '../../components/Titles/TitleWindow';
 import { updateTitle } from '../../message-control/controllers/titleControllers';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
-import { deleteTitle } from '../../store/actions/titles/titleActions';
+import { removeTitle } from '../../store/actions/titles/titleActions';
 
 function Title({ title = {}, onClose, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
@@ -59,7 +59,7 @@ function Title({ title = {}, onClose, onDelete }) {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  onDelete: (id) => dispatch(deleteTitle(id))
+  onDelete: (id) => dispatch(removeTitle(id))
 });
 
 export default connect(null, mapDispatchToProps)(Title);
