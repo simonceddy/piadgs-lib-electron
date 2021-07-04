@@ -7,7 +7,8 @@ import DeleteForm from '../../shared/components/Forms/DeleteForm';
 function TitleForm({
   values = {},
   setValues,
-  onSubmit = () => null
+  onSubmit = () => null,
+  onDelete = () => null
 }) {
   const { authors, subjects } = values || [];
 
@@ -66,7 +67,7 @@ function TitleForm({
         </ThemedButton>
       </FlexRow>
       <div>
-        <DeleteForm onDelete={() => console.log('delete')}>
+        <DeleteForm onDelete={onDelete}>
           Delete Title
         </DeleteForm>
       </div>

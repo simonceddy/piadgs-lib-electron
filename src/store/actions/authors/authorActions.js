@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { createAuthor } from '../../../message-control/controllers';
 
 export const SET_SELECTED_TITLES = 'SET_SELECTED_TITLES';
 export const SET_AUTHOR_DATA = 'SET_AUTHOR_DATA';
@@ -25,3 +26,11 @@ export const updateAuthor = (data, onFail = () => null) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
+
+export const saveAuthor = (author = {}) => (dispatch) => Promise
+  .resolve(dispatch(
+    createAuthor(author)
+  ))
+  .then((result) => {
+    console.log(result);
+  });

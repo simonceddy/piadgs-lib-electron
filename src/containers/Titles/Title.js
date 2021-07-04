@@ -1,11 +1,13 @@
 import { useState } from 'react';
+import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
 import TitleWindow from '../../components/Titles/TitleWindow';
 import { updateTitle } from '../../message-control/controllers/titleControllers';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
+import { deleteTitle } from '../../store/actions/titles/titleActions';
 
-function Title({ title = {}, onClose }) {
+function Title({ title = {}, onClose, onDelete }) {
   const [isEditing, setIsEditing] = useState(false);
   const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
@@ -46,6 +48,7 @@ function Title({ title = {}, onClose }) {
             values={values}
             setValues={(vals) => setValues(vals)}
             onSubmit={submitChanges}
+            onDelete={() => onDelete(title.id)}
           />
         )
         : (
@@ -55,4 +58,8 @@ function Title({ title = {}, onClose }) {
   );
 }
 
-export default Title;
+const mapDispatchToProps = (dispatch) => ({
+  onDelete: (id) => dispatch(deleteTitle(id))
+});
+
+export default connect(null, mapDispatchToProps)(Title);

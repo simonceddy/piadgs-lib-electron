@@ -1,30 +1,32 @@
-import axios from 'axios';
-import { useState } from 'react';
+import { connect } from 'react-redux';
 import { TitleForm } from '../../components/Admin';
 import { FlexRow } from '../../shared/components/Flex';
 import { LgFormButton } from '../../shared/components/Forms';
 import adminColumns from '../../util/adminColumns';
 import TitleFormInputs from '../../components/Admin/Titles/TitleFormInputs';
 import useTitleForm from '../../hooks/useTitleForm';
+import { saveTitle } from '../../store/actions';
 
 // In case we add fields that aren't columns
 const fields = [
   ...adminColumns
 ];
 
-function CreateTitle() {
+function CreateTitle({
+  submitValues = () => {}
+}) {
   const { values, setValue, resetForm } = useTitleForm();
 
-  const [stored, setStored] = useState(false);
-  const [errors, setErrors] = useState([]);
+  const stored = false;
+  // const [errors, setErrors] = useState([]);
 
-  const submitValues = (data) => axios.post('/titles/create', data)
-    .then((res) => {
-      if (res.status === 200) {
-        setStored(true);
-      }
-    })
-    .catch((err) => setErrors([...errors, err]));
+  // const submitValues = (data) => axios.post('/titles/create', data)
+  //   .then((res) => {
+  //     if (res.status === 200) {
+  //       setStored(true);
+  //     }
+  //   })
+  //   .catch((err) => setErrors([...errors, err]));
 
   return (
     <TitleForm
@@ -47,4 +49,8 @@ function CreateTitle() {
   );
 }
 
-export default CreateTitle;
+const mapDispatchToProps = (dispatch) => ({
+  submitValues: (values) => dispatch(saveTitle(values))
+});
+
+export default connect(null, mapDispatchToProps)(CreateTitle);
