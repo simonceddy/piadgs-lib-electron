@@ -1,16 +1,21 @@
 import { useState } from 'react';
-import { connect } from 'react-redux';
+// import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
 import TitleWindow from '../../components/Titles/TitleWindow';
-import { updateTitle } from '../../message-control/controllers/titleControllers';
+import { deleteTitle, updateTitle } from '../../message-control/controllers/titleControllers';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
-import { removeTitle } from '../../store/actions/titles/titleActions';
+// import { removeTitle } from '../../store/actions/titles/titleActions';
 
-function Title({ title = {}, onClose, onDelete }) {
+function Title({ title = {}, onClose }) {
   const [isEditing, setIsEditing] = useState(false);
   const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
+
+  const onDelete = (id) => deleteTitle(id)
+    .then((result) => setStatusMessage(result.success
+      ? 'Successfully deleted title'
+      : 'Could not delete'));
 
   const submitChanges = () => {
     updateTitle(values)
@@ -30,36 +35,36 @@ function Title({ title = {}, onClose, onDelete }) {
           {statusMessage}
         </span>
       ) : null}
-      <ThemedDiv className="flex flex-row p-2 justify-between items-center">
-        <ThemedButton
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? 'Stop Editing' : 'Edit'}
-        </ThemedButton>
-        <ThemedButton
-          onClick={onClose}
-        >
-          Close
-        </ThemedButton>
-      </ThemedDiv>
-      {isEditing
-        ? (
-          <TitleForm
-            values={values}
-            setValues={(vals) => setValues(vals)}
-            onSubmit={submitChanges}
-            onDelete={() => onDelete(title.id)}
-          />
-        )
-        : (
-          <TitleWindow title={title} />
-        )}
+      {values.title ? (
+        <>
+          <ThemedDiv className="flex flex-row p-2 justify-between items-center">
+            <ThemedButton
+              onClick={() => setIsEditing(!isEditing)}
+            >
+              {isEditing ? 'Stop Editing' : 'Edit'}
+            </ThemedButton>
+            <ThemedButton
+              onClick={onClose}
+            >
+              Close
+            </ThemedButton>
+          </ThemedDiv>
+          {isEditing
+            ? (
+              <TitleForm
+                values={values}
+                setValues={(vals) => setValues(vals)}
+                onSubmit={submitChanges}
+                onDelete={() => onDelete(title.id)}
+              />
+            )
+            : (
+              <TitleWindow title={title} />
+            )}
+        </>
+      ) : null}
     </ModalAppletLayout>
   );
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  onDelete: (id) => dispatch(removeTitle(id))
-});
-
-export default connect(null, mapDispatchToProps)(Title);
+export default Title;

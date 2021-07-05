@@ -4,6 +4,7 @@ import { FormLabel, TextInput } from '../../components/Forms';
 import RelationsSubform from '../../components/Forms/RelationsSubform';
 import useInputSuggestions from '../../hooks/useInputSuggestions';
 import useRelationsSection from '../../hooks/useRelationsSection';
+import { createTitle } from '../../message-control/controllers';
 import titleFields from '../../shared/data/titleFields';
 
 const suggestAuthors = (input, setter) => {
@@ -56,12 +57,14 @@ const renderSubject = (subject = {}) => (
   <span>{subject.name}</span>
 );
 
-function TitleForm({ persistTitle = () => null }) {
+function TitleForm(/* { persistTitle = () => null } */) {
   const [values, setValues] = useState({
     title: '',
     imprint: '',
     isbn: ''
   });
+
+  const [statusMessage, setStatusMessage] = useState(null);
 
   const {
     currentItems: currentAuthors,
@@ -85,6 +88,17 @@ function TitleForm({ persistTitle = () => null }) {
     setInput: setSubjectInput,
     suggestions: subjectSuggestions
   } = useInputSuggestions(suggestSubjects);
+
+  const onSubmit = () => {
+    createTitle({
+      ...values,
+      authors: currentAuthors,
+      subjects: currentSubjects
+    })
+      .then((result) => {
+        console.log(result);
+      });
+  };
 
   return (
     <>
@@ -148,13 +162,7 @@ function TitleForm({ persistTitle = () => null }) {
         <button
           className="hover:underline border-2 border-green-600 dark:border-green-300 text-green-600 dark:text-green-300 bg-white dark:bg-black p-1 text-xl rounded-xl dark:hover:bg-green-300 dark:hover:text-black hover:bg-green-600 hover:text-white"
           type="button"
-          onClick={(e) => {
-            persistTitle({
-              ...values,
-              authors: currentAuthors,
-              subjects: currentSubjects
-            });
-          }}
+          onClick={onSubmit}
         >
           Save
         </button>
