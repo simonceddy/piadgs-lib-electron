@@ -19,3 +19,13 @@ export const StyledTextarea = styled.textarea`
   color: ${text};
   background-color: ${background};
 `;
+
+export const StyledInput = styled.input`
+  border-color: ${text};
+  background-color: ${background};
+  color: ${text};
+
+  &:focus {
+    border-color: ${primary};
+  }
+`;

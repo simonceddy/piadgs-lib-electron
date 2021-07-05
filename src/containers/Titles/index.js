@@ -56,7 +56,11 @@ function Titles() {
 
   const TitleModal = () => (!titleModal ? null : (
     <Modal onClose={onClose}>
-      <Title onClose={onClose} title={titleModal} />
+      <Title
+        onClose={onClose}
+        title={titleModal}
+        onDeleteSuccess={(id) => console.log(`deleted title ${id}`)}
+      />
     </Modal>
   ));
 
