@@ -4,48 +4,33 @@ import { FormLabel, TextInput } from '../../components/Forms';
 import RelationsSubform from '../../components/Forms/RelationsSubform';
 import useInputSuggestions from '../../hooks/useInputSuggestions';
 import useRelationsSection from '../../hooks/useRelationsSection';
-import { createTitle } from '../../message-control/controllers';
+import { createTitle, searchLibraryAuthors, searchLibrarySubjects } from '../../message-control/controllers';
 import titleFields from '../../shared/data/titleFields';
+import ThemedButton from '../../shared/components/Styled/ThemedButton';
 
-const suggestAuthors = (input, setter) => {
-  switch (input) {
-    case 'edd':
-      return setter([
-        { surname: 'eddy', given_names: 'simon' },
-        { surname: 'eddo' },
-        { surname: 'eddu' },
-        { surname: 'eddmas' },
-        { surname: 'eddying' }
-      ]);
-    case 'test':
-      return setter([
-        { surname: 'testy' },
-        { surname: 'testo' },
-        { surname: 'testu' },
-        { surname: 'testmas', given_names: 'docker' },
-        { surname: 'testying' }
-      ]);
-    default:
-      return setter([]);
-  }
-};
+const initialValues = Object.fromEntries(titleFields.map(({ key }) => [key, '']));
 
-const suggestSubjects = (input, setter) => {
-  switch (input) {
-    case 'edd':
-      return setter([
-        { name: 'eddy' },
-        { name: 'eddo' },
-        { name: 'eddu' },
-        { name: 'eddmas' },
-        { name: 'eddying' }
-      ]);
-    case 'test':
-      return setter([{ name: 'testy' }, { name: 'testo' }, { name: 'testu' }, { name: 'testmas' }, { name: 'testying' }]);
-    default:
-      return setter([]);
-  }
-};
+const suggestAuthors = (input, setter) => searchLibraryAuthors({
+  name: input
+})
+  .then(({ results }) => {
+    if (results) {
+      return setter(results);
+    }
+    return setter([]);
+  })
+  .catch(console.log);
+
+const suggestSubjects = (input, setter) => searchLibrarySubjects({
+  name: input
+})
+  .then(({ results }) => {
+    if (results) {
+      return setter(results);
+    }
+    return setter([]);
+  })
+  .catch(console.log);
 
 const renderAuthor = (author = {}) => (
   <span>
@@ -58,13 +43,11 @@ const renderSubject = (subject = {}) => (
 );
 
 function TitleForm(/* { persistTitle = () => null } */) {
-  const [values, setValues] = useState({
-    title: '',
-    imprint: '',
-    isbn: ''
-  });
+  const [values, setValues] = useState(initialValues);
 
   const [statusMessage, setStatusMessage] = useState(null);
+  // TODO persist functions
+  // TODO check if inputs are not empty for authors, subjects and use input
 
   const {
     currentItems: currentAuthors,
@@ -97,11 +80,27 @@ function TitleForm(/* { persistTitle = () => null } */) {
     })
       .then((result) => {
         console.log(result);
+        if (result.success) {
+          return setStatusMessage('Successfully saved title!');
+        }
+        return setStatusMessage('An error occurred while trying to save.');
       });
   };
 
   return (
-    <>
+    <div className="flex flex-col justify-start items-center w-full h-full overflow-scroll">
+      {statusMessage ? (
+        <div role="presentation">
+          {statusMessage}
+          <ThemedButton
+            type="button"
+            className="ml-3"
+            onClick={() => setStatusMessage(null)}
+          >
+            X
+          </ThemedButton>
+        </div>
+      ) : null}
       <div className="flex flex-row justify-start items-start flex-wrap">
         <RelationsSubform
           title="authors"
@@ -167,7 +166,7 @@ function TitleForm(/* { persistTitle = () => null } */) {
           Save
         </button>
       </div>
-    </>
+    </div>
   );
 }
 

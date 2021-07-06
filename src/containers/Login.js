@@ -1,26 +1,25 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import LoginForm from '../components/Login/LoginForm';
 import InputField from '../shared/components/Forms/InputField';
 import LgFormButton from '../shared/components/Forms/LgFormButton';
 import {
-  setPasswordValue,
-  setUsernameValue,
   attemptLogin
 } from '../store/actions';
 
 function Login({
-  username,
-  password,
-  setPassword,
-  setUsername,
   loggingIn = false,
   logIn,
   loggedIn = false,
   history,
   errors = []
 }) {
+  const [values, setValues] = useState({
+    username: '',
+    password: ''
+  });
+
   useEffect(() => {
     if (loggedIn) {
       return history.push('/admin');
@@ -44,25 +43,22 @@ function Login({
       <LoginForm
         onSubmit={(e) => {
           e.preventDefault();
-          logIn({
-            username,
-            password
-          });
+          logIn(values);
         }}
         className="flex flex-col justify-center items-center p-4 rounded-md border-2"
       >
         <InputField
-          value={username}
+          value={values.username}
           label="Username"
           name="username"
-          onChange={(e) => setUsername(e.target.value)}
+          onChange={(e) => setValues({ ...values, username: e.target.value })}
         />
         <InputField
-          value={password}
+          value={values.password}
           type="password"
           label="Password"
           name="password"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => setValues({ ...values, password: e.target.value })}
         />
         <div className="flex flex-row justify-around items-center p-2">
           <LgFormButton
@@ -78,16 +74,12 @@ function Login({
 }
 
 const mapStateToProps = (state) => ({
-  username: state.login.username,
-  password: state.login.password,
   loggingIn: state.login.loggingIn,
   loggedIn: state.auth.loggedIn,
   errors: state.login.errors
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setPassword: (password) => dispatch(setPasswordValue(password)),
-  setUsername: (username) => dispatch(setUsernameValue(username)),
   logIn: ({ username, password }) => dispatch(attemptLogin({
     username, password
   })),

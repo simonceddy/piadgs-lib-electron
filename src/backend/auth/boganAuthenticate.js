@@ -1,10 +1,8 @@
+// Incredibly sophisticated authentication for testing logged in states
 let userLoggedIn = false;
 
 module.exports = {
-  isLoggedIn: () => {
-    console.log(userLoggedIn);
-    return userLoggedIn;
-  },
+  isLoggedIn: () => userLoggedIn,
   logUserIn: ({ username }) => {
     if (username) userLoggedIn = true;
     console.log(userLoggedIn);

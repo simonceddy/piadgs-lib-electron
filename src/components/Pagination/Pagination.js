@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback } from 'react';
 import { StyledSelect } from '../../shared/components/Styled';
 import PageLink from './PageLink';
 
@@ -25,7 +25,7 @@ function Pagination({
   // console.log(current);
   const currentPage = normalizePage(current, lastPage);
 
-  const options = useMemo(
+  const Options = useCallback(
     () => getOptions(lastPage)
       .map((Option, index) => <Option key={index} />),
     [lastPage]
@@ -56,7 +56,7 @@ function Pagination({
             defaultValue={currentPage}
             onChange={(e) => setPage(Number(e.target.value))}
           >
-            {options}
+            <Options />
           </StyledSelect>
         </div>
       </div>
