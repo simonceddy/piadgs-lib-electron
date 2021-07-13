@@ -22,6 +22,8 @@ function AllTitles({
     await getTitles();
   }, [currentPage, sortColumn, sortDirection]);
 
+  console.log(titles);
+
   return (
     <>
       <Pagination

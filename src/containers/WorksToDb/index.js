@@ -6,6 +6,7 @@ import {
   clearUnconvertedTextInput,
   processInputText,
   removeConvertedByIndex,
+  saveTitle,
   setConvertedTitles,
   setUnconvertedTextInput
 } from '../../store/actions';
@@ -128,7 +129,8 @@ const mapDispatchToProps = (dispatch) => ({
   processInput: () => dispatch(processInputText()),
   clearInput: () => dispatch(clearUnconvertedTextInput()),
   removeTitle: (id) => dispatch(removeConvertedByIndex(id)),
-  clearAllTitles: () => dispatch(setConvertedTitles([]))
+  clearAllTitles: () => dispatch(setConvertedTitles([])),
+  persistOne: (title) => dispatch(saveTitle(title))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(WorksToDB);

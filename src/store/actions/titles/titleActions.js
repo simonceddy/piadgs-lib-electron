@@ -17,10 +17,16 @@ export const addSubjectsToTitle = (subjects = []) => {
   console.log(subjects);
 };
 
-export const saveTitle = (title = {}) => (dispatch) => Promise
+export const saveTitle = (title = {}, callback) => (dispatch) => Promise
   .resolve(dispatch(
     createTitle(title)
-  ))
-  .then((result) => {
-    console.log(result);
-  });
+      .then((result) => {
+        console.log(result);
+        if (typeof callback === 'function') callback(result);
+        return result;
+      })
+  ));
+
+export const saveAllTitles = (titles = []) => (dispatch) => Promise.all(
+  titles.map((title) => saveTitle(title))
+).then(() => dispatch({}));
