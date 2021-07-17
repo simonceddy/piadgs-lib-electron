@@ -6,6 +6,7 @@ function AuthorForm({
   author = {},
   onSubmit = () => null,
   setValue,
+  onDelete = () => null
   // selectedTitles,
   // onSelect
 }) {
@@ -43,7 +44,7 @@ function AuthorForm({
         </ThemedButton>
       </div>
       <div>
-        <DeleteForm onDelete={() => console.log('delete')}>
+        <DeleteForm onDelete={onDelete}>
           Delete Author
         </DeleteForm>
       </div>

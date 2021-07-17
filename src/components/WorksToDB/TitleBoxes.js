@@ -13,7 +13,7 @@ function TitleBoxes({
         <ConvertedTitle key={title.id} title={title}>
           <TitleButtons
             title={title}
-            persistTitle={persistTitle}
+            persistTitle={() => persistTitle(title)}
             removeTitle={removeTitle}
           />
         </ConvertedTitle>

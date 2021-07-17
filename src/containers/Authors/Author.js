@@ -79,6 +79,7 @@ function Author({
           onSubmit={submitForm}
           selectedTitles={selectedTitles}
           onSelect={handleChecked}
+          // onDelete={}
         />
       ) : (<AuthorSummary author={data} />)}
     </ModalAppletLayout>
@@ -95,7 +96,8 @@ const mapDispatchToProps = (dispatch) => ({
   setData: (data) => dispatch(setAuthorData(data)),
   setTitles: (selectedTitles) => dispatch(setSelectedTitles(selectedTitles)),
   setMessage: (message = false) => dispatch(setAuthorMessage(message)),
-  submitForm: (data) => dispatch(updateAuthor(data))
+  submitForm: (data) => dispatch(updateAuthor(data)),
+  // deleteAuthor: (author) => dispatch()
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Author);

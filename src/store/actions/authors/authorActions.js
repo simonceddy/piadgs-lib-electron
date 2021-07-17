@@ -16,6 +16,7 @@ export const setAuthorData = (data) => ({
 
 export const updateAuthor = (data, onFail = () => null) => (dispatch) => {
   console.log(data);
+  // TODO
   return axios.post('/authors/update', data)
     .then((res) => {
       if (!res.data.data) {

@@ -28,5 +28,8 @@ export const saveTitle = (title = {}, callback) => (dispatch) => Promise
   ));
 
 export const saveAllTitles = (titles = []) => (dispatch) => Promise.all(
-  titles.map((title) => saveTitle(title))
-).then(() => dispatch({}));
+  titles.map((title) => dispatch(saveTitle(title)))
+).then((result) => {
+  console.log(result);
+  dispatch({});
+});

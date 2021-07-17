@@ -5,6 +5,12 @@ export const SET_CONVERTED_TITLES = 'SET_CONVERTED_TITLES';
 export const SET_SHOW_ONLY_ISSUES = 'SET_SHOW_ONLY_ISSUES';
 // export const SET_IS_PROCESSED = 'SET_IS_PROCESSED';
 export const CLEAR_TITLES = 'CLEAR_TITLES';
+export const PROCESSED_TITLE_SAVED = 'PROCESSED_TITLE_SAVED';
+
+export const processedTitleSaved = (id) => ({
+  type: PROCESSED_TITLE_SAVED,
+  payload: { id }
+});
 
 export const setUnconvertedTextInput = (input) => ({
   type: SET_UNCONVERTED_TEXT_INPUT,

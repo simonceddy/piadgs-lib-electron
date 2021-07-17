@@ -20,7 +20,7 @@ function TitleTable({
           <td>
             <TitleButtons
               title={title}
-              persistTitle={persistTitle}
+              persistTitle={() => persistTitle(title)}
               removeTitle={removeTitle}
             />
           </td>
