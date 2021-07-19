@@ -1,6 +1,6 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { connect } from 'react-redux';
-import { FlexCol, FlexRow } from '../../shared/components/Flex';
+import { FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
 import {
@@ -8,17 +8,17 @@ import {
   saveSubject,
   setSubjectFormInput
 } from '../../store/actions';
-import TitlesSubForm from '../Titles/TitlesSubForm';
+// import TitlesSubForm from '../Titles/TitlesSubForm';
 
-function CreareSubject({
+function CreateSubject({
   vals = {},
-  titles = [],
+  // titles = [],
   setVals = () => null,
   submitForm = () => null,
   resetForm,
 }) {
   // eslint-disable-next-line no-unused-vars
-  const [selectedTitles, setSelectedTitles] = useState(titles);
+  // const [selectedTitles, setSelectedTitles] = useState(titles);
 
   return (
     <DefaultForm
@@ -37,18 +37,6 @@ function CreareSubject({
             label="name"
             id="subject-name"
           />
-        </ThemedDiv>
-        <ThemedDiv className="flex-1 p-2 border-2 rounded-xl ml-6 h-full">
-          <FlexCol className="justify-start items-center p-2">
-            <FlexRow className="w-full justify-start items-center">
-              <ThemedButton
-                onClick={() => console.log('add title')}
-              >
-                Add subject&apos;s titles
-              </ThemedButton>
-            </FlexRow>
-            <TitlesSubForm titles={titles} />
-          </FlexCol>
         </ThemedDiv>
       </FlexRow>
       <FlexRow className="w-full md:w-5/6 lg:w-3/4 mx-auto justify-around items-center p-4">
@@ -79,4 +67,4 @@ const mapDispatchToProps = (dispatch) => ({
   resetForm: () => dispatch(clearSubjectForm())
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreareSubject);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateSubject);

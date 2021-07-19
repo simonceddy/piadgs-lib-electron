@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
-import { FlexCol, FlexRow } from '../../shared/components/Flex';
+import { FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
-import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
+import { ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
 import { setAuthorFormInput } from '../../store/actions/authors';
-import TitlesSubForm from '../Titles/TitlesSubForm';
+// import TitlesSubForm from '../Titles/TitlesSubForm';
 
-function CreateAuthor({ vals = {}, titles = [], setVals = () => null }) {
+function CreateAuthor({ vals = {}, setVals = () => null }) {
   return (
     <DefaultForm
       className="w-full h-full flex flex-col"
@@ -27,18 +27,6 @@ function CreateAuthor({ vals = {}, titles = [], setVals = () => null }) {
             label="Given Names"
             id="author-given-names"
           />
-        </ThemedDiv>
-        <ThemedDiv className="flex-1 p-2 border-2 rounded-xl ml-6 h-full">
-          <FlexCol className="justify-start items-center p-2">
-            <FlexRow className="w-full justify-start items-center">
-              <ThemedButton
-                onClick={() => console.log('add title')}
-              >
-                Add author&apos;s titles
-              </ThemedButton>
-            </FlexRow>
-            <TitlesSubForm titles={titles} />
-          </FlexCol>
         </ThemedDiv>
       </FlexRow>
       {}
