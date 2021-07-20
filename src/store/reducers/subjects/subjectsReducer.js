@@ -1,4 +1,5 @@
 import {
+  SET_FILTERING_SUBJECTS,
   SET_SORT_SUBJECTS,
   SET_SUBJECTS_CURRENT_PAGE,
   SET_SUBJECTS_DATA,
@@ -12,8 +13,9 @@ const defaultState = {
   sortCol: 'name',
   sortDirection: 'ASC',
   currentPage: 1,
-  itemsPerPage: 32,
-  lastPage: null
+  itemsPerPage: 40,
+  lastPage: null,
+  filtering: false,
 };
 
 export default function subjectsReducer(state = defaultState, action) {
@@ -30,6 +32,8 @@ export default function subjectsReducer(state = defaultState, action) {
         sortCol: action.payload.sortCol,
         sortDirection: action.payload.sortDirection,
       };
+    case SET_FILTERING_SUBJECTS:
+      return { ...state, filtering: action.payload.filtering };
     case SET_SUBJECTS_DATA:
       return { ...state, fetched: true, data: action.payload.data };
     default:

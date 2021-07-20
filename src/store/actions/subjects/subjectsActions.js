@@ -7,11 +7,18 @@ export const SET_SORT_SUBJECTS = 'SET_SORT_SUBJECTS';
 export const SET_SUBJECTS_CURRENT_PAGE = 'SET_SUBJECTS_CURRENT_PAGE';
 export const SET_SUBJECTS_ITEMS_PER_PAGE = 'SET_SUBJECTS_ITEMS_PER_PAGE';
 export const SET_SUBJECTS_LAST_PAGE = 'SET_SUBJECTS_LAST_PAGE';
+export const SET_FILTERING_SUBJECTS = 'SET_FILTERING_SUBJECTS';
 
 export const setSubjectsLastPage = (lastPage) => ({
   type: SET_SUBJECTS_LAST_PAGE,
   payload: { lastPage }
 });
+
+export const setFilteringSubjects = (filtering = false) => ({
+  type: SET_FILTERING_SUBJECTS,
+  payload: { filtering }
+});
+
 export const setSubjectsItemsPerPage = (itemsPerPage) => ({
   type: SET_SUBJECTS_ITEMS_PER_PAGE,
   payload: { itemsPerPage }

@@ -7,7 +7,11 @@ import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout'
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 // import { removeTitle } from '../../store/actions/titles/titleActions';
 
-function Title({ title = {}, onClose, onDeleteSuccess }) {
+function Title({
+  title = {},
+  onClose,
+  onTitleChange,
+}) {
   const [isEditing, setIsEditing] = useState(false);
   const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
@@ -17,8 +21,8 @@ function Title({ title = {}, onClose, onDeleteSuccess }) {
       if (result.success) {
         setValues({});
         setStatusMessage('Successfully deleted title');
-        if (typeof onDeleteSuccess === 'function') {
-          onDeleteSuccess(id);
+        if (typeof onTitleChange === 'function') {
+          onTitleChange(result);
         }
       } else {
         setStatusMessage('An error occurred while attempting deletion.');
@@ -31,6 +35,9 @@ function Title({ title = {}, onClose, onDeleteSuccess }) {
         console.log(result);
         if (result.result !== 1) {
           return setStatusMessage('An error occurred trying to save changes!');
+        }
+        if (typeof onTitleChange === 'function') {
+          onTitleChange(result);
         }
         return setStatusMessage('Successfully saved changes!');
       });
