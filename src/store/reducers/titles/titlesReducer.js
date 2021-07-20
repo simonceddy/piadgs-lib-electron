@@ -1,3 +1,4 @@
+import { managerDefaultState } from '../../../shared/store';
 import {
   SET_CURRENT_PAGE,
   SET_ITEMS_PER_PAGE,
@@ -8,12 +9,8 @@ import {
 
 const defaultState = {
   titles: [],
-  pages: {}, // TODO
+  ...managerDefaultState,
   sortColumn: 'title',
-  sortDirection: 'ASC',
-  lastPage: null,
-  currentPage: 1,
-  itemsPerPage: 40
 };
 
 export default function titlesReducer(state = defaultState, action) {

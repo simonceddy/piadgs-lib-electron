@@ -1,3 +1,4 @@
+import { managerDefaultState } from '../../../shared/store';
 import {
   SET_FILTERING_SUBJECTS,
   SET_SORT_SUBJECTS,
@@ -8,14 +9,8 @@ import {
 } from '../../actions/subjects';
 
 const defaultState = {
-  data: [],
-  fetched: false,
-  sortCol: 'name',
-  sortDirection: 'ASC',
-  currentPage: 1,
-  itemsPerPage: 40,
-  lastPage: null,
-  filtering: false,
+  ...managerDefaultState,
+  sortCol: 'name'
 };
 
 export default function subjectsReducer(state = defaultState, action) {

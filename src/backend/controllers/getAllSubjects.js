@@ -13,7 +13,7 @@ const getAllSubjects = (event, {
   const offset = (page * itemsPerPage) - itemsPerPage;
   const q = db('subjects')
     .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
-    .columns('subjects.id', 'subjects.name')
+    .columns('subjects.id', 'subjects.name', 'subjects.created_at', 'subjects.updated_at')
     .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
     .orderBy(subjectSortBy(sortColumn), sortDirection)
     .offset(offset)
@@ -22,8 +22,7 @@ const getAllSubjects = (event, {
 
   return q.then((rows) => Promise.all(rows.map((subject) => getSubjectTitles(subject)
     .then((titles) => ({ ...subject, titles }))))
-    .then((result) => result)
-    .catch((err) => event.reply(types.getAllSubjects.reply, err)))
+    .then((result) => result))
     .then((rows) => event.reply(types.getAllSubjects.reply, rows))
     .catch((err) => event.reply(types.getAllSubjects.reply, err));
 };

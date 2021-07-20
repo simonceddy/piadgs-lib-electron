@@ -14,7 +14,13 @@ const getAllAuthors = (event, {
   const offset = (page * itemsPerPage) - itemsPerPage;
   const q = db('authors')
     .leftOuterJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
-    .columns('authors.id', 'authors.surname', 'authors.given_names')
+    .columns(
+      'authors.id',
+      'authors.surname',
+      'authors.given_names',
+      'authors.created_at',
+      'authors.updated_at'
+    )
     .modify((qb) => qb.count('authors_titles.author_id', { as: 'total' }))
     .orderBy(authorSortBy(sortColumn), sortDirection)
     .offset(offset)

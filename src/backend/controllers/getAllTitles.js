@@ -34,7 +34,12 @@ const getAllTitles = (event, {
     .offset(offset)
     .limit(itemsPerPage)
     .groupBy('titles.id')
-    .select('titles.id', ...Object.keys(titleModel).map((key) => `titles.${key}`));
+    .select(
+      'titles.id',
+      ...Object.keys(titleModel).map((key) => `titles.${key}`),
+      'titles.created_at',
+      'titles.updated_at'
+    );
 
   return q.then((rows) => rows)
     .catch(console.log)

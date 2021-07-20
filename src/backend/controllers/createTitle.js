@@ -2,6 +2,8 @@ const mergeKeyVals = require('../helpers/getKeys');
 const saveModel = require('../helpers/saveModel');
 const types = require('../messageTypes');
 const { titleModel } = require('../models');
+const addAuthorsToTitle = require('./addAuthorsToTitle');
+const addSubjectsToTitle = require('./addSubjectsToTitle');
 
 const createTitle = (event, params) => {
   const modelData = mergeKeyVals(Object.keys(titleModel), params);
@@ -9,15 +11,13 @@ const createTitle = (event, params) => {
     .then(async (id) => {
       if (params.authors) {
         console.log(params.authors);
-        // assign authors to title
-        // if author has no id create new
-        // and assign to title
+        const addAuthorsResult = await addAuthorsToTitle(id, params.authors);
+        console.log(addAuthorsResult);
       }
       if (params.subjects) {
         console.log(params.subjects);
-        // assign authors to title
-        // if author has no id create new
-        // and assign to title
+        const addSubjectsResult = await addSubjectsToTitle(id, params.subjects);
+        console.log(addSubjectsResult);
       }
       return event.reply(types.createTitle.reply, {
         id,

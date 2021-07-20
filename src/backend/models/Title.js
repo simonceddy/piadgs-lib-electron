@@ -7,7 +7,9 @@ const titleModel = {
   source: null,
   date: null,
   cost: null,
-  pagination: null
+  pagination: null,
+  // created_at: null,
+  // updated_at: null,
 };
 
 module.exports = titleModel;

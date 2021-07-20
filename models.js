@@ -28,6 +28,13 @@ const event = {
   }
 };
 
+getAllTitles(event, {
+  itemsPerPage: 10,
+  page: 1,
+  sortColumn: 'created_at',
+  sortDirection: 'DESC'
+});
+
 // db.from((sq) => sq.count('title_id', { as: 'titles' })
 //   .where('subjects_titles.subject_id', 1450)
 //   .from('subjects_titles'))
@@ -42,15 +49,15 @@ const event = {
 // GROUP  BY s.id,
 //           s.title
 // ORDER  BY Count(v.songid) DESC
-const testing = db('subjects')
-  .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
-  .columns('subjects.id', 'subjects.name')
-  .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
-  .limit(19)
-  .groupBy('subjects.id', 'subjects.name')
-  .orderByRaw('total DESC');
+// const testing = db('subjects')
+//   .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
+//   .columns('subjects.id', 'subjects.name')
+//   .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
+//   .limit(19)
+//   .groupBy('subjects.id', 'subjects.name')
+//   .orderByRaw('total DESC');
 
-const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
+// const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
 // console.log(testing.toSQL());
 // testing.then((res) => console.log(res));
 
@@ -58,9 +65,9 @@ const q = db.count('subject_id', { as: 'subjects' }).from('subjects_titles');
 // associate('subject', 'title', 1453, 1194)
 //   .then((result) => console.log(result));
 
-searchAuthors(event, {
-  name: 'edd'
-});
+// searchAuthors(event, {
+//   name: 'edd'
+// });
 
 // searchTitles(event, {
 //   title: 'test'
@@ -83,9 +90,9 @@ searchAuthors(event, {
 
 // getAllTitles(event);
 
-searchLibrary(event, {
-  author: 'edd'
-});
+// searchLibrary(event, {
+//   author: 'edd'
+// });
 
 // db('authors')
 //   .innerJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
