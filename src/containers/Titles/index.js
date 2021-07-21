@@ -59,7 +59,7 @@ function Titles() {
       <Title
         onClose={onClose}
         title={titleModal}
-        onDeleteSuccess={(id) => console.log(`deleted title ${id}`)}
+        onTitleChange={() => console.log('updates have occurred')}
       />
     </Modal>
   ));

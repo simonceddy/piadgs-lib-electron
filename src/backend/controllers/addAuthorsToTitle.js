@@ -5,8 +5,11 @@ const saveModel = require('../helpers/saveModel');
 const addAuthorsToTitle = (titleId, authors = []) => Promise.all(
   authors.map((author = {}) => {
     if (author.id) {
-      return db('authors').where('id', author.id).select()
-        .then((result) => associate('author', 'title', result.id, titleId))
+      return db('authors').where('id', author.id).first()
+        .then((result) => {
+          console.log(result);
+          return associate('author', 'title', result.id, titleId);
+        })
         .catch(console.log);
     }
     return saveModel('authors', author)

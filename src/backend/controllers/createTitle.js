@@ -5,22 +5,20 @@ const { titleModel } = require('../models');
 const addAuthorsToTitle = require('./addAuthorsToTitle');
 const addSubjectsToTitle = require('./addSubjectsToTitle');
 
-const createTitle = (event, params) => {
+const createTitle = async (event, params) => {
   const modelData = mergeKeyVals(Object.keys(titleModel), params);
   saveModel('titles', modelData)
-    .then(async (id) => {
+    .then(async (result) => {
       if (params.authors) {
-        console.log(params.authors);
-        const addAuthorsResult = await addAuthorsToTitle(id, params.authors);
-        console.log(addAuthorsResult);
+        await addAuthorsToTitle(result[0], params.authors);
+        // console.log(addAuthorsResult);
       }
       if (params.subjects) {
-        console.log(params.subjects);
-        const addSubjectsResult = await addSubjectsToTitle(id, params.subjects);
-        console.log(addSubjectsResult);
+        await addSubjectsToTitle(result[0], params.subjects);
+        // console.log(addSubjectsResult);
       }
       return event.reply(types.createTitle.reply, {
-        id,
+        id: result[0],
         success: true
       });
     })
