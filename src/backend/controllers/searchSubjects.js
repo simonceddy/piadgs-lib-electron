@@ -16,7 +16,7 @@ const searchSubjects = (event, {
     .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
     .where(...contains('subjects.name', name))
     .modify((qb) => qb.count('subjects_titles.subject_id', { as: 'total' }))
-    .columns('subjects.id', 'subjects.name')
+    .columns('subjects.id', 'subjects.name', 'subjects.created_at', 'subjects.updated_at')
     .groupBy('subjects.id')
     .orderBy(subjectSortBy(sortColumn), sortDirection)
     .offset(offset)

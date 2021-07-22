@@ -15,9 +15,10 @@ import Results from './containers/Search/Results';
 import { logOutUser } from './store/actions';
 import AuthGuard from './containers/AuthGuard';
 import { FlexCol, FlexRow } from './shared/components/Flex';
-import Subjects from './containers/Subjects';
+// import Subjects from './containers/Subjects';
 import Authors from './containers/Authors';
 import Titles from './containers/Titles';
+import ManageSubjects from './containers/Subjects/ManageSubjects';
 // import TestApp from './TestApp';
 
 function App({ loggedIn = false, logOut, themeMode }) {
@@ -68,7 +69,10 @@ function App({ loggedIn = false, logOut, themeMode }) {
             render={() => (
               <AuthGuard
                 render={() => (
-                  <Subjects />
+                  <>
+                    <ManageSubjects />
+                    {/* <Subjects /> */}
+                  </>
                 )}
               />
             )}

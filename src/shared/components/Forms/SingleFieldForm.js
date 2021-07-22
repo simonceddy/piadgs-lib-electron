@@ -12,7 +12,7 @@ function SingleFieldForm({
         e.preventDefault();
         onSubmit(input);
       }}
-      className="flex flex-row justify-around items-center w-full p-4"
+      className="flex flex-row justify-around items-center w-full p-1"
     >
       <ThemedTextInput
         required

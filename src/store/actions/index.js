@@ -1,5 +1,5 @@
 export * from './titles';
-export * from './subjects';
+export * from './subjectsActions';
 export * from './authors';
 export * from './loginFormActions';
 export * from './appActions';
