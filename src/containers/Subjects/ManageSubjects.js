@@ -18,6 +18,8 @@ import Modal from '../../shared/components/Modal';
 import Subject from './Subject';
 
 const columns = [
+  { key: 'row', name: 'Row', sortable: false },
+  { key: 'manage', name: 'Manage', sortable: false },
   {
     key: 'name',
     name: 'Subject Name',
@@ -28,8 +30,8 @@ const columns = [
     name: 'Number of Titles',
     sortable: true
   },
-  { key: 'created_at', name: 'Created At' },
-  { key: 'updated_at', name: 'updated At' },
+  { key: 'created_at', name: 'Created At', sortable: true },
+  { key: 'updated_at', name: 'updated At', sortable: true },
 ];
 
 const SubjectModal = ({ onClose, subject }) => (
@@ -52,7 +54,8 @@ function ManageSubjects({
   sortDirection,
   sortSubjects,
   isSearching = false,
-  setIsSearching = () => {}
+  setIsSearching = () => {},
+  itemsPerPage
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewSubjectForm, setShowNewSubjectForm] = useState(false);
@@ -80,7 +83,7 @@ function ManageSubjects({
 
   return (
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
-      {showModal ? <SubjectModal onClose={onClose} /> : null}
+      {showModal ? <SubjectModal onClose={onClose} subject={showModal} /> : null}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">Subjects</FlexRow>
       <FlexRow className="w-full flex flex-row justify-between items-center p-2">
         <FlexRow
@@ -126,6 +129,18 @@ function ManageSubjects({
               console.log(e.target.id);
               sortSubjects(e.target.id);
             }}
+            dataHandlers={{
+              manage: (data) => <input value={data.id} type="checkbox" />,
+              row: (data, index) => (
+                <span className="text-sm">
+                  {index + 1 + ((currentPage - 1) * itemsPerPage)}
+                </span>
+              ),
+              created_at: (data) => {
+                console.log(new Date());
+              }
+            }}
+            onRowClick={(subject) => setShowModal(subject)}
           />
         ) : null}
       </FlexRow>

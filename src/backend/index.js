@@ -1,1 +1,2 @@
 require('./messages');
+require('./store');

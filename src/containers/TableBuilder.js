@@ -6,7 +6,8 @@ function TableBuilder({
   sortDirection = 'ASC',
   handleSort = () => {},
   rows = [],
-  onRowClick
+  onRowClick,
+  dataHandlers = {},
 }) {
   return (
     <DefaultTable
@@ -21,11 +22,15 @@ function TableBuilder({
           : null;
         return (
           <TableRow onClick={rowOnClick} key={`table-builder-row-${index}`}>
-            {columns.map(({ key, Component }) => (
-              <TableCell key={`row-${index}-${key}`}>
-                {Component ? (<Component values={data[key]} />) : data[key] || ''}
-              </TableCell>
-            ))}
+            {columns.map(({ key, Component }) => {
+              console.log();
+              const val = dataHandlers[key] ? dataHandlers[key](data, index) : data[key];
+              return (
+                <TableCell key={`row-${index}-${key}`}>
+                  {Component ? (<Component values={val} />) : val || ''}
+                </TableCell>
+              );
+            })}
           </TableRow>
         );
       })}

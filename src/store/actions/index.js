@@ -1,6 +1,6 @@
 export * from './titles';
 export * from './subjectsActions';
-export * from './authors';
+export * from './authorsActions';
 export * from './loginFormActions';
 export * from './appActions';
 export * from './authActions';
