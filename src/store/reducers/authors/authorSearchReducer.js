@@ -1,4 +1,8 @@
-import { SET_AUTHORS_SEARCH_INPUT, SET_AUTHORS_SEARCH_RESULTS, SET_AUTHORS_SORT_AUTHORS } from '../../actions/authors';
+import {
+  SET_AUTHORS_SEARCH_INPUT,
+  SET_AUTHORS_SEARCH_RESULTS,
+  SET_AUTHORS_SORT_AUTHORS
+} from '../../actions';
 
 const defaultState = {
   input: '',

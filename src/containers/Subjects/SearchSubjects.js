@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Results from './Results';
 import SubjectSearch from './SubjectSearch';
-import { sortSearchResults } from '../../store/actions/subjects';
+// import { sortSearchResults } from '../../store/actions';
 import { FlexCol } from '../../shared/components/Flex';
 
 function SearchSubjects({ results, handleSort, onRowClick }) {
@@ -19,8 +19,8 @@ const mapStateToProps = (state) => ({
   results: state.subjects.subjectSearch.results
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  handleSort: (key) => dispatch(sortSearchResults(key))
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   handleSort: (key) => dispatch(sortSearchResults(key))
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(SearchSubjects);
+export default connect(mapStateToProps, /* mapDispatchToProps */)(SearchSubjects);

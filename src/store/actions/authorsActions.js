@@ -81,19 +81,11 @@ export const setAuthorData = (data) => ({
   payload: { data }
 });
 
-// export const updateAuthor = (data, onFail = () => null) => (dispatch) => {
-//   console.log(data);
-//   // TODO
-//   return axios.post('/authors/update', data)
-//     .then((res) => {
-//       if (!res.data.data) {
-//         console.log(res.data);
-//         return dispatch(onFail());
-//       }
-//       return dispatch(setAuthorData(data));
-//     })
-//     .catch((err) => console.log(err));
-// };
+export const updateAuthor = (data, /* onFail = () => null */) => (dispatch) => {
+  console.log(data);
+  // TODO
+  return dispatch(setAuthorData(data));
+};
 
 export const saveAuthor = (author = {}) => (dispatch) => Promise
   .resolve(dispatch(

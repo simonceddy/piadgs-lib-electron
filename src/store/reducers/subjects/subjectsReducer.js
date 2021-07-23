@@ -6,7 +6,7 @@ import {
   SET_SUBJECTS_DATA,
   SET_SUBJECTS_ITEMS_PER_PAGE,
   SET_SUBJECTS_LAST_PAGE
-} from '../../actions/subjects';
+} from '../../actions';
 
 const defaultState = {
   ...managerDefaultState,

@@ -1,4 +1,4 @@
-import { SET_SORT_SUBJECTS, SET_SUBJECTS_DATA } from '../../actions/subjects';
+import { SET_SORT_SUBJECTS, SET_SUBJECTS_DATA } from '../../actions';
 
 const defaultState = {
   data: [],

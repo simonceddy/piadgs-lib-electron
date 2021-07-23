@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
-import { setAuthorFormInput } from '../../store/actions/authors';
+import { setAuthorFormInput } from '../../store/actions';
 // import TitlesSubForm from '../Titles/TitlesSubForm';
 
 function CreateAuthor({ vals = {}, setVals = () => null }) {

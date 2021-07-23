@@ -22,9 +22,8 @@ function Pagination({
   lastPage,
   setPage = () => null
 }) {
-  // console.log(current);
   const currentPage = normalizePage(current, lastPage);
-
+  // TODO fix select
   const Options = useCallback(
     () => getOptions(lastPage)
       .map((Option, index) => <Option key={index} />),

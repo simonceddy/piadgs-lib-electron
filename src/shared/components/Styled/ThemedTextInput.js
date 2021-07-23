@@ -20,7 +20,8 @@ function ThemedTextInput({
   id,
   name,
   labelClassName = '',
-  required = false
+  required = false,
+  placeholder
 }) {
   return (
     <label
@@ -33,6 +34,7 @@ function ThemedTextInput({
         </span>
       )}
       <StyledInput
+        placeholder={placeholder}
         required={required}
         id={id || name}
         name={name || id}

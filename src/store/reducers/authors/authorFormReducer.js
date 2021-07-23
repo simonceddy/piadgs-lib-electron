@@ -1,4 +1,4 @@
-import { SET_AUTHOR_FORM_INPUT, SET_AUTHOR_FORM_TILES } from '../../actions/authors';
+import { SET_AUTHOR_FORM_INPUT, SET_AUTHOR_FORM_TILES } from '../../actions';
 
 const defaultState = {
   input: {

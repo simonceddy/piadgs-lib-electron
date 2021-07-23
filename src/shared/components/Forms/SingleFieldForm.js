@@ -4,7 +4,8 @@ function SingleFieldForm({
   input,
   setInput,
   onSubmit = () => null,
-  submitLabel = ''
+  submitLabel = '',
+  placeholder = ''
 }) {
   return (
     <form
@@ -15,6 +16,7 @@ function SingleFieldForm({
       className="flex flex-row justify-around items-center w-full p-1"
     >
       <ThemedTextInput
+        placeholder={placeholder}
         required
         type="text"
         className="text-2xl p-2 border-2 rounded-xl m-2"

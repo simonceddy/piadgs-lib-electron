@@ -8,8 +8,9 @@ import {
   fetchSubject,
   setSubjectMessage,
   setSubjectName,
-  setSubjectSelectedTitles, updateSubject
-} from '../../store/actions/subjects';
+  setSubjectSelectedTitles,
+  updateSubject
+} from '../../store/actions';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 
 // TODO - less props - split responsibilities

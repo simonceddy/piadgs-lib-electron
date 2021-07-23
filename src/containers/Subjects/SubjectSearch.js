@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { SingleFieldForm } from '../../shared/components/Forms';
-import { performSubjectSearch, setSubjectSearchInput } from '../../store/actions/subjects';
+import { performSubjectSearch, setSubjectSearchInput } from '../../store/actions';
 
 function SubjectSearch({ submitSearch, input, setInput }) {
   return (

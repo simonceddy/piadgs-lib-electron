@@ -2,7 +2,7 @@ import {
   SET_SUBJECT_SEARCH_INPUT,
   SET_SUBJECT_SEARCH_RESULTS,
   SET_SUBJECT_SORT_RESULTS
-} from '../../actions/subjects';
+} from '../../actions';
 
 const defaultState = {
   input: '',

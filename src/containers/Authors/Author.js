@@ -12,7 +12,7 @@ import {
   setAuthorData,
   setSelectedTitles,
   updateAuthor
-} from '../../store/actions/authors';
+} from '../../store/actions';
 
 function Author({
   id,

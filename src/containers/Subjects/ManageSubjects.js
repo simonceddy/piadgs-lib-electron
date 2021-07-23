@@ -53,26 +53,24 @@ function ManageSubjects({
   sortCol,
   sortDirection,
   sortSubjects,
-  isSearching = false,
-  setIsSearching = () => {},
   itemsPerPage
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewSubjectForm, setShowNewSubjectForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [filtering, setFiltering] = useState(false);
 
   const onClose = () => setShowModal(false);
   // console.log(subjects);
-  useEffect(async () => {
+  useEffect(() => {
     // console.log('fetching subjects');
-    await getAllSubjects();
+    if (!filtering) getAllSubjects();
   }, [currentPage]);
 
   // TODO
   // - create new section (toggled)
   // - subjects table
-  //   - if search submit show search results
-  //   - else show all subjects
+  //  - move filter into get functionality instead of separate controllers
   // - handle on row click
   //  - bring up subject modal with titles
   //  - use editable modal from previous
@@ -89,6 +87,14 @@ function ManageSubjects({
         <FlexRow
           className="flex flex-row justify-start items-center mr-4"
         >
+          <ThemedButton
+            onClick={() => {
+              setFiltering(false);
+              getAllSubjects();
+            }}
+          >
+            Show All
+          </ThemedButton>
           <ThemedButton
             onClick={() => setShowSearchForm(!showSearchForm)}
           >
@@ -110,10 +116,14 @@ function ManageSubjects({
       {showSearchForm ? (
         <FlexRow>
           <SingleFieldForm
-            submitLabel="Search Subjects"
+            placeholder="Subject name"
+            submitLabel="Filter"
             input={searchInput}
             setInput={setSearchInput}
-            onSubmit={submitSearch}
+            onSubmit={(input) => {
+              submitSearch(input);
+              // setFiltering(true);
+            }}
           />
         </FlexRow>
       ) : null}
@@ -136,9 +146,9 @@ function ManageSubjects({
                   {index + 1 + ((currentPage - 1) * itemsPerPage)}
                 </span>
               ),
-              created_at: (data) => {
-                console.log(new Date());
-              }
+              // created_at: (data) => {
+              //   console.log(new Date());
+              // }
             }}
             onRowClick={(subject) => setShowModal(subject)}
           />

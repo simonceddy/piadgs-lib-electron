@@ -16,7 +16,7 @@ function DefaultTable({
             {/* TODO handle sort */}
             {columns.map((col, id) => (
               <TableHeader
-                className="cursor-pointer"
+                className={`${(col.sortable ? 'cursor-pointer' : '')}`}
                 id={col.key}
                 sortingBy={sortColumn === col.key}
                 sortDirection={sortDirection}

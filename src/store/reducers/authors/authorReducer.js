@@ -1,4 +1,4 @@
-import { SET_AUTHOR_DATA, SET_SELECTED_TITLES } from '../../actions/authors';
+import { SET_AUTHOR_DATA, SET_SELECTED_TITLES } from '../../actions';
 
 const defaultState = {
   data: {
