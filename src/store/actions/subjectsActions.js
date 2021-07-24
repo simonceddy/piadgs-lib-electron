@@ -114,7 +114,7 @@ export const saveSubject = () => (dispatch, getState) => {
 
   return Promise.resolve(createSubject({ ...input, titles }))
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       if (!result.success) {
         return dispatch(setSubjectMessage('An error occurred trying to save the subject!'));
       }
@@ -129,28 +129,21 @@ export const addSubjectTitle = (title) => (dispatch, getState) => dispatch(
   ])
 );
 
-export const updateSubject = (data) => (dispatch, getState) => {
-  console.log(getState().subjects.subject.selectedTitles);
-  const dataWithTitles = {
-    ...data,
-    titles: Object.keys(getState().subjects.subject.selectedTitles)
-  };
-  return updateSubjectData(dataWithTitles)
-    .then((res) => {
-      console.log(res);
-      // TODO handle response
-      if (!res.data.data) {
-        return dispatch(setSubjectMessage('Error retrieving updated data!'));
-      }
-      return Promise.resolve(dispatch(setSubjectData(res.data.data)))
-        .then(() => dispatch(setSubjectMessage('Changes saved successfully!')))
-        .catch((err) => dispatch(setSubjectMessage(`Error: ${err.message}`)));
-    })
-    .catch((err) => {
-      console.log(err);
-      return dispatch(setSubjectData({}));
-    });
-};
+export const updateSubject = (data) => (dispatch) => updateSubjectData(data)
+  .then((res) => {
+    console.log(res);
+    // TODO handle response
+    if (!res.data.data) {
+      return dispatch(setSubjectMessage('Error retrieving updated data!'));
+    }
+    return Promise.resolve(dispatch(setSubjectData(res.data.data)))
+      .then(() => dispatch(setSubjectMessage('Changes saved successfully!')))
+      .catch((err) => dispatch(setSubjectMessage(`Error: ${err.message}`)));
+  })
+  .catch((err) => {
+    console.log(err);
+    return dispatch(setSubjectData({}));
+  });
 
 export const setData = (data = {}) => (dispatch) => Promise.resolve(
   dispatch(setSubjectData(data))
@@ -168,7 +161,7 @@ export const fetchSubject = (id) => (dispatch) => getLibrarySubject({ id })
   });
 
 export const fetchSubjects = () => async (dispatch, getState) => {
-  console.log('fetching subjects');
+  // console.log('fetching subjects');
   const {
     sortCol, sortDirection, currentPage, itemsPerPage
   } = getState().subjects.subjects;
@@ -178,10 +171,7 @@ export const fetchSubjects = () => async (dispatch, getState) => {
 
   return Promise.resolve(dispatch(setSubjectsLastPage(Math.ceil(total / itemsPerPage))))
     .then(() => getSubjects(currentPage, itemsPerPage, sortCol, sortDirection)
-      .then((res) => {
-        console.log(res);
-        return dispatch(setSubjectsData(res));
-      })
+      .then((res) => dispatch(setSubjectsData(res)))
       .catch((err) => console.log(err)));
 };
 

@@ -3,7 +3,7 @@ import ThemedButton from '../Styled/ThemedButton';
 
 function DeleteForm({
   onDelete = () => null,
-  confirmMsg = 'Confirm deletion?',
+  message = 'Confirm deletion?',
   children
 }) {
   return (
@@ -12,7 +12,7 @@ function DeleteForm({
         console.log('here');
         return confirmAlert({
           title: 'Confirm Deletion',
-          message: confirmMsg,
+          message,
           buttons: [
             {
               label: 'YES, CONFIRM',

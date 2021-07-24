@@ -22,7 +22,7 @@ function AllTitles({
     await getTitles();
   }, [currentPage, sortColumn, sortDirection]);
 
-  console.log(titles);
+  // console.log(titles);
 
   return (
     <>

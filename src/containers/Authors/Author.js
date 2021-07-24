@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import AuthorSummary from '../../components/Authors/AuthorSummary';
 import MessageBox from '../../components/Authors/MessageBox';
-import { getLibraryAuthor } from '../../message-control/controllers';
+import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import {
@@ -23,7 +23,8 @@ function Author({
   message,
   setMessage,
   onClose,
-  submitForm
+  submitForm,
+  onDataChange
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -32,6 +33,19 @@ function Author({
     ...selectedTitles,
     [titleId]: !selectedTitles[titleId]
   });
+
+  const onDelete = () => deleteAuthor(id)
+    .then((result) => {
+      if (result.success) {
+        setData({});
+        setMessage('Successfully deleted title');
+        if (typeof onDataChange === 'function') {
+          onDataChange(result);
+        }
+      } else {
+        setMessage('An error occurred while attempting deletion.');
+      }
+    });
 
   useEffect(() => {
     if (!isLoaded) {
@@ -79,7 +93,7 @@ function Author({
           onSubmit={submitForm}
           selectedTitles={selectedTitles}
           onSelect={handleChecked}
-          // onDelete={}
+          onDelete={onDelete}
         />
       ) : (<AuthorSummary author={data} />)}
     </ModalAppletLayout>

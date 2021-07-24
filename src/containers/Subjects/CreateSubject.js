@@ -1,5 +1,6 @@
 // import { useState } from 'react';
 import { connect } from 'react-redux';
+import { createSubject } from '../../message-control/controllers';
 import { FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
@@ -14,19 +15,32 @@ function CreateSubject({
   vals = {},
   // titles = [],
   setVals = () => null,
-  submitForm = () => null,
+  // submitForm = () => null,
   resetForm,
+  onCreated,
+  setMessage = () => {},
 }) {
+  const onSubmit = (e) => {
+    e.preventDefault();
+    createSubject(vals)
+      .then((result) => {
+        console.log(result);
+        if (!result.success) {
+          setMessage('There was an error saving');
+        } else {
+          // success
+          setMessage('New subject saved successfully');
+          if (typeof onCreated === 'function') onCreated();
+        }
+      });
+  };
   // eslint-disable-next-line no-unused-vars
   // const [selectedTitles, setSelectedTitles] = useState(titles);
 
   return (
     <DefaultForm
-      className="w-full h-full flex flex-col"
-      onSubmit={(e) => {
-        e.preventDefault();
-        submitForm();
-      }}
+      className="w-full h-full flex flex-row"
+      onSubmit={onSubmit}
     >
       <FlexRow className="w-full items-start justify-between">
         <ThemedDiv className="flex-1 h-full mr-6 p-2 border-2 rounded-xl">
@@ -39,13 +53,15 @@ function CreateSubject({
           />
         </ThemedDiv>
       </FlexRow>
-      <FlexRow className="w-full md:w-5/6 lg:w-3/4 mx-auto justify-around items-center p-4">
+      <FlexRow className="mx-auto justify-around items-center p-4">
         <ThemedButton
+          className="mx-1"
           submits
         >
           Save Subject
         </ThemedButton>
         <ThemedButton
+          className="mx-1"
           onClick={resetForm}
         >
           Clear Form

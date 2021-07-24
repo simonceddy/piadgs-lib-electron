@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import SubjectWindow from '../../components/Subjects/SubjectWindow';
 import SubjectNameField from '../../components/Subjects/SubjectNameField';
@@ -12,6 +12,7 @@ import {
   updateSubject
 } from '../../store/actions';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
+import { deleteSubject } from '../../message-control/controllers';
 
 // TODO - less props - split responsibilities
 function Subject({
@@ -25,7 +26,8 @@ function Subject({
   setMessage,
   submitChanges,
   selectedTitles,
-  setSelectedTitles
+  setSelectedTitles,
+  onDataChange
 }) {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -34,9 +36,21 @@ function Subject({
     [titleId]: !selectedTitles[titleId]
   });
 
+  const onDelete = () => deleteSubject(id)
+    .then((result) => {
+      if (result.success) {
+        setName('');
+        setMessage('Successfully deleted title');
+        if (typeof onDataChange === 'function') {
+          onDataChange(result);
+        }
+      } else {
+        setMessage('An error occurred while attempting deletion.');
+      }
+    });
+
   // Is this helping?
-  const fetchData = useCallback(() => getSubject(id), [id]);
-  useEffect(() => fetchData(), [id]);
+  useEffect(() => getSubject(id), [id]);
 
   return (
     <SubjectWindow>
@@ -96,18 +110,13 @@ function Subject({
           <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
             <ThemedButton
               onClick={() => submitChanges({ id, name: subjectName })}
-              isSubmit
+              // isSubmit
             >
               Save Changes
             </ThemedButton>
-            <ThemedButton
-              onClick={() => console.log('save as a new subject and add to checked titles')}
-            >
-              Save As New
-            </ThemedButton>
           </ThemedDiv>
           <div>
-            <DeleteForm onDelete={() => console.log('delete')}>
+            <DeleteForm onDelete={onDelete}>
               Delete Subject
             </DeleteForm>
           </div>

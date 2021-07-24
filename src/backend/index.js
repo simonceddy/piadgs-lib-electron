@@ -1,2 +1,4 @@
 require('./messages');
-require('./store');
+const { store } = require('./store');
+
+console.log(store.getState());

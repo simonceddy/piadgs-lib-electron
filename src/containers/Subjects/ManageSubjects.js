@@ -16,10 +16,11 @@ import {
 } from '../../store/actions';
 import Modal from '../../shared/components/Modal';
 import Subject from './Subject';
+import CreateSubject from './CreateSubject';
 
 const columns = [
   { key: 'row', name: 'Row', sortable: false },
-  { key: 'manage', name: 'Manage', sortable: false },
+  // { key: 'manage', name: 'Manage', sortable: false },
   {
     key: 'name',
     name: 'Subject Name',
@@ -59,6 +60,7 @@ function ManageSubjects({
   const [showNewSubjectForm, setShowNewSubjectForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [filtering, setFiltering] = useState(false);
+  const [message, setMessage] = useState(false);
 
   const onClose = () => setShowModal(false);
   // console.log(subjects);
@@ -83,11 +85,24 @@ function ManageSubjects({
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
       {showModal ? <SubjectModal onClose={onClose} subject={showModal} /> : null}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">Subjects</FlexRow>
+      {!message ? null : (
+        <FlexRow
+          className="w-full flex flex-row justify-between items-center p-2"
+        >
+          <span>
+            {message}
+          </span>
+          <ThemedButton onClick={() => setMessage(false)}>
+            OK
+          </ThemedButton>
+        </FlexRow>
+      )}
       <FlexRow className="w-full flex flex-row justify-between items-center p-2">
         <FlexRow
           className="flex flex-row justify-start items-center mr-4"
         >
           <ThemedButton
+            className="mx-1"
             onClick={() => {
               setFiltering(false);
               getAllSubjects();
@@ -96,22 +111,18 @@ function ManageSubjects({
             Show All
           </ThemedButton>
           <ThemedButton
+            className="mx-1"
             onClick={() => setShowSearchForm(!showSearchForm)}
           >
             Filter
           </ThemedButton>
           <ThemedButton
+            className="mx-1"
             onClick={() => setShowNewSubjectForm(!showNewSubjectForm)}
           >
             {showNewSubjectForm ? 'Hide Form' : 'Add New'}
           </ThemedButton>
         </FlexRow>
-
-        <Pagination
-          current={currentPage}
-          lastPage={lastPage}
-          setPage={setPage}
-        />
       </FlexRow>
       {showSearchForm ? (
         <FlexRow>
@@ -127,33 +138,51 @@ function ManageSubjects({
           />
         </FlexRow>
       ) : null}
-      {showNewSubjectForm ? (<FlexRow>New subject form</FlexRow>) : null}
-      <FlexRow className="p-1 w-full">
+      {showNewSubjectForm ? (
+        <FlexRow className="w-full justify-between items-center">
+          <CreateSubject
+            setMessage={setMessage}
+          />
+        </FlexRow>
+      ) : null}
+      <FlexCol className="p-1 w-full">
         {subjects.length > 0 ? (
-          <TableBuilder
-            columns={columns}
-            rows={subjects}
-            sortColumn={sortCol}
-            sortDirection={sortDirection}
-            handleSort={(e) => {
-              console.log(e.target.id);
-              sortSubjects(e.target.id);
-            }}
-            dataHandlers={{
-              manage: (data) => <input value={data.id} type="checkbox" />,
-              row: (data, index) => (
-                <span className="text-sm">
-                  {index + 1 + ((currentPage - 1) * itemsPerPage)}
-                </span>
-              ),
+          <>
+            <Pagination
+              current={currentPage}
+              lastPage={lastPage}
+              setPage={setPage}
+            />
+            <TableBuilder
+              columns={columns}
+              rows={subjects}
+              sortColumn={sortCol}
+              sortDirection={sortDirection}
+              handleSort={(e) => {
+                console.log(e.target.id);
+                sortSubjects(e.target.id);
+              }}
+              dataHandlers={{
+              // manage: (data) => <input value={data.id} type="checkbox" />,
+                row: (data, index) => (
+                  <span className="text-sm">
+                    {index + 1 + ((currentPage - 1) * itemsPerPage)}
+                  </span>
+                ),
               // created_at: (data) => {
               //   console.log(new Date());
               // }
-            }}
-            onRowClick={(subject) => setShowModal(subject)}
-          />
+              }}
+              onRowClick={(subject) => setShowModal(subject)}
+            />
+            <Pagination
+              current={currentPage}
+              lastPage={lastPage}
+              setPage={setPage}
+            />
+          </>
         ) : null}
-      </FlexRow>
+      </FlexCol>
     </FlexCol>
   );
 }
