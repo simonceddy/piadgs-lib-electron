@@ -1,6 +1,6 @@
 const authorSortBy = (col) => {
   switch (col) {
-    case 'titles':
+    case 'total':
       return 'total';
     default:
       return `authors.${col}`;

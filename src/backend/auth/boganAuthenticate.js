@@ -1,14 +1,10 @@
 // Incredibly sophisticated authentication for testing logged in states
-let userLoggedIn = false;
+const { store, actions } = require('../store');
 
 module.exports = {
-  isLoggedIn: () => userLoggedIn,
+  isLoggedIn: () => store.getState().loggedIn,
   logUserIn: ({ username }) => {
-    if (username) userLoggedIn = true;
-    console.log(userLoggedIn);
+    if (username) store.dispatch(actions.setUserLoggedIn(true));
   },
-  logUserOut: () => {
-    userLoggedIn = false;
-    console.log(userLoggedIn);
-  },
+  logUserOut: () => store.dispatch(actions.setUserLoggedIn(false)),
 };

@@ -35,14 +35,8 @@ const columns = [
   { key: 'updated_at', name: 'updated At', sortable: true },
 ];
 
-const SubjectModal = ({ onClose, subject }) => (
-  <Modal onClose={onClose}>
-    <Subject onClose={onClose} id={subject.id} />
-  </Modal>
-);
-
 function ManageSubjects({
-  getAllSubjects = () => {},
+  getData = () => {},
   // fetched = false,
   currentPage,
   lastPage,
@@ -50,23 +44,32 @@ function ManageSubjects({
   searchInput,
   setSearchInput,
   submitSearch,
-  subjects = [],
+  rows = [],
   sortCol,
   sortDirection,
-  sortSubjects,
+  handleSort,
   itemsPerPage
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
-  const [showNewSubjectForm, setShowNewSubjectForm] = useState(false);
+  const [showNewForm, setShowNewForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [filtering, setFiltering] = useState(false);
   const [message, setMessage] = useState(false);
 
   const onClose = () => setShowModal(false);
-  // console.log(subjects);
+
+  // TODO pass subject data instead of id - needless db call since data has titles
+  const SubjectModal = ({ subject }) => (
+    <Modal onClose={onClose}>
+      <Subject
+        onClose={onClose}
+        id={subject.id}
+      />
+    </Modal>
+  );
+
   useEffect(() => {
-    // console.log('fetching subjects');
-    if (!filtering) getAllSubjects();
+    if (!filtering) getData();
   }, [currentPage]);
 
   // TODO
@@ -83,7 +86,7 @@ function ManageSubjects({
 
   return (
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
-      {showModal ? <SubjectModal onClose={onClose} subject={showModal} /> : null}
+      {showModal ? <SubjectModal subject={showModal} /> : null}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">Subjects</FlexRow>
       {!message ? null : (
         <FlexRow
@@ -105,7 +108,7 @@ function ManageSubjects({
             className="mx-1"
             onClick={() => {
               setFiltering(false);
-              getAllSubjects();
+              getData();
             }}
           >
             Show All
@@ -118,9 +121,9 @@ function ManageSubjects({
           </ThemedButton>
           <ThemedButton
             className="mx-1"
-            onClick={() => setShowNewSubjectForm(!showNewSubjectForm)}
+            onClick={() => setShowNewForm(!showNewForm)}
           >
-            {showNewSubjectForm ? 'Hide Form' : 'Add New'}
+            {showNewForm ? 'Hide Form' : 'Add New'}
           </ThemedButton>
         </FlexRow>
       </FlexRow>
@@ -138,7 +141,7 @@ function ManageSubjects({
           />
         </FlexRow>
       ) : null}
-      {showNewSubjectForm ? (
+      {showNewForm ? (
         <FlexRow className="w-full justify-between items-center">
           <CreateSubject
             setMessage={setMessage}
@@ -146,7 +149,7 @@ function ManageSubjects({
         </FlexRow>
       ) : null}
       <FlexCol className="p-1 w-full">
-        {subjects.length > 0 ? (
+        {rows.length > 0 ? (
           <>
             <Pagination
               current={currentPage}
@@ -155,12 +158,12 @@ function ManageSubjects({
             />
             <TableBuilder
               columns={columns}
-              rows={subjects}
+              rows={rows}
               sortColumn={sortCol}
               sortDirection={sortDirection}
               handleSort={(e) => {
                 console.log(e.target.id);
-                sortSubjects(e.target.id);
+                handleSort(e.target.id);
               }}
               dataHandlers={{
               // manage: (data) => <input value={data.id} type="checkbox" />,
@@ -183,12 +186,13 @@ function ManageSubjects({
           </>
         ) : null}
       </FlexCol>
+      here
     </FlexCol>
   );
 }
 
 const mapStateToProps = (state) => ({
-  subjects: state.subjects.subjects.data,
+  rows: state.subjects.subjects.data,
   fetched: state.subjects.subjects.fetched,
   sortCol: state.subjects.subjects.sortCol,
   sortDirection: state.subjects.subjects.sortDirection,
@@ -200,8 +204,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getAllSubjects: () => dispatch(fetchSubjects()),
-  sortSubjects: (col) => dispatch(sortSubjectRows(col)),
+  getData: () => dispatch(fetchSubjects()),
+  handleSort: (col) => dispatch(sortSubjectRows(col)),
   setPage: (page) => dispatch(setSubjectsCurrentPage(page)),
   setSearchInput: (input) => dispatch(setSubjectSearchInput(input)),
   submitSearch: (input) => dispatch(performSubjectSearch(input)),

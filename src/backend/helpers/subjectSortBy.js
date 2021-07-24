@@ -1,6 +1,6 @@
 const subjectSortBy = (col) => {
   switch (col) {
-    case 'titles':
+    case 'total':
       return 'total';
     default:
       return `subjects.${col}`;

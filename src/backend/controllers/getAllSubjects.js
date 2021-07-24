@@ -11,6 +11,8 @@ const getAllSubjects = (event, {
   sortDirection = 'ASC'
 }) => {
   const offset = (page * itemsPerPage) - itemsPerPage;
+  console.log(sortColumn);
+
   const q = db('subjects')
     .leftOuterJoin('subjects_titles', 'subjects.id', 'subjects_titles.subject_id')
     .columns('subjects.id', 'subjects.name', 'subjects.created_at', 'subjects.updated_at')

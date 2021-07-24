@@ -145,6 +145,9 @@ export const updateSubject = (data) => (dispatch) => updateSubjectData(data)
     return dispatch(setSubjectData({}));
   });
 
+// TODO clean this up a bit - why both data and name
+// That said, implement useState on form and update redux on update to avoid
+// adding unsaved data to app
 export const setData = (data = {}) => (dispatch) => Promise.resolve(
   dispatch(setSubjectData(data))
 )
