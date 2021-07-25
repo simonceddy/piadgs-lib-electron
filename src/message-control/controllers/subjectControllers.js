@@ -10,10 +10,16 @@ export const searchLibrarySubjects = (params) => controllerMessage(
   params
 );
 
-export const getSubjects = (page, itemsPerPage, sortColumn, sortDirection) => controllerMessage(
+export const getSubjects = ({
+  filter = {},
+  page,
+  itemsPerPage,
+  sortColumn,
+  sortDirection
+}) => controllerMessage(
   types.getAllSubjects,
   {
-    page, itemsPerPage, sortColumn, sortDirection
+    filter, page, itemsPerPage, sortColumn, sortDirection
   }
 );
 
@@ -22,8 +28,9 @@ export const updateSubjectData = (params) => controllerMessage(
   params
 );
 
-export const countSubjects = () => controllerMessage(
+export const countSubjects = (filter) => controllerMessage(
   types.countSubjects,
+  { filter }
 );
 
 export const createSubject = (params) => controllerMessage(

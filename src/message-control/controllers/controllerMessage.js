@@ -6,7 +6,7 @@ const { ipcRenderer } = electron;
 
 const controllerMessage = ({ send = '', reply = '' }, ...args) => new Promise((resolve) => {
   ipcRenderer.once(reply, (_, arg) => {
-    // console.log(arg);
+    console.log(send, arg);
     resolve(arg);
   });
   ipcRenderer.send(send, ...args);

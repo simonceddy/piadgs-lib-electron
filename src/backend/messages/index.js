@@ -32,7 +32,11 @@ ipcMain.on(
 
 ipcMain.on(
   types.countTitles.send,
-  (ev) => controllers.countModels('titles', (results) => ev.reply(types.countTitles.reply, results))
+  (ev, { filter = {} }) => controllers.countModels(
+    'titles',
+    (results) => ev.reply(types.countTitles.reply, results),
+    filter
+  )
 );
 ipcMain.on(
   types.countAuthors.send,
@@ -68,7 +72,7 @@ ipcMain.on(
   (event, params) => controllers.getFrom('subjects', params)
     .then((result) => {
       console.log(result);
-      if (result.id) {
+      if (result && result.id) {
         return getSubjectTitles(result)
           .then((titles) => {
             event.reply(types.getSubject.reply, { ...result, titles });
@@ -109,6 +113,8 @@ ipcMain.on(
 );
 
 ipcMain.on(types.updateTitle.send, controllers.updateTitle);
+ipcMain.on(types.updateSubject.send, controllers.updateSubject);
+// ipcMain.on(types.updateAuthor.send, controllers);
 
 // console.log(ipcMain);
 ipcMain.on(types.deleteAuthor.send, authMiddleware(controllers.deleteAuthor));

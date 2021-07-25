@@ -5,6 +5,7 @@ const types = require('../messageTypes');
 
 // TODO make more efficient
 const getAllSubjects = (event, {
+  filter = {},
   itemsPerPage = 32,
   page = 1,
   sortColumn = 'id',
@@ -21,6 +22,10 @@ const getAllSubjects = (event, {
     .offset(offset)
     .limit(itemsPerPage)
     .groupBy('subjects.id', 'subjects.name');
+
+  if (filter.name) {
+    q.where('subjects.name', 'like', `%${filter.name}`);
+  }
 
   return q.then((rows) => Promise.all(rows.map((subject) => getSubjectTitles(subject)
     .then((titles) => ({ ...subject, titles }))))

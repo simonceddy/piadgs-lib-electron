@@ -19,8 +19,8 @@ import Subject from './Subject';
 import CreateSubject from './CreateSubject';
 
 const columns = [
+  // { key: 'select', name: 'Select', sortable: false },
   { key: 'row', name: 'Row', sortable: false },
-  // { key: 'manage', name: 'Manage', sortable: false },
   {
     key: 'name',
     name: 'Subject Name',
@@ -42,7 +42,7 @@ function ManageSubjects({
   lastPage,
   setPage,
   searchInput,
-  setSearchInput,
+  setSearchInput = '',
   submitSearch,
   rows = [],
   sortCol,
@@ -64,13 +64,18 @@ function ManageSubjects({
       <Subject
         onClose={onClose}
         id={subject.id}
+        onDataChange={getData}
       />
     </Modal>
   );
 
-  useEffect(() => {
-    if (!filtering) getData();
-  }, [currentPage]);
+  const fetchData = () => {
+    getData(searchInput.trim().length === 0 ? {} : {
+      name: searchInput
+    });
+  };
+
+  useEffect(() => fetchData(), [currentPage]);
 
   // TODO
   // - create new section (toggled)
@@ -108,7 +113,7 @@ function ManageSubjects({
             className="mx-1"
             onClick={() => {
               setFiltering(false);
-              getData();
+              fetchData();
             }}
           >
             Show All
@@ -145,6 +150,7 @@ function ManageSubjects({
         <FlexRow className="w-full justify-between items-center">
           <CreateSubject
             setMessage={setMessage}
+            onCreated={fetchData}
           />
         </FlexRow>
       ) : null}

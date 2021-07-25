@@ -15,6 +15,7 @@ import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import { deleteSubject } from '../../message-control/controllers';
 
 // TODO - less props - split responsibilities
+// TODO
 function Subject({
   id,
   onClose,
@@ -36,6 +37,7 @@ function Subject({
     [titleId]: !selectedTitles[titleId]
   });
 
+  // console.log(data);
   const onDelete = () => deleteSubject(id)
     .then((result) => {
       if (result.success) {
@@ -50,7 +52,9 @@ function Subject({
     });
 
   // Is this helping?
-  useEffect(() => getSubject(id), [id]);
+  useEffect(() => {
+    if (id) getSubject(id);
+  }, [id]);
 
   return (
     <SubjectWindow>
@@ -109,7 +113,10 @@ function Subject({
         <>
           <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
             <ThemedButton
-              onClick={() => submitChanges({ id, name: subjectName })}
+              onClick={() => {
+                submitChanges({ id, name: subjectName });
+                if (typeof onDataChange === 'function') onDataChange();
+              }}
               // isSubmit
             >
               Save Changes

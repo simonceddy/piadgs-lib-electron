@@ -27,6 +27,9 @@ function SingleFieldForm({
       <ThemedButton submits className="m-2">
         {submitLabel}
       </ThemedButton>
+      <ThemedButton className="m-2" onClick={() => setInput('')}>
+        Clear
+      </ThemedButton>
     </form>
   );
 }

@@ -163,26 +163,32 @@ export const fetchSubject = (id) => (dispatch) => getLibrarySubject({ id })
     return dispatch(setSubjectData({}));
   });
 
-export const fetchSubjects = () => async (dispatch, getState) => {
+export const fetchSubjects = (filter = {}) => async (dispatch, getState) => {
   // console.log('fetching subjects');
   const {
     sortCol, sortDirection, currentPage, itemsPerPage
   } = getState().subjects.subjects;
 
-  const total = await countSubjects()
+  const total = await countSubjects(filter)
     .catch(console.log);
 
   return Promise.resolve(dispatch(setSubjectsLastPage(Math.ceil(total / itemsPerPage))))
-    .then(() => getSubjects(currentPage, itemsPerPage, sortCol, sortDirection)
+    .then(() => getSubjects({
+      page: currentPage,
+      itemsPerPage,
+      sortColumn: sortCol,
+      sortDirection,
+      filter
+    })
       .then((res) => dispatch(setSubjectsData(res)))
       .catch((err) => console.log(err)));
 };
 
-export const sortSubjectRows = (col) => (dispatch, getState) => {
+export const sortSubjectRows = (col, filter = {}) => (dispatch, getState) => {
   const { sortCol, sortDirection } = getState().subjects.subjects;
   const direction = col === sortCol ? flipDirection(sortDirection) : sortDirection;
   return Promise.resolve(dispatch(setSortSubjects(col, direction)))
-    .then(() => dispatch(fetchSubjects()))
+    .then(() => dispatch(fetchSubjects(filter)))
     .catch(console.log);
 };
 
