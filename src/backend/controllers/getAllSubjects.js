@@ -24,7 +24,7 @@ const getAllSubjects = (event, {
     .groupBy('subjects.id', 'subjects.name');
 
   if (filter.name) {
-    q.where('subjects.name', 'like', `%${filter.name}`);
+    q.where('subjects.name', 'like', `%${filter.name}%`);
   }
 
   return q.then((rows) => Promise.all(rows.map((subject) => getSubjectTitles(subject)

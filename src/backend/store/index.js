@@ -11,7 +11,7 @@ const actions = {
 };
 
 const defaultState = {
-  loggedIn: false
+  loggedIn: true
 };
 
 function backendReducer(state = defaultState, action) {

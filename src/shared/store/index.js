@@ -6,5 +6,5 @@ export const managerDefaultState = {
   currentPage: 1,
   itemsPerPage: 40,
   lastPage: null,
-  filtering: false,
+  filter: {},
 };

@@ -32,10 +32,9 @@ ipcMain.on(
 
 ipcMain.on(
   types.countTitles.send,
-  (ev, { filter = {} }) => controllers.countModels(
+  (ev) => controllers.countModels(
     'titles',
     (results) => ev.reply(types.countTitles.reply, results),
-    filter
   )
 );
 ipcMain.on(
@@ -44,7 +43,11 @@ ipcMain.on(
 );
 ipcMain.on(
   types.countSubjects.send,
-  (ev) => controllers.countModels('subjects', (results) => ev.reply(types.countSubjects.reply, results))
+  (ev, { filter = {} }) => controllers.countModels(
+    'subjects',
+    (results) => ev.reply(types.countSubjects.reply, results),
+    filter
+  )
 );
 
 ipcMain.on(

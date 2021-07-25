@@ -5,7 +5,8 @@ function SingleFieldForm({
   setInput,
   onSubmit = () => null,
   submitLabel = '',
-  placeholder = ''
+  placeholder = '',
+  clear = () => {}
 }) {
   return (
     <form
@@ -27,7 +28,10 @@ function SingleFieldForm({
       <ThemedButton submits className="m-2">
         {submitLabel}
       </ThemedButton>
-      <ThemedButton className="m-2" onClick={() => setInput('')}>
+      <ThemedButton
+        className="m-2"
+        onClick={() => clear()}
+      >
         Clear
       </ThemedButton>
     </form>

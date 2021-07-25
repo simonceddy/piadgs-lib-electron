@@ -28,7 +28,7 @@ export default function subjectsReducer(state = defaultState, action) {
         sortDirection: action.payload.sortDirection,
       };
     case SET_FILTERING_SUBJECTS:
-      return { ...state, filtering: action.payload.filtering };
+      return { ...state, filter: action.payload.filter };
     case SET_SUBJECTS_DATA:
       return { ...state, fetched: true, data: action.payload.data };
     default:

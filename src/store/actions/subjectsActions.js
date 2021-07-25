@@ -5,7 +5,7 @@ import {
   getLibrarySubject,
   createSubject,
   // deleteSubject,
-  searchLibrarySubjects
+  // searchLibrarySubjects
 } from '../../message-control/controllers';
 import { flipDirection } from '../../util/sort';
 
@@ -46,9 +46,9 @@ export const setSubjectsLastPage = (lastPage) => ({
   payload: { lastPage }
 });
 
-export const setFilteringSubjects = (filtering = false) => ({
+export const setSubjectsFilter = (filter = {}) => ({
   type: SET_FILTERING_SUBJECTS,
-  payload: { filtering }
+  payload: { filter }
 });
 
 export const setSubjectsItemsPerPage = (itemsPerPage) => ({
@@ -163,10 +163,10 @@ export const fetchSubject = (id) => (dispatch) => getLibrarySubject({ id })
     return dispatch(setSubjectData({}));
   });
 
-export const fetchSubjects = (filter = {}) => async (dispatch, getState) => {
+export const fetchSubjects = () => async (dispatch, getState) => {
   // console.log('fetching subjects');
   const {
-    sortCol, sortDirection, currentPage, itemsPerPage
+    sortCol, sortDirection, currentPage, itemsPerPage, filter
   } = getState().subjects.subjects;
 
   const total = await countSubjects(filter)
@@ -192,9 +192,10 @@ export const sortSubjectRows = (col, filter = {}) => (dispatch, getState) => {
     .catch(console.log);
 };
 
-export const performSubjectSearch = (input) => (dispatch) => searchLibrarySubjects({
-  name: input
-})
+export const performSubjectSearch = (input) => (dispatch) => {
+  dispatch(setSubjectsFilter({ name: input }));
+  fetchSubjects()
   // .then((res) => dispatch(setSubjectSearchResults(res.results || [])))
-  .then((res) => dispatch(setSubjectsData(res.results || [])))
-  .catch((err) => console.log(err));
+    .then((res) => dispatch(setSubjectsData(res.results || [])))
+    .catch((err) => console.log(err));
+};

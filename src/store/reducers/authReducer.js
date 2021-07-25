@@ -5,14 +5,14 @@ const defaultState = {
   user: null
 };
 
-// const loggedInState = {
-//   loggedIn: true,
-//   user: {
-//     username: 'simon'
-//   }
-// };
+const loggedInState = {
+  loggedIn: true,
+  user: {
+    username: 'simon'
+  }
+};
 
-export default function authReducer(state = defaultState, action) {
+export default function authReducer(state = loggedInState, action) {
   switch (action.type) {
     case SET_LOGGED_OUT:
       return defaultState;

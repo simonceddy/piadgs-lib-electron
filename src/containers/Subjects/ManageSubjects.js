@@ -8,10 +8,10 @@ import { SingleFieldForm } from '../../shared/components/Forms';
 import { ThemedButton } from '../../shared/components/Styled';
 import {
   fetchSubjects,
-  performSubjectSearch,
+  // performSubjectSearch,
   setSubjectsCurrentPage,
-  setSubjectSearchInput,
-  setFilteringSubjects,
+  // setSubjectSearchInput,
+  setSubjectsFilter,
   sortSubjectRows
 } from '../../store/actions';
 import Modal from '../../shared/components/Modal';
@@ -36,24 +36,22 @@ const columns = [
 ];
 
 function ManageSubjects({
-  getData = () => {},
+  fetchData = () => {},
   // fetched = false,
   currentPage,
   lastPage,
   setPage,
-  searchInput,
-  setSearchInput = '',
-  submitSearch,
   rows = [],
   sortCol,
   sortDirection,
   handleSort,
-  itemsPerPage
+  itemsPerPage,
+  filter = {},
+  setFilter = () => {}
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [filtering, setFiltering] = useState(false);
   const [message, setMessage] = useState(false);
 
   const onClose = () => setShowModal(false);
@@ -64,16 +62,13 @@ function ManageSubjects({
       <Subject
         onClose={onClose}
         id={subject.id}
-        onDataChange={getData}
+        onDataChange={fetchData}
       />
     </Modal>
   );
 
-  const fetchData = () => {
-    getData(searchInput.trim().length === 0 ? {} : {
-      name: searchInput
-    });
-  };
+  const clearFilter = () => Promise.resolve(setFilter({}))
+    .then(() => fetchData());
 
   useEffect(() => fetchData(), [currentPage]);
 
@@ -112,17 +107,11 @@ function ManageSubjects({
           <ThemedButton
             className="mx-1"
             onClick={() => {
-              setFiltering(false);
-              fetchData();
+              setShowSearchForm(!showSearchForm);
+              if (filter.name) clearFilter();
             }}
           >
-            Show All
-          </ThemedButton>
-          <ThemedButton
-            className="mx-1"
-            onClick={() => setShowSearchForm(!showSearchForm)}
-          >
-            Filter
+            {filter.name ? 'Show All' : 'Filter'}
           </ThemedButton>
           <ThemedButton
             className="mx-1"
@@ -135,14 +124,12 @@ function ManageSubjects({
       {showSearchForm ? (
         <FlexRow>
           <SingleFieldForm
+            clear={clearFilter}
             placeholder="Subject name"
             submitLabel="Filter"
-            input={searchInput}
-            setInput={setSearchInput}
-            onSubmit={(input) => {
-              submitSearch(input);
-              // setFiltering(true);
-            }}
+            input={filter.name || ''}
+            setInput={(input) => setFilter({ name: input })}
+            onSubmit={fetchData}
           />
         </FlexRow>
       ) : null}
@@ -150,7 +137,10 @@ function ManageSubjects({
         <FlexRow className="w-full justify-between items-center">
           <CreateSubject
             setMessage={setMessage}
-            onCreated={fetchData}
+            onCreated={() => {
+              fetchData();
+              setShowNewForm(false);
+            }}
           />
         </FlexRow>
       ) : null}
@@ -205,17 +195,17 @@ const mapStateToProps = (state) => ({
   currentPage: state.subjects.subjects.currentPage,
   lastPage: state.subjects.subjects.lastPage,
   itemsPerPage: state.subjects.subjects.itemsPerPage,
-  searchInput: state.subjects.subjectSearch.input,
-  isSearching: state.subjects.subjects.filtering
+  // searchInput: state.subjects.subjectSearch.input,
+  filter: state.subjects.subjects.filter
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getData: () => dispatch(fetchSubjects()),
+  fetchData: () => dispatch(fetchSubjects()),
   handleSort: (col) => dispatch(sortSubjectRows(col)),
   setPage: (page) => dispatch(setSubjectsCurrentPage(page)),
-  setSearchInput: (input) => dispatch(setSubjectSearchInput(input)),
-  submitSearch: (input) => dispatch(performSubjectSearch(input)),
-  setIsSearching: (isSearching = false) => dispatch(setFilteringSubjects(isSearching))
+  // setSearchInput: (input) => dispatch(setSubjectSearchInput(input)),
+  // submitSearch: (input) => dispatch(performSubjectSearch(input)),
+  setFilter: (filter) => dispatch(setSubjectsFilter(filter))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageSubjects);
