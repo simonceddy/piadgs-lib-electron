@@ -1,3 +1,4 @@
+import { managerDefaultState } from '../../../shared/store';
 import {
   SET_AUTHORS_CURRENT_PAGE,
   SET_AUTHORS_DATA,
@@ -7,13 +8,9 @@ import {
 } from '../../actions';
 
 const defaultState = {
-  data: [],
-  fetched: false,
+  ...managerDefaultState,
   sortCol: 'surname',
-  sortDirection: 'ASC',
-  currentPage: 1,
-  itemsPerPage: 32,
-  lastPage: null
+  sortDirection: 'ASC'
 };
 
 export default function authorsReducer(state = defaultState, action) {

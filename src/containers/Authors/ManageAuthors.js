@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Pagination } from '../../components/Pagination';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { SingleFieldForm } from '../../shared/components/Forms';
+import Modal from '../../shared/components/Modal';
 import { ThemedButton } from '../../shared/components/Styled';
 import {
   fetchAuthors,
@@ -13,6 +14,7 @@ import {
   sortAuthorRows
 } from '../../store/actions';
 import TableBuilder from '../TableBuilder';
+import Author from './Author';
 
 const columns = [
   {
@@ -42,43 +44,85 @@ function ManageAuthors({
   currentPage,
   lastPage,
   setPage,
-  data = [],
   searchInput = '',
   setSearchInput,
   submitSearch,
   sortCol,
   sortDirection,
-  sortAuthors = () => {},
+  handleSort = () => {},
   heading = 'Authors',
-  getAuthors = () => null
+  fetchData = () => null,
+  // fetched = false,
+  rows = [],
+  itemsPerPage,
+  filter = {},
+  setFilter = () => {},
+  setFiltering = () => {}
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
-  const [showNewEntryForm, setShowNewEntryForm] = useState(false);
+  const [showNewForm, setShowNewForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [message, setMessage] = useState(false);
+
   const onClose = () => setShowModal(false);
+
+  const AuthorModal = () => (!showModal ? null : (
+    <Modal onClose={onClose}>
+      <Author
+        onClose={onClose}
+        id={showModal}
+        onDataChange={fetchData}
+      />
+    </Modal>
+  ));
+
+  const clearFilter = () => Promise.resolve(setFilter({}))
+    .then(() => {
+      setFiltering(false);
+      fetchData();
+    });
+
   // console.log(subjects);
   useEffect(async () => {
     // console.log('fetching subjects');
-    await getAuthors();
+    await fetchData();
   }, [currentPage]);
 
   return (
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
+      {showModal ? <AuthorModal /> : null}
       {/* {showModal ? <SubjectModal onClose={onClose} /> : null} */}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">{heading}</FlexRow>
+      {!message ? null : (
+        <FlexRow
+          className="w-full flex flex-row justify-between items-center p-2"
+        >
+          <span>
+            {message}
+          </span>
+          <ThemedButton onClick={() => setMessage(false)}>
+            OK
+          </ThemedButton>
+        </FlexRow>
+      )}
       <FlexRow className="w-full flex flex-row justify-between items-center p-2">
         <FlexRow
           className="flex flex-row justify-start items-center mr-4"
         >
           <ThemedButton
-            onClick={() => setShowSearchForm(!showSearchForm)}
+            className="mx-1"
+            onClick={() => {
+              setShowSearchForm(!showSearchForm);
+              if (filter.name) clearFilter();
+            }}
           >
-            Filter
+            {filter.name ? 'Show All' : 'Filter'}
           </ThemedButton>
           <ThemedButton
-            onClick={() => setShowNewEntryForm(!showNewEntryForm)}
+            className="mx-1"
+            onClick={() => setShowNewForm(!showNewForm)}
           >
-            {showNewEntryForm ? 'Hide Form' : 'Add New'}
+            {showNewForm ? 'Hide Form' : 'Add New'}
           </ThemedButton>
         </FlexRow>
 
@@ -98,18 +142,19 @@ function ManageAuthors({
           />
         </FlexRow>
       ) : null}
-      {showNewEntryForm ? (<FlexRow>New author form</FlexRow>) : null}
+      {showNewForm ? (<FlexRow>New author form</FlexRow>) : null}
       <FlexRow className="p-1 w-full">
-        {data.length > 0 ? (
+        {rows.length > 0 ? (
           <TableBuilder
             columns={columns}
-            rows={data}
+            rows={rows}
             sortColumn={sortCol}
             sortDirection={sortDirection}
             handleSort={(e) => {
               console.log(e.target.id);
-              sortAuthors(e.target.id);
+              handleSort(e.target.id);
             }}
+            onRowClick={(author) => setShowModal(author.id)}
           />
         ) : null}
       </FlexRow>
@@ -118,7 +163,7 @@ function ManageAuthors({
 }
 
 const mapStateToProps = (state) => ({
-  data: state.admin.authors.data,
+  rows: state.admin.authors.data,
   fetched: state.admin.authors.fetched,
   sortCol: state.admin.authors.sortCol,
   sortDirection: state.admin.authors.sortDirection,
@@ -126,11 +171,13 @@ const mapStateToProps = (state) => ({
   currentPage: state.admin.authors.currentPage,
   lastPage: state.admin.authors.lastPage,
   searchInput: state.authors.authorSearch.input,
+  filter: state.admin.authors.filter,
+  filtering: state.admin.authors.filtering,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  getAuthors: () => dispatch(fetchAuthors()),
-  sortAuthors: (col) => dispatch(sortAuthorRows(col)),
+  fetchData: () => dispatch(fetchAuthors()),
+  handleSort: (col) => dispatch(sortAuthorRows(col)),
   setPage: (page) => dispatch(setAuthorsCurrentPage(page)),
   submitSearch: (input) => dispatch(fetchAuthorsSearchResults(input)),
   setSearchInput: (input) => dispatch(setAuthorsSearchInput(input))
