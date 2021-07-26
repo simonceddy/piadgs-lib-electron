@@ -22,6 +22,7 @@ export const SET_SUBJECTS_CURRENT_PAGE = 'SET_SUBJECTS_CURRENT_PAGE';
 export const SET_SUBJECTS_ITEMS_PER_PAGE = 'SET_SUBJECTS_ITEMS_PER_PAGE';
 export const SET_SUBJECTS_LAST_PAGE = 'SET_SUBJECTS_LAST_PAGE';
 export const SET_FILTERING_SUBJECTS = 'SET_FILTERING_SUBJECTS';
+export const SET_SUBJECTS_FILTER = 'SET_SUBJECTS_FILTER';
 export const SET_SUBJECT_SEARCH_INPUT = 'SET_SUBJECT_SEARCH_INPUT';
 export const SET_SUBJECT_SEARCH_RESULTS = 'SET_SUBJECT_SEARCH_RESULTS';
 export const SET_SUBJECT_SORT_RESULTS = 'SET_SUBJECT_SORT_RESULTS';
@@ -46,8 +47,13 @@ export const setSubjectsLastPage = (lastPage) => ({
   payload: { lastPage }
 });
 
-export const setSubjectsFilter = (filter = {}) => ({
+export const setFilteringSubjects = (filtering) => ({
   type: SET_FILTERING_SUBJECTS,
+  payload: { filtering }
+});
+
+export const setSubjectsFilter = (filter = {}) => ({
+  type: SET_SUBJECTS_FILTER,
   payload: { filter }
 });
 
@@ -166,7 +172,12 @@ export const fetchSubject = (id) => (dispatch) => getLibrarySubject({ id })
 export const fetchSubjects = () => async (dispatch, getState) => {
   // console.log('fetching subjects');
   const {
-    sortCol, sortDirection, currentPage, itemsPerPage, filter
+    sortCol,
+    sortDirection,
+    currentPage,
+    itemsPerPage,
+    filter,
+    filtering
   } = getState().subjects.subjects;
 
   const total = await countSubjects(filter)
@@ -178,7 +189,7 @@ export const fetchSubjects = () => async (dispatch, getState) => {
       itemsPerPage,
       sortColumn: sortCol,
       sortDirection,
-      filter
+      filter: filtering ? filter : {}
     })
       .then((res) => dispatch(setSubjectsData(res)))
       .catch((err) => console.log(err)));

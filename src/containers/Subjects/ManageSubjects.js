@@ -8,6 +8,7 @@ import { SingleFieldForm } from '../../shared/components/Forms';
 import { ThemedButton } from '../../shared/components/Styled';
 import {
   fetchSubjects,
+  setFilteringSubjects,
   // performSubjectSearch,
   setSubjectsCurrentPage,
   // setSubjectSearchInput,
@@ -47,7 +48,8 @@ function ManageSubjects({
   handleSort,
   itemsPerPage,
   filter = {},
-  setFilter = () => {}
+  setFilter = () => {},
+  setFiltering = () => {}
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
@@ -68,7 +70,10 @@ function ManageSubjects({
   );
 
   const clearFilter = () => Promise.resolve(setFilter({}))
-    .then(() => fetchData());
+    .then(() => {
+      setFiltering(false);
+      fetchData();
+    });
 
   useEffect(() => fetchData(), [currentPage]);
 
@@ -129,7 +134,10 @@ function ManageSubjects({
             submitLabel="Filter"
             input={filter.name || ''}
             setInput={(input) => setFilter({ name: input })}
-            onSubmit={fetchData}
+            onSubmit={() => {
+              setFiltering(true);
+              fetchData();
+            }}
           />
         </FlexRow>
       ) : null}
@@ -196,7 +204,8 @@ const mapStateToProps = (state) => ({
   lastPage: state.subjects.subjects.lastPage,
   itemsPerPage: state.subjects.subjects.itemsPerPage,
   // searchInput: state.subjects.subjectSearch.input,
-  filter: state.subjects.subjects.filter
+  filter: state.subjects.subjects.filter,
+  filtering: state.subjects.subjects.filtering,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -205,7 +214,8 @@ const mapDispatchToProps = (dispatch) => ({
   setPage: (page) => dispatch(setSubjectsCurrentPage(page)),
   // setSearchInput: (input) => dispatch(setSubjectSearchInput(input)),
   // submitSearch: (input) => dispatch(performSubjectSearch(input)),
-  setFilter: (filter) => dispatch(setSubjectsFilter(filter))
+  setFilter: (filter) => dispatch(setSubjectsFilter(filter)),
+  setFiltering: (filtering) => dispatch(setFilteringSubjects(filtering))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageSubjects);

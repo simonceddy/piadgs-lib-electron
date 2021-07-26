@@ -1,5 +1,6 @@
 import { managerDefaultState } from '../../../shared/store';
 import {
+  SET_SUBJECTS_FILTER,
   SET_FILTERING_SUBJECTS,
   SET_SORT_SUBJECTS,
   SET_SUBJECTS_CURRENT_PAGE,
@@ -27,8 +28,10 @@ export default function subjectsReducer(state = defaultState, action) {
         sortCol: action.payload.sortCol,
         sortDirection: action.payload.sortDirection,
       };
-    case SET_FILTERING_SUBJECTS:
+    case SET_SUBJECTS_FILTER:
       return { ...state, filter: action.payload.filter };
+    case SET_FILTERING_SUBJECTS:
+      return { ...state, filtering: action.payload.filtering };
     case SET_SUBJECTS_DATA:
       return { ...state, fetched: true, data: action.payload.data };
     default:

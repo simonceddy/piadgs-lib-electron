@@ -7,4 +7,5 @@ export const managerDefaultState = {
   itemsPerPage: 40,
   lastPage: null,
   filter: {},
+  filtering: false,
 };
