@@ -1,5 +1,6 @@
 // Update with your config settings.
-const config = require('./src/backend/dbConfig');
+// const config = require('./src/backend/dbConfig');
+const config = require('./setup/database/testSetupDbConfig');
 
 module.exports = {
 

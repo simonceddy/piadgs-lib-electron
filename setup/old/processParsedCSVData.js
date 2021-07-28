@@ -41,6 +41,8 @@ const lineArrayToObject = (
       value = handler(value);
     }
 
+    // if (columns[index] === 'isbn' && value.length > 0) console.log(line);
+
     return [
       columns[index],
       value

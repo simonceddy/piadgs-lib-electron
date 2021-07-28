@@ -8,8 +8,8 @@ const processParsedCSVData = require('./old/processParsedCSVData');
 console.log('bootstrapping app');
 const currentCSV = 'Book master - Simon (26 May 2021).csv';
 const pathTo = `${__dirname}/storage/${currentCSV}`;
-if (fs.existsSync(pathTo)) {
-  //
+
+const convertCsv = async (onConverted) => {
   const csvFIle = fs.createReadStream(pathTo);
 
   Papa.parse(csvFIle, {
@@ -20,8 +20,14 @@ if (fs.existsSync(pathTo)) {
         author: processAuthors
       }
     )
-      .then(console.log)
+      .then((result) => {
+        if (onConverted && typeof onConverted === 'function') onConverted(result);
+      })
   });
+};
+
+if (fs.existsSync(pathTo)) {
+  convertCsv(console.log);
 } else {
   console.log('could not locate source data');
 }
