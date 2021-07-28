@@ -48,7 +48,7 @@ function Author({
     });
 
   useEffect(() => {
-    if (!isLoaded) {
+    if (id) {
       getLibraryAuthor({ id })
         .then((res) => {
           // console.log(res);
@@ -63,7 +63,7 @@ function Author({
         .then(() => setIsLoaded(true))
         .catch((err) => console.log(err));
     }
-  });
+  }, [id]);
 
   if (!isLoaded) {
     return (

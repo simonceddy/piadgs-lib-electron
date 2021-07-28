@@ -34,8 +34,6 @@ function CreateSubject({
         }
       });
   };
-  // eslint-disable-next-line no-unused-vars
-  // const [selectedTitles, setSelectedTitles] = useState(titles);
 
   return (
     <DefaultForm

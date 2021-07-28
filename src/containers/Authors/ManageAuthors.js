@@ -15,6 +15,7 @@ import {
 } from '../../store/actions';
 import TableBuilder from '../TableBuilder';
 import Author from './Author';
+import CreateAuthor from './CreateAuthor';
 
 const columns = [
   {
@@ -52,7 +53,6 @@ function ManageAuthors({
   handleSort = () => {},
   heading = 'Authors',
   fetchData = () => null,
-  // fetched = false,
   rows = [],
   itemsPerPage,
   filter = {},
@@ -82,11 +82,9 @@ function ManageAuthors({
       fetchData();
     });
 
-  // console.log(subjects);
   useEffect(async () => {
-    // console.log('fetching subjects');
     await fetchData();
-  }, [currentPage]);
+  }, [currentPage, itemsPerPage]);
 
   return (
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
@@ -142,7 +140,17 @@ function ManageAuthors({
           />
         </FlexRow>
       ) : null}
-      {showNewForm ? (<FlexRow>New author form</FlexRow>) : null}
+      {showNewForm ? (
+        <FlexRow>
+          <CreateAuthor
+            setMessage={setMessage}
+            onCreated={() => {
+              fetchData();
+              setShowNewForm(false);
+            }}
+          />
+        </FlexRow>
+      ) : null}
       <FlexRow className="p-1 w-full">
         {rows.length > 0 ? (
           <TableBuilder
