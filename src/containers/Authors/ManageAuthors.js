@@ -8,9 +8,9 @@ import Modal from '../../shared/components/Modal';
 import { ThemedButton } from '../../shared/components/Styled';
 import {
   fetchAuthors,
-  fetchAuthorsSearchResults,
   setAuthorsCurrentPage,
-  setAuthorsSearchInput,
+  setAuthorsFilter,
+  setFilteringAuthors,
   sortAuthorRows
 } from '../../store/actions';
 import TableBuilder from '../TableBuilder';
@@ -46,8 +46,6 @@ function ManageAuthors({
   lastPage,
   setPage,
   searchInput = '',
-  setSearchInput,
-  submitSearch,
   sortCol,
   sortDirection,
   handleSort = () => {},
@@ -111,10 +109,10 @@ function ManageAuthors({
             className="mx-1"
             onClick={() => {
               setShowSearchForm(!showSearchForm);
-              if (filter.name) clearFilter();
+              if (filter.surname) clearFilter();
             }}
           >
-            {filter.name ? 'Show All' : 'Filter'}
+            {filter.surname ? 'Show All' : 'Filter'}
           </ThemedButton>
           <ThemedButton
             className="mx-1"
@@ -134,9 +132,10 @@ function ManageAuthors({
         <FlexRow>
           <SingleFieldForm
             submitLabel="Filter Authors by Name"
-            input={searchInput}
-            setInput={setSearchInput}
-            onSubmit={submitSearch}
+            input={filter.surname || ''}
+            setInput={(input) => setFilter({ surname: input })}
+            onSubmit={fetchData}
+            clear={clearFilter}
           />
         </FlexRow>
       ) : null}
@@ -187,8 +186,8 @@ const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(fetchAuthors()),
   handleSort: (col) => dispatch(sortAuthorRows(col)),
   setPage: (page) => dispatch(setAuthorsCurrentPage(page)),
-  submitSearch: (input) => dispatch(fetchAuthorsSearchResults(input)),
-  setSearchInput: (input) => dispatch(setAuthorsSearchInput(input))
+  setFilter: (filter) => dispatch(setAuthorsFilter(filter)),
+  setFiltering: (filtering) => dispatch(setFilteringAuthors(filtering))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ManageAuthors);

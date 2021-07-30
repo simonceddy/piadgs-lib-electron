@@ -183,6 +183,7 @@ export const fetchSubjects = () => async (dispatch, getState) => {
   const total = await countSubjects(filter)
     .catch(console.log);
 
+  console.log(total);
   return Promise.resolve(dispatch(setSubjectsLastPage(Math.ceil(total / itemsPerPage))))
     .then(() => getSubjects({
       page: currentPage,

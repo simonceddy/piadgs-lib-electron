@@ -5,6 +5,7 @@ const types = require('../messageTypes');
 
 // TODO make more efficient
 const getAllAuthors = (event, {
+  filter = {},
   itemsPerPage = 32,
   page = 1,
   sortColumn = 'id',
@@ -26,6 +27,11 @@ const getAllAuthors = (event, {
     .offset(offset)
     .limit(itemsPerPage)
     .groupBy('authors.id');
+
+  if (filter.surname) {
+    q.where('authors.surname', 'like', `%${filter.surname}%`)
+      .orWhere('authors.given_names', 'like', `%${filter.surname}%`);
+  }
 
   return q.then((rows) => Promise.all(rows.map((author) => getAuthorTitles(author)
     .then((titles) => ({ ...author, titles }))))

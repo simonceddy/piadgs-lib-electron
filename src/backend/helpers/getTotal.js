@@ -4,9 +4,14 @@ const getTotal = (table, filter = {}) => db(table)
   .count('id')
   .modify((q) => {
     const keys = Object.keys(filter);
-    if (keys.length > 0) {
-      Object.keys(filter)
-        .map((key) => q.where(key, 'like', `%${filter[key]}%`));
+    if (keys.length > 0 && filter[keys[0]]) {
+      const firstKey = keys.shift();
+      q.where(firstKey, 'like', `%${filter[firstKey]}%`);
+
+      if (keys.length > 0) {
+        Object.keys(filter)
+          .map((key) => q.orWhere(key, 'like', `%${filter[key]}%`));
+      }
     }
   })
   .then((result) => {

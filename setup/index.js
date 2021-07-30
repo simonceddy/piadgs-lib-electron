@@ -27,7 +27,9 @@ const convertCsv = async (onConverted) => {
 };
 
 if (fs.existsSync(pathTo)) {
-  convertCsv(console.log);
+  convertCsv(({ data, issues }) => {
+    console.log(data.map((title) => title.subjects));
+  });
 } else {
   console.log('could not locate source data');
 }

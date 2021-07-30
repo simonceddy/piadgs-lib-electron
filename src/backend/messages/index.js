@@ -39,7 +39,11 @@ ipcMain.on(
 );
 ipcMain.on(
   types.countAuthors.send,
-  (ev) => controllers.countModels('authors', (results) => ev.reply(types.countAuthors.reply, results))
+  (ev, { filter = {} }) => controllers.countModels(
+    'authors',
+    (results) => ev.reply(types.countAuthors.reply, results),
+    filter
+  )
 );
 ipcMain.on(
   types.countSubjects.send,

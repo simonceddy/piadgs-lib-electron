@@ -1,5 +1,5 @@
 import {
-  createAuthor, countAuthors, getAuthors, searchLibraryAuthors
+  createAuthor, countAuthors, getAuthors, searchLibraryAuthors, updateAuthorData
 } from '../../message-control/controllers';
 import { flipDirection } from '../../util/sort';
 
@@ -16,6 +16,8 @@ export const SET_AUTHORS_SEARCH_INPUT = 'SET_AUTHORS_SEARCH_INPUT';
 export const SET_AUTHORS_SEARCH_RESULTS = 'SET_AUTHORS_SEARCH_RESULTS';
 export const SET_AUTHORS_SORT_AUTHORS = 'SET_AUTHORS_SORT_AUTHORS';
 export const SET_AUTHOR_MESSAGE = 'SET_AUTHOR_MESSAGE';
+export const SET_FILTERING_AUTHORS = 'SET_FILTERING_AUTHORS';
+export const SET_AUTHORS_FILTER = 'SET_AUTHORS_FILTER';
 
 export const setAuthorMessage = (message) => ({
   type: SET_AUTHOR_MESSAGE,
@@ -81,9 +83,21 @@ export const setAuthorData = (data) => ({
   payload: { data }
 });
 
+export const setFilteringAuthors = (filtering) => ({
+  type: SET_FILTERING_AUTHORS,
+  payload: { filtering }
+});
+
+export const setAuthorsFilter = (filter = {}) => ({
+  type: SET_AUTHORS_FILTER,
+  payload: { filter }
+});
+
 export const updateAuthor = (data, /* onFail = () => null */) => (dispatch) => {
-  console.log(data);
-  // TODO
+  updateAuthorData(data)
+    .then((result) => {
+      console.log(result);
+    });
   return dispatch(setAuthorData(data));
 };
 
@@ -97,13 +111,24 @@ export const saveAuthor = (author = {}) => (dispatch) => Promise
 
 export const fetchAuthors = () => async (dispatch, getState) => {
   const {
-    sortCol, sortDirection, currentPage, itemsPerPage
+    sortCol, sortDirection, currentPage, itemsPerPage, filter
   } = getState().admin.authors;
 
-  const total = await countAuthors()
+  const total = await countAuthors({
+    ...filter,
+    given_names: filter.surname || null
+  })
     .catch(console.log);
+
+  console.log(total, Math.ceil(total / itemsPerPage), total / itemsPerPage);
   return Promise.resolve(dispatch(setAuthorsLastPage(Math.ceil(total / itemsPerPage))))
-    .then(() => getAuthors(currentPage, itemsPerPage, sortCol, sortDirection)
+    .then(() => getAuthors({
+      page: currentPage,
+      itemsPerPage,
+      sortColumn: sortCol,
+      sortDirection,
+      filter
+    })
       .then((res) => dispatch(setAuthorsData(res)))
       .catch((err) => console.log(err)));
 };

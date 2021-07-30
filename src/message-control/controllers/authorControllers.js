@@ -9,18 +9,30 @@ export const searchLibraryAuthors = (params) => controllerMessage(
   types.searchAuthors,
   params
 );
-export const getAuthors = (page, itemsPerPage, sortColumn, sortDirection) => controllerMessage(
+export const getAuthors = ({
+  page,
+  itemsPerPage,
+  sortColumn,
+  sortDirection,
+  filter = {}
+}) => controllerMessage(
   types.getAllAuthors,
   {
-    page, itemsPerPage, sortColumn, sortDirection
+    page, itemsPerPage, sortColumn, sortDirection, filter
   }
 );
-export const countAuthors = () => controllerMessage(
-  types.countAuthors
+export const countAuthors = (filter) => controllerMessage(
+  types.countAuthors,
+  { filter }
 );
 
 export const createAuthor = (params) => controllerMessage(
   types.createAuthor,
+  params
+);
+
+export const updateAuthorData = (params) => controllerMessage(
+  types.updateAuthor,
   params
 );
 
