@@ -93,13 +93,9 @@ export const setAuthorsFilter = (filter = {}) => ({
   payload: { filter }
 });
 
-export const updateAuthor = (data, /* onFail = () => null */) => (dispatch) => {
-  updateAuthorData(data)
-    .then((result) => {
-      console.log(result);
-    });
-  return dispatch(setAuthorData(data));
-};
+export const updateAuthor = (data) => (dispatch) => updateAuthorData(data)
+  .then(() => dispatch(setAuthorData(data)))
+  .catch(console.log);
 
 export const saveAuthor = (author = {}) => (dispatch) => Promise
   .resolve(dispatch(
@@ -120,7 +116,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
   })
     .catch(console.log);
 
-  console.log(total, Math.ceil(total / itemsPerPage), total / itemsPerPage);
+  // console.log(total, Math.ceil(total / itemsPerPage), total / itemsPerPage);
   return Promise.resolve(dispatch(setAuthorsLastPage(Math.ceil(total / itemsPerPage))))
     .then(() => getAuthors({
       page: currentPage,

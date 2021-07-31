@@ -8,6 +8,7 @@ const searchLibrary = require('./searchLibrary');
 const searchTitles = require('./searchTitles');
 const updateSubject = require('./updateSubject');
 const updateTitle = require('./updateTitle');
+const updateAuthor = require('./updateAuthor');
 const getAllTitles = require('./getAllTitles');
 const getAllAuthors = require('./getAllAuthors');
 const getAllSubjects = require('./getAllSubjects');
@@ -32,6 +33,7 @@ const controllers = {
   searchTitles,
   updateSubject,
   updateTitle,
+  updateAuthor,
   getAllTitles,
   createTitle,
   createAuthor,

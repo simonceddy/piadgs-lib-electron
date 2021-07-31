@@ -6,6 +6,7 @@ const respond = (event, message) => event.reply(types.updateAuthor.reply, {
 });
 
 const updateAuthor = (event, params) => {
+  // console.log(params);
   if (!params.id) {
     return respond(event, 'No author ID given!');
   }

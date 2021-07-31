@@ -23,7 +23,7 @@ function Author({
   message,
   setMessage,
   onClose,
-  submitForm,
+  submitForm = () => {},
   onDataChange
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -88,9 +88,14 @@ function Author({
       {!message ? null : <MessageBox>{message}</MessageBox>}
       {isEditing ? (
         <AuthorForm
-          setValue={(val) => setData(val)}
+          setValue={(val) => setData({ ...data, ...val })}
           author={data}
-          onSubmit={submitForm}
+          onSubmit={(author) => {
+            submitForm(author);
+            if (onDataChange && typeof onDataChange === 'function') {
+              onDataChange();
+            }
+          }}
           selectedTitles={selectedTitles}
           onSelect={handleChecked}
           onDelete={onDelete}

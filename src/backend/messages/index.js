@@ -106,7 +106,7 @@ ipcMain.on(
 
 ipcMain.on(
   types.createTitle.send,
-  controllers.createTitle
+  authMiddleware(controllers.createTitle)
 );
 
 ipcMain.on(
@@ -119,9 +119,9 @@ ipcMain.on(
   authMiddleware(controllers.createSubject)
 );
 
-ipcMain.on(types.updateTitle.send, controllers.updateTitle);
-ipcMain.on(types.updateSubject.send, controllers.updateSubject);
-// ipcMain.on(types.updateAuthor.send, controllers);
+ipcMain.on(types.updateTitle.send, authMiddleware(controllers.updateTitle));
+ipcMain.on(types.updateSubject.send, authMiddleware(controllers.updateSubject));
+ipcMain.on(types.updateAuthor.send, authMiddleware(controllers.updateAuthor));
 
 // console.log(ipcMain);
 ipcMain.on(types.deleteAuthor.send, authMiddleware(controllers.deleteAuthor));
