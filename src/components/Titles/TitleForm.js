@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import { useState } from 'react';
 import { titleModel } from '../../backend/models';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
@@ -10,9 +12,10 @@ function TitleForm({
   onSubmit = () => null,
   onDelete = () => null
 }) {
-  const { authors, subjects } = values || [];
+  const [authors, setAuthors] = useState(values.authors || []);
+  const [subjects, setSubjects] = useState(values.subjects || []);
 
-  // console.log(authors, subjects);
+  console.log(authors, subjects);
   return (
     <DefaultForm
       onSubmit={(e) => {
