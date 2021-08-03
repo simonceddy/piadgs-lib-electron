@@ -1,6 +1,6 @@
 const db = require('../db');
-const associate = require('../helpers/associate');
-const saveModel = require('../helpers/saveModel');
+const associate = require('./associate');
+const saveModel = require('./saveModel');
 
 const addAuthorsToTitle = (titleId, authors = []) => Promise.all(
   authors.map((author = {}) => {

@@ -18,10 +18,18 @@ const createSubject = require('./createSubject');
 const deleteAuthor = require('./deleteAuthor');
 const deleteSubject = require('./deleteSubject');
 const deleteTitle = require('./deleteTitle');
+const addAuthorToTitle = require('./addAuthorToTitle');
+const addSubjectToTitle = require('./addSubjectToTitle');
+const removeSubjectFromTitle = require('./removeSubjectFromTitle');
+const removeAuthorFromTitle = require('./removeAuthorFromTitle');
 
 const countAuthorsForTitle = () => {};
 
 const controllers = {
+  addAuthorToTitle,
+  addSubjectToTitle,
+  removeSubjectFromTitle,
+  removeAuthorFromTitle,
   getAll,
   getFrom,
   countModels,

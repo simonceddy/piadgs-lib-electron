@@ -2,8 +2,8 @@ const mergeKeyVals = require('../helpers/getKeys');
 const saveModel = require('../helpers/saveModel');
 const types = require('../messageTypes');
 const { titleModel } = require('../models');
-const addAuthorsToTitle = require('./addAuthorsToTitle');
-const addSubjectsToTitle = require('./addSubjectsToTitle');
+const addAuthorsToTitle = require('../helpers/addAuthorsToTitle');
+const addSubjectsToTitle = require('../helpers/addSubjectsToTitle');
 
 const createTitle = async (event, params) => {
   const modelData = mergeKeyVals(Object.keys(titleModel), params);

@@ -45,7 +45,6 @@ function ManageAuthors({
   currentPage,
   lastPage,
   setPage,
-  searchInput = '',
   sortCol,
   sortDirection,
   handleSort = () => {},
@@ -177,7 +176,6 @@ const mapStateToProps = (state) => ({
   itemsPerPage: state.admin.authors.itemsPerPage,
   currentPage: state.admin.authors.currentPage,
   lastPage: state.admin.authors.lastPage,
-  searchInput: state.authors.authorSearch.input,
   filter: state.admin.authors.filter,
   filtering: state.admin.authors.filtering,
 });

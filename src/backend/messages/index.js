@@ -118,6 +118,14 @@ ipcMain.on(
   types.createSubject.send,
   authMiddleware(controllers.createSubject)
 );
+ipcMain.on(
+  types.createSubjectTitle.send,
+  authMiddleware(controllers.addSubjectToTitle)
+);
+ipcMain.on(
+  types.createAuthorTitle.send,
+  authMiddleware(controllers.addAuthorToTitle)
+);
 
 ipcMain.on(types.updateTitle.send, authMiddleware(controllers.updateTitle));
 ipcMain.on(types.updateSubject.send, authMiddleware(controllers.updateSubject));
@@ -127,3 +135,5 @@ ipcMain.on(types.updateAuthor.send, authMiddleware(controllers.updateAuthor));
 ipcMain.on(types.deleteAuthor.send, authMiddleware(controllers.deleteAuthor));
 ipcMain.on(types.deleteSubject.send, authMiddleware(controllers.deleteSubject));
 ipcMain.on(types.deleteTitle.send, authMiddleware(controllers.deleteTitle));
+ipcMain.on(types.deleteAuthorTitle.send, authMiddleware(controllers.removeAuthorFromTitle));
+ipcMain.on(types.deleteSubjectTitle.send, authMiddleware(controllers.removeSubjectFromTitle));

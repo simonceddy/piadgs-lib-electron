@@ -41,3 +41,35 @@ export const deleteTitle = (id) => controllerMessage(
   types.deleteTitle,
   { id }
 );
+
+export const addTitleAuthor = (titleId, authorId) => controllerMessage(
+  types.createAuthorTitle,
+  {
+    titleId,
+    authorId
+  }
+);
+
+export const addTitleSubject = (titleId, subjectId) => controllerMessage(
+  types.createSubjectTitle,
+  {
+    titleId,
+    subjectId
+  }
+);
+
+export const deleteTitleAuthor = (titleId, authorId) => controllerMessage(
+  types.deleteAuthorTitle,
+  {
+    titleId,
+    authorId
+  }
+);
+
+export const deleteTitleSubject = (titleId, subjectId) => controllerMessage(
+  types.deleteSubjectTitle,
+  {
+    titleId,
+    subjectId
+  }
+);
