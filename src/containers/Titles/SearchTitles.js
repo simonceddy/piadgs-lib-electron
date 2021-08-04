@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { useState } from 'react';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { FlexCol } from '../../shared/components/Flex';
 import { SingleFieldForm } from '../../shared/components/Forms';
@@ -6,16 +7,33 @@ import { DefaultTable } from '../../shared/components/Tables';
 import { setTitleSearchInput, submitTitleSearch } from '../../store/actions';
 // import adminColumns from '../../util/adminColumns';
 import { titleCols } from '../../shared/data/titleCols';
+import Modal from '../../shared/components/Modal';
+import Title from './Title';
 
 function SearchTitles({
   input,
   setInput,
   submitSearch,
   results = [],
-  onRowClick = () => null
 }) {
+  const [titleModal, setTitleModal] = useState(false);
+
+  const onClose = () => setTitleModal(false);
+
+  const TitleModal = () => (!titleModal ? null : (
+    <Modal onClose={onClose}>
+      <Title
+        onClose={onClose}
+        title={titleModal}
+        onTitleChange={() => console.log('updates have occurred')}
+      />
+    </Modal>
+  ));
+  const onRowClick = (title) => setTitleModal(title);
+
   return (
     <>
+      <TitleModal />
       <SingleFieldForm
         submitLabel="Search Titles"
         input={input}
@@ -24,6 +42,7 @@ function SearchTitles({
       />
       {results.length < 1 ? null : (
         <FlexCol className="w-full">
+          {/* TODO */}
           <DefaultTable
             columns={titleCols}
           >

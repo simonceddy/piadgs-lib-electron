@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import Toolbar from '../../components/Toolbar';
@@ -9,8 +8,6 @@ import {
   SearchIcon
 } from '../../shared/components/Icons';
 import { FlexCol } from '../../shared/components/Flex';
-import Modal from '../../shared/components/Modal';
-import Title from './Title';
 import AllTitles from './AllTitles';
 import SearchTitles from './SearchTitles';
 import TitleForm from '../Forms/TitleForm';
@@ -50,30 +47,15 @@ const toolbarItems = [
 ];
 
 function Titles() {
-  const [titleModal, setTitleModal] = useState(false);
-
-  const onClose = () => setTitleModal(false);
-
-  const TitleModal = () => (!titleModal ? null : (
-    <Modal onClose={onClose}>
-      <Title
-        onClose={onClose}
-        title={titleModal}
-        onTitleChange={() => console.log('updates have occurred')}
-      />
-    </Modal>
-  ));
-
   return (
     <FlexCol className="w-full h-full justify-start items-center">
-      <TitleModal />
       <Toolbar items={toolbarItems} />
       <Switch>
         <Route
           path="/titles"
           exact
           render={() => (
-            <AllTitles onRowClick={(title) => setTitleModal(title)} />
+            <AllTitles />
           )}
         />
         <Route
@@ -81,14 +63,13 @@ function Titles() {
           exact
           render={() => (
             <TitleForm />
-            // <CreateTitle onRowClick={(title) => setTitleModal(title)} />
           )}
         />
         <Route
           path="/titles/search"
           exact
           render={() => (
-            <SearchTitles onRowClick={(title) => setTitleModal(title)} />
+            <SearchTitles />
           )}
         />
         <Route

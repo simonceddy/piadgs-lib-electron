@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
+import Modal from '../../shared/components/Modal';
 import { DefaultTable } from '../../shared/components/Tables';
 import { titleCols } from '../../shared/data/titleCols';
 import { fetchTitlesData, setCurrentPage, sortTitleRows } from '../../store/actions';
+import Title from './Title';
 
 function AllTitles({
   titles = [],
@@ -13,10 +15,23 @@ function AllTitles({
   setPage,
   sortColumn,
   sortDirection,
-  onRowClick = () => null,
   sortTitles,
   lastPage
 }) {
+  const [titleModal, setTitleModal] = useState(false);
+
+  const onClose = () => setTitleModal(false);
+
+  const TitleModal = () => (!titleModal ? null : (
+    <Modal onClose={onClose}>
+      <Title
+        onClose={onClose}
+        title={titleModal}
+        onTitleChange={() => console.log('updates have occurred')}
+      />
+    </Modal>
+  ));
+
   useEffect(async () => {
     // console.log('fetching titles');
     await getTitles();
@@ -24,8 +39,11 @@ function AllTitles({
 
   // console.log(titles);
 
+  const onRowClick = (title) => setTitleModal(title);
+
   return (
     <>
+      <TitleModal />
       <Pagination
         current={currentPage}
         lastPage={lastPage}

@@ -42,6 +42,7 @@ function Title({
       console.log(result);
       notify(result);
     });
+
   const removeAuthor = (author = {}) => deleteTitleAuthor(title.id, author.id)
     .then((result) => {
       console.log(result);
