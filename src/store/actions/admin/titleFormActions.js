@@ -5,6 +5,12 @@ export const ADD_AUTHOR_TO_TITLE = 'ADD_AUTHOR_TO_TITLE';
 export const REMOVE_AUTHOR_FROM_TITLE = 'REMOVE_AUTHOR_FROM_TITLE';
 export const ADD_SUBJECT_TO_TITLE = 'ADD_SUBJECT_TO_TITLE';
 export const REMOVE_SUBJECT_FROM_TITLE = 'REMOVE_SUBJECT_FROM_TITLE';
+export const SET_EDITING_TITLE = 'SET_EDITING_TITLE';
+
+export const setEditingTitle = (isEditing = false) => ({
+  type: SET_EDITING_TITLE,
+  payload: { isEditing }
+});
 
 export const setTitleFormValues = (values) => ({
   type: SET_TITLE_FORM_VALUES,
