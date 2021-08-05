@@ -49,8 +49,16 @@ export const fetchTitlesData = () => async (dispatch, getState) => {
   } = getState().titles.titles;
   const total = await countTitles()
     .catch(console.log);
-  return getTitles(currentPage, itemsPerPage, sortColumn, sortDirection)
-    .then((result) => Promise.resolve(dispatch(setLastPage(Math.ceil(total / itemsPerPage))))
+
+  const lastPage = Math.ceil(total / itemsPerPage);
+
+  return getTitles(
+    currentPage <= lastPage ? currentPage : lastPage,
+    itemsPerPage,
+    sortColumn,
+    sortDirection
+  )
+    .then((result) => Promise.resolve(dispatch(setLastPage(lastPage)))
       .then(() => dispatch(setTitlesData(result))))
     .catch((err) => console.log(err));
 };

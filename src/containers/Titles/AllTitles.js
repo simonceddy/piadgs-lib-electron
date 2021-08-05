@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import ItemsPerPageSelector from '../../components/Forms/ItemsPerPageSelector';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import Modal from '../../shared/components/Modal';
 import { DefaultTable } from '../../shared/components/Tables';
 import { titleCols } from '../../shared/data/titleCols';
-import { fetchTitlesData, setCurrentPage, sortTitleRows } from '../../store/actions';
+import {
+  fetchTitlesData,
+  setCurrentPage,
+  setItemsPerPage,
+  sortTitleRows
+} from '../../store/actions';
 import Title from './Title';
 
 function AllTitles({
@@ -16,7 +22,9 @@ function AllTitles({
   sortColumn,
   sortDirection,
   sortTitles,
-  lastPage
+  lastPage,
+  itemsPerPage,
+  setPerPage
 }) {
   const [titleModal, setTitleModal] = useState(false);
 
@@ -35,7 +43,7 @@ function AllTitles({
   useEffect(async () => {
     // console.log('fetching titles');
     await getTitles();
-  }, [currentPage, sortColumn, sortDirection]);
+  }, [currentPage, sortColumn, sortDirection, itemsPerPage]);
 
   // console.log(titles);
 
@@ -48,6 +56,10 @@ function AllTitles({
         current={currentPage}
         lastPage={lastPage}
         setPage={setPage}
+      />
+      <ItemsPerPageSelector
+        current={itemsPerPage}
+        onChange={(e) => setPerPage(Number(e.target.value))}
       />
       {titles.length < 1 ? 'Loading...' : (
         <>
@@ -84,7 +96,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getTitles: () => dispatch(fetchTitlesData()),
   setPage: (page) => dispatch(setCurrentPage(page)),
-  sortTitles: (col) => dispatch(sortTitleRows(col))
+  sortTitles: (col) => dispatch(sortTitleRows(col)),
+  setPerPage: (amount) => dispatch(setItemsPerPage(amount))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTitles);

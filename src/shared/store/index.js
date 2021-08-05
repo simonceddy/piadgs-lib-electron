@@ -8,4 +8,5 @@ export const managerDefaultState = {
   lastPage: null,
   filter: {},
   filtering: false,
+  isEditing: false
 };

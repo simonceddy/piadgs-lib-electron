@@ -25,7 +25,7 @@ function SearchTitles({
       <Title
         onClose={onClose}
         title={titleModal}
-        onTitleChange={() => console.log('updates have occurred')}
+        onTitleChange={submitSearch}
       />
     </Modal>
   ));

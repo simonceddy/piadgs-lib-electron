@@ -21,6 +21,7 @@ function Title({
   onClose,
   onTitleChange,
 }) {
+  // TODO update data on add/remove relation
   const [isEditing, setIsEditing] = useState(false);
   const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
