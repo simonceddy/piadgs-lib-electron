@@ -110,6 +110,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
     sortCol, sortDirection, currentPage, itemsPerPage, filter
   } = getState().admin.authors;
 
+  // TODO fix names
   const total = await countAuthors({
     ...filter,
     given_names: filter.surname || null

@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import ItemsPerPageSelector from '../../components/Forms/ItemsPerPageSelector';
 import { Pagination } from '../../components/Pagination';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { SingleFieldForm } from '../../shared/components/Forms';
@@ -10,6 +11,7 @@ import {
   fetchAuthors,
   setAuthorsCurrentPage,
   setAuthorsFilter,
+  setAuthorsItemsPerPage,
   setFilteringAuthors,
   sortAuthorRows
 } from '../../store/actions';
@@ -54,7 +56,8 @@ function ManageAuthors({
   itemsPerPage,
   filter = {},
   setFilter = () => {},
-  setFiltering = () => {}
+  setFiltering = () => {},
+  setPerPage
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
@@ -86,7 +89,6 @@ function ManageAuthors({
   return (
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
       {showModal ? <AuthorModal /> : null}
-      {/* {showModal ? <SubjectModal onClose={onClose} /> : null} */}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">{heading}</FlexRow>
       {!message ? null : (
         <FlexRow
@@ -125,6 +127,10 @@ function ManageAuthors({
           current={currentPage}
           lastPage={lastPage}
           setPage={setPage}
+        />
+        <ItemsPerPageSelector
+          current={itemsPerPage}
+          onChange={(e) => setPerPage(Number(e.target.value))}
         />
       </FlexRow>
       {showSearchForm ? (
@@ -181,6 +187,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  setPerPage: (perPage) => dispatch(setAuthorsItemsPerPage(perPage)),
   fetchData: () => dispatch(fetchAuthors()),
   handleSort: (col) => dispatch(sortAuthorRows(col)),
   setPage: (page) => dispatch(setAuthorsCurrentPage(page)),

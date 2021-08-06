@@ -50,6 +50,7 @@ export const fetchTitlesData = () => async (dispatch, getState) => {
   const total = await countTitles()
     .catch(console.log);
 
+  // TODO set currentPage if > lastPage
   const lastPage = Math.ceil(total / itemsPerPage);
 
   return getTitles(

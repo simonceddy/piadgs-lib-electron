@@ -13,11 +13,13 @@ import {
   setSubjectsCurrentPage,
   // setSubjectSearchInput,
   setSubjectsFilter,
+  setSubjectsItemsPerPage,
   sortSubjectRows
 } from '../../store/actions';
 import Modal from '../../shared/components/Modal';
 import Subject from './Subject';
 import CreateSubject from './CreateSubject';
+import ItemsPerPageSelector from '../../components/Forms/ItemsPerPageSelector';
 
 const columns = [
   // { key: 'select', name: 'Select', sortable: false },
@@ -49,7 +51,8 @@ function ManageSubjects({
   itemsPerPage,
   filter = {},
   setFilter = () => {},
-  setFiltering = () => {}
+  setFiltering = () => {},
+  setPerPage
 }) {
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
@@ -75,7 +78,7 @@ function ManageSubjects({
       fetchData();
     });
 
-  useEffect(() => fetchData(), [currentPage]);
+  useEffect(() => fetchData(), [currentPage, itemsPerPage]);
 
   // TODO
   // - create new section (toggled)
@@ -160,6 +163,10 @@ function ManageSubjects({
               lastPage={lastPage}
               setPage={setPage}
             />
+            <ItemsPerPageSelector
+              current={itemsPerPage}
+              onChange={(e) => setPerPage(Number(e.target.value))}
+            />
             <TableBuilder
               columns={columns}
               rows={rows}
@@ -203,7 +210,6 @@ const mapStateToProps = (state) => ({
   currentPage: state.subjects.subjects.currentPage,
   lastPage: state.subjects.subjects.lastPage,
   itemsPerPage: state.subjects.subjects.itemsPerPage,
-  // searchInput: state.subjects.subjectSearch.input,
   filter: state.subjects.subjects.filter,
   filtering: state.subjects.subjects.filtering,
 });
@@ -212,8 +218,7 @@ const mapDispatchToProps = (dispatch) => ({
   fetchData: () => dispatch(fetchSubjects()),
   handleSort: (col) => dispatch(sortSubjectRows(col)),
   setPage: (page) => dispatch(setSubjectsCurrentPage(page)),
-  // setSearchInput: (input) => dispatch(setSubjectSearchInput(input)),
-  // submitSearch: (input) => dispatch(performSubjectSearch(input)),
+  setPerPage: (perPage) => dispatch(setSubjectsItemsPerPage(perPage)),
   setFilter: (filter) => dispatch(setSubjectsFilter(filter)),
   setFiltering: (filtering) => dispatch(setFilteringSubjects(filtering))
 });
