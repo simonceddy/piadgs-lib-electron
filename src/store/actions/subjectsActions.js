@@ -1,3 +1,4 @@
+import handleClientError from '../../handleClientError';
 import {
   getSubjects,
   countSubjects,
@@ -147,7 +148,7 @@ export const updateSubject = (data) => (dispatch) => updateSubjectData(data)
       .catch((err) => dispatch(setSubjectMessage(`Error: ${err.message}`)));
   })
   .catch((err) => {
-    console.log(err);
+    handleClientError(err);
     return dispatch(setSubjectData({}));
   });
 
@@ -165,7 +166,7 @@ export const setData = (data = {}) => (dispatch) => Promise.resolve(
 export const fetchSubject = (id) => (dispatch) => getLibrarySubject({ id })
   .then((res) => dispatch(setData(res)))
   .catch((err) => {
-    console.log(err);
+    handleClientError(err);
     return dispatch(setSubjectData({}));
   });
 
@@ -181,7 +182,7 @@ export const fetchSubjects = () => async (dispatch, getState) => {
   } = getState().subjects.subjects;
 
   const total = await countSubjects(filter)
-    .catch(console.log);
+    .catch(handleClientError);
 
   console.log(total);
   return Promise.resolve(dispatch(setSubjectsLastPage(Math.ceil(total / itemsPerPage))))
@@ -193,7 +194,7 @@ export const fetchSubjects = () => async (dispatch, getState) => {
       filter: filtering ? filter : {}
     })
       .then((res) => dispatch(setSubjectsData(res)))
-      .catch((err) => console.log(err)));
+      .catch(handleClientError));
 };
 
 export const sortSubjectRows = (col, filter = {}) => (dispatch, getState) => {
@@ -209,5 +210,5 @@ export const performSubjectSearch = (input) => (dispatch) => {
   fetchSubjects()
   // .then((res) => dispatch(setSubjectSearchResults(res.results || [])))
     .then((res) => dispatch(setSubjectsData(res.results || [])))
-    .catch((err) => console.log(err));
+    .catch(handleClientError);
 };

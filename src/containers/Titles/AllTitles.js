@@ -9,6 +9,7 @@ import { titleCols } from '../../shared/data/titleCols';
 import {
   fetchTitlesData,
   setCurrentPage,
+  setEditingTitle,
   setItemsPerPage,
   sortTitleRows
 } from '../../store/actions';
@@ -24,18 +25,30 @@ function AllTitles({
   sortTitles,
   lastPage,
   itemsPerPage,
-  setPerPage
+  setPerPage,
+  setIsEditing,
+  isEditing
 }) {
   const [titleModal, setTitleModal] = useState(false);
 
   const onClose = () => setTitleModal(false);
 
   const TitleModal = () => (!titleModal ? null : (
-    <Modal onClose={onClose}>
+    <Modal
+      onClose={() => {
+        onClose();
+        setIsEditing(false);
+      }}
+    >
       <Title
-        onClose={onClose}
+        onClose={() => {
+          onClose();
+          setIsEditing(false);
+        }}
         title={titleModal}
         onTitleChange={getTitles}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
       />
     </Modal>
   ));
@@ -91,13 +104,15 @@ const mapStateToProps = (state) => ({
   titles: state.titles.titles.titles,
   sortDirection: state.titles.titles.sortDirection,
   sortColumn: state.titles.titles.sortColumn,
+  isEditing: state.titles.title.isEditing
 });
 
 const mapDispatchToProps = (dispatch) => ({
   getTitles: () => dispatch(fetchTitlesData()),
   setPage: (page) => dispatch(setCurrentPage(page)),
   sortTitles: (col) => dispatch(sortTitleRows(col)),
-  setPerPage: (amount) => dispatch(setItemsPerPage(amount))
+  setPerPage: (amount) => dispatch(setItemsPerPage(amount)),
+  setIsEditing: (isEditing) => dispatch(setEditingTitle(isEditing))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTitles);

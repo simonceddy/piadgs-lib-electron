@@ -1,3 +1,4 @@
+import handleClientError from '../../handleClientError';
 import { searchLibrary } from '../../message-control/controllers';
 import { flipDirection } from '../../util/sort';
 
@@ -76,7 +77,7 @@ export const submitLibrarySearchForm = () => (dispatch, getState) => {
       await dispatch(setLibrarySearchResults(response.results));
       dispatch(setLibrarySearchFormSubmitted(true));
     })
-    .catch((err) => console.log(err));
+    .catch(handleClientError);
 };
 export const resetLibrarySearch = () => (dispatch) => Promise.resolve(
   dispatch(resetLibrarySearchFormValues())

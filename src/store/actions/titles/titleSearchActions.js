@@ -1,3 +1,4 @@
+import handleClientError from '../../../handleClientError';
 import { searchLibrary } from '../../../message-control/controllers';
 
 export const UPDATE_SEARCH_VALUES = 'UPDATE_SEARCH_VALUES';
@@ -55,7 +56,7 @@ export const submitTitleSearch = () => (dispatch, getState) => {
       await dispatch(setTitleSearchResults(response.results));
       dispatch(setFormSubmitted(true));
     })
-    .catch((err) => console.log(err));
+    .catch(handleClientError);
 };
 
 export const resetSearch = () => (dispatch) => Promise.resolve(dispatch(resetFormValues()))

@@ -1,3 +1,4 @@
+import handleClientError from '../../../handleClientError';
 import { getTitles, countTitles } from '../../../message-control/controllers';
 // import { paginate } from '../../../util/paginate';
 import { flipDirection, sortTitles } from '../../../util/sort';
@@ -48,7 +49,7 @@ export const fetchTitlesData = () => async (dispatch, getState) => {
     currentPage, itemsPerPage, sortColumn, sortDirection
   } = getState().titles.titles;
   const total = await countTitles()
-    .catch(console.log);
+    .catch(handleClientError);
 
   // TODO set currentPage if > lastPage
   const lastPage = Math.ceil(total / itemsPerPage);
@@ -61,7 +62,7 @@ export const fetchTitlesData = () => async (dispatch, getState) => {
   )
     .then((result) => Promise.resolve(dispatch(setLastPage(lastPage)))
       .then(() => dispatch(setTitlesData(result))))
-    .catch((err) => console.log(err));
+    .catch(handleClientError);
 };
 
 export const sortTitleRows = (col) => (dispatch, getState) => {

@@ -1,6 +1,7 @@
 // import jwtDecode from 'jwt-decode';
 import { setLoggedInUser, setLoggedOut } from './authActions';
 import login from '../../util/auth/login';
+import handleClientError from '../../handleClientError';
 // import setAuthToken from '../../util/auth/setAuthToken';
 // import { keys } from '../../util/storage';
 
@@ -65,4 +66,4 @@ export const attemptLogin = ({ username, password }) => (dispatch) => Promise
       'Incorrect username or password'
     ]))))
   .then(() => dispatch(setLoggingIn(false)))
-  .catch((err) => console.log(err));
+  .catch(handleClientError);

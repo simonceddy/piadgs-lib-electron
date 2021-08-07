@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+// TODO Is this file still required?
 export const SET_FETCHING_RESULTS = 'SET_FETCHING_RESULTS';
 export const SET_RESULTS_FETCHED = 'SET_RESULTS_FETCHED';
 export const SET_RESULTS = 'SET_RESULTS';

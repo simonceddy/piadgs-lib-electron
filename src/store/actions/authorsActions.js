@@ -1,3 +1,4 @@
+import handleClientError from '../../handleClientError';
 import {
   createAuthor, countAuthors, getAuthors, searchLibraryAuthors, updateAuthorData
 } from '../../message-control/controllers';
@@ -95,7 +96,7 @@ export const setAuthorsFilter = (filter = {}) => ({
 
 export const updateAuthor = (data) => (dispatch) => updateAuthorData(data)
   .then(() => dispatch(setAuthorData(data)))
-  .catch(console.log);
+  .catch(handleClientError);
 
 export const saveAuthor = (author = {}) => (dispatch) => Promise
   .resolve(dispatch(
@@ -115,7 +116,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
     ...filter,
     given_names: filter.surname || null
   })
-    .catch(console.log);
+    .catch(handleClientError);
 
   // console.log(total, Math.ceil(total / itemsPerPage), total / itemsPerPage);
   return Promise.resolve(dispatch(setAuthorsLastPage(Math.ceil(total / itemsPerPage))))
@@ -127,7 +128,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
       filter
     })
       .then((res) => dispatch(setAuthorsData(res)))
-      .catch((err) => console.log(err)));
+      .catch(handleClientError));
 };
 
 export const sortAuthorRows = (col) => (dispatch, getState) => {
@@ -154,7 +155,7 @@ export const fetchAuthorsSearchResults = (name) => (
       // console.log(sortCol, sortDirection, sorted);
       return dispatch(setAuthorsSearchResults(res.results));
     })
-    .catch(console.log);
+    .catch(handleClientError);
 };
 
 export const sortAuthorsResultRows = (col) => (dispatch, getState) => {
