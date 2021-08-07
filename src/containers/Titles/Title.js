@@ -77,6 +77,7 @@ function Title({
           return setStatusMessage('An error occurred trying to save changes!');
         }
         notify(result);
+        setIsEditing(false);
         return setStatusMessage('Successfully saved changes!');
       });
   };
