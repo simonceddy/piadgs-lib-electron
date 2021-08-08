@@ -36,11 +36,11 @@ function RelationsSubform({
             onChange={(e) => setInput(e.target.value)}
           />
         </FormLabel>
-        <ul className="absolute top-full left-0 flex flex-col justify-start items-start w-full dark:bg-black dark:text-green-200 bg-green text-blue-500">
+        <ul className="absolute top-full left-0 flex flex-col justify-start items-start w-full dark:bg-black dark:text-green-200 bg-green z-30 text-blue-500">
           {suggestions.length > 0 ? suggestions.map((suggestion, index) => (
             <li
               key={`suggestion-${index}`}
-              className="flex flex-row w-full justify-start items-center"
+              className="flex flex-row w-full justify-start items-center z-30"
               onClick={() => {
                 addItem(suggestion);
                 setInput('');

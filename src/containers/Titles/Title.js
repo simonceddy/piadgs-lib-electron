@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 // import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
 import TitleWindow from '../../components/Titles/TitleWindow';
@@ -8,12 +9,13 @@ import {
   deleteTitle,
   deleteTitleAuthor,
   deleteTitleSubject,
-  getLibraryTitle,
+  // getLibraryTitle,
   updateTitle
 } from '../../message-control/controllers/titleControllers';
 import { FlexRow } from '../../shared/components/Flex';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
+import { setTitleFormValues } from '../../store/actions/admin/titleFormActions';
 import TitleAuthors from '../Authors/TitleAuthors';
 import TitleSubjects from '../Subjects/TitleSubjects';
 
@@ -22,13 +24,15 @@ function Title({
   onClose,
   onTitleChange,
   isEditing = false,
-  setIsEditing = () => {}
+  setIsEditing = () => {},
+  values = {},
+  setValues = () => {}
 }) {
   // TODO maintain updated data when calling notify
   // TODO fix state nightmare - use Redux code already in place
   // - set and get values from redux state,
   // - add/remove relations using redux state
-  const [values, setValues] = useState(title);
+  // const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
   console.log(values);
 
@@ -40,25 +44,38 @@ function Title({
 
   const addAuthor = (author = {}) => addTitleAuthor(title.id, author.id)
     .then((result) => {
-      // console.log(result);
+      setValues({
+        ...values,
+        authors: [author, ...values.authors]
+      });
       notify(result);
     });
 
   const addSubject = (subject = {}) => addTitleSubject(title.id, subject.id)
     .then((result) => {
       // console.log(result);
+      setValues({
+        ...values,
+        subjects: [subject, ...values.subjects]
+      });
       notify(result);
     });
 
   const removeAuthor = (author = {}) => deleteTitleAuthor(title.id, author.id)
     .then((result) => {
-      // console.log(result);
+      setValues({
+        ...values,
+        authors: values.authors.filter((a) => a !== author)
+      });
       notify(result);
     });
 
   const removeSubject = (subject = {}) => deleteTitleSubject(title.id, subject.id)
     .then((result) => {
-      // console.log(result);
+      setValues({
+        ...values,
+        subjects: values.subjects.filter((s) => s !== subject)
+      });
       notify(result);
     });
 
@@ -86,12 +103,9 @@ function Title({
       });
   };
 
-  // useEffect for sketchy data update
-  useEffect(async () => {
-    console.log('here');
-    await getLibraryTitle({ id: title.id })
-      .then((data) => setValues(data));
-  }, [title.authors, title.subjects]);
+  useEffect(() => {
+    if (values.id !== title.id) setValues(title);
+  }, [title]);
 
   return (
     <ModalAppletLayout>
@@ -120,7 +134,7 @@ function Title({
                 <TitleAuthors
                   onAddAuthor={addAuthor}
                   onRemoveAuthor={removeAuthor}
-                  authors={title.authors || []}
+                  authors={values.authors || []}
                 />
                 <TitleForm
                   values={values}
@@ -131,12 +145,12 @@ function Title({
                 <TitleSubjects
                   onAddSubject={addSubject}
                   onRemoveSubject={removeSubject}
-                  subjects={title.subjects || []}
+                  subjects={values.subjects || []}
                 />
               </FlexRow>
             )
             : (
-              <TitleWindow title={title} />
+              <TitleWindow title={values} />
             )}
         </>
       ) : null}
@@ -144,4 +158,12 @@ function Title({
   );
 }
 
-export default Title;
+const mapStateToProps = (state) => ({
+  values: state.titles.title.values
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setValues: (values) => dispatch(setTitleFormValues(values))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Title);
