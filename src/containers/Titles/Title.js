@@ -19,6 +19,7 @@ import { setTitleFormValues } from '../../store/actions/admin/titleFormActions';
 import TitleAuthors from '../Authors/TitleAuthors';
 import TitleSubjects from '../Subjects/TitleSubjects';
 
+// TODO fix unmounted state update error
 function Title({
   title = {},
   onClose,
@@ -34,7 +35,7 @@ function Title({
   // - add/remove relations using redux state
   // const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
-  console.log(values);
+  // console.log(values);
 
   const notify = (message) => {
     if (typeof onTitleChange === 'function') {
