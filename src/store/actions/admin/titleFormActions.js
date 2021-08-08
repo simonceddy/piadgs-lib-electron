@@ -6,6 +6,11 @@ export const REMOVE_AUTHOR_FROM_TITLE = 'REMOVE_AUTHOR_FROM_TITLE';
 export const ADD_SUBJECT_TO_TITLE = 'ADD_SUBJECT_TO_TITLE';
 export const REMOVE_SUBJECT_FROM_TITLE = 'REMOVE_SUBJECT_FROM_TITLE';
 export const SET_EDITING_TITLE = 'SET_EDITING_TITLE';
+export const CLEAR_TITLE_FORM_VALUES = 'CLEAR_TITLE_FORM_VALUES';
+
+export const clearTitleFormValues = () => ({
+  type: CLEAR_TITLE_FORM_VALUES
+});
 
 export const setEditingTitle = (isEditing = false) => ({
   type: SET_EDITING_TITLE,

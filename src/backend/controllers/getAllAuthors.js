@@ -33,10 +33,11 @@ const getAllAuthors = (event, {
       .orWhere('authors.given_names', 'like', `%${filter.surname}%`);
   }
 
-  return q.then((rows) => Promise.all(rows.map((author) => getAuthorTitles(author)
-    .then((titles) => ({ ...author, titles }))))
-    .then((result) => result)
-    .catch((err) => event.reply(types.getAllAuthors.reply, err)))
+  return q.select()
+    .then((rows) => Promise.all(rows.map((author) => getAuthorTitles(author)
+      .then((titles) => ({ ...author, titles }))))
+      .then((result) => result)
+      .catch((err) => event.reply(types.getAllAuthors.reply, err)))
     .then((rows) => event.reply(types.getAllAuthors.reply, rows))
     .catch((err) => event.reply(types.getAllAuthors.reply, err));
 };

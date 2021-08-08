@@ -1,6 +1,7 @@
 import {
   ADD_AUTHOR_TO_TITLE,
   ADD_SUBJECT_TO_TITLE,
+  CLEAR_TITLE_FORM_VALUES,
   REMOVE_AUTHOR_FROM_TITLE,
   REMOVE_SUBJECT_FROM_TITLE,
   RESET_TITLE_FORM,
@@ -10,20 +11,7 @@ import {
 } from '../../actions';
 
 const defaultState = {
-  values: {
-    id: null,
-    title: '',
-    authors: '',
-    subjects: '',
-    isbn: '',
-    callNumber: '',
-    date: '',
-    source: '',
-    cost: '',
-    imprint: '',
-    pagination: '',
-    accessionNumber: '',
-  },
+  values: {},
   authors: [],
   subjects: [],
   isSubmitted: false,
@@ -35,6 +23,8 @@ export default function titleFormReducer(state = defaultState, action) {
   switch (action.type) {
     case SET_EDITING_TITLE:
       return { ...state, isEditing: action.payload.isEditing };
+    case CLEAR_TITLE_FORM_VALUES:
+      return { ...state, values: defaultState.values };
     case RESET_TITLE_FORM:
       console.log('clearing form data');
       return { ...defaultState };

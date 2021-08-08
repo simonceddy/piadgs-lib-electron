@@ -11,15 +11,24 @@ export const searchLibraryTitles = (params) => controllerMessage(
   params
 );
 
-export const getTitles = (page, itemsPerPage, sortColumn, sortDirection) => controllerMessage(
+export const getTitles = ({
+  filter,
+  page,
+  itemsPerPage,
+  sortColumn,
+  sortDirection
+}) => controllerMessage(
   types.getAllTitles,
   {
-    page, itemsPerPage, sortColumn, sortDirection
+    page, itemsPerPage, sortColumn, sortDirection, filter
   }
 );
 
-export const countTitles = () => controllerMessage(
+export const countTitles = (filter) => controllerMessage(
   types.countTitles,
+  {
+    filter
+  }
 );
 
 export const createTitles = (params) => controllerMessage({

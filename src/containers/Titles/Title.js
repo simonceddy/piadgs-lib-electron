@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
 import TitleWindow from '../../components/Titles/TitleWindow';
@@ -8,6 +8,7 @@ import {
   deleteTitle,
   deleteTitleAuthor,
   deleteTitleSubject,
+  getLibraryTitle,
   updateTitle
 } from '../../message-control/controllers/titleControllers';
 import { FlexRow } from '../../shared/components/Flex';
@@ -23,10 +24,13 @@ function Title({
   isEditing = false,
   setIsEditing = () => {}
 }) {
-  // TODO update data on add/remove relation
-  // const [isEditing, setIsEditing] = useState(false);
+  // TODO maintain updated data when calling notify
+  // TODO fix state nightmare - use Redux code already in place
+  // - set and get values from redux state,
+  // - add/remove relations using redux state
   const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
+  console.log(values);
 
   const notify = (message) => {
     if (typeof onTitleChange === 'function') {
@@ -36,25 +40,25 @@ function Title({
 
   const addAuthor = (author = {}) => addTitleAuthor(title.id, author.id)
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       notify(result);
     });
 
   const addSubject = (subject = {}) => addTitleSubject(title.id, subject.id)
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       notify(result);
     });
 
   const removeAuthor = (author = {}) => deleteTitleAuthor(title.id, author.id)
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       notify(result);
     });
 
   const removeSubject = (subject = {}) => deleteTitleSubject(title.id, subject.id)
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       notify(result);
     });
 
@@ -81,6 +85,13 @@ function Title({
         return setStatusMessage('Successfully saved changes!');
       });
   };
+
+  // useEffect for sketchy data update
+  useEffect(async () => {
+    console.log('here');
+    await getLibraryTitle({ id: title.id })
+      .then((data) => setValues(data));
+  }, [title.authors, title.subjects]);
 
   return (
     <ModalAppletLayout>

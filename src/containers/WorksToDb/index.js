@@ -51,22 +51,24 @@ function WorksToDB({
     setViewTable(!viewTable);
   };
 
-  // console.log(titles);
-  const ViewBoxes = useCallback(() => (
-    <TitleBoxes
-      titles={titles}
-      persistTitle={persistOne}
-      removeTitle={removeTitle}
-    />
-  ), [titles]);
-
-  const ViewTables = useCallback(() => (
-    <TitleTable
-      titles={titles}
-      persistTitle={persistOne}
-      removeTitle={removeTitle}
-    />
-  ), [titles]);
+  const DataView = useCallback(() => {
+    if (viewTable) {
+      return (
+        <TitleTable
+          titles={titles}
+          persistTitle={persistOne}
+          removeTitle={removeTitle}
+        />
+      );
+    }
+    return (
+      <TitleBoxes
+        titles={titles}
+        persistTitle={persistOne}
+        removeTitle={removeTitle}
+      />
+    );
+  }, [titles, viewTable]);
 
   return (
     <FlexCol className="w-full h-full md:w-5/6 lg:w-4/5 xl:w-3/4 justify-start items-center p-2">
@@ -114,7 +116,7 @@ function WorksToDB({
           </FlexRow>
         </>
       ) : null}
-      {viewTable ? <ViewTables /> : <ViewBoxes />}
+      <DataView />
     </FlexCol>
   );
 }

@@ -1,9 +1,11 @@
 import { managerDefaultState } from '../../../shared/store';
 import {
   SET_CURRENT_PAGE,
+  SET_FILTERING_TITLES,
   SET_ITEMS_PER_PAGE,
   SET_LAST_PAGE,
   SET_TITLES_DATA,
+  SET_TITLES_FILTER,
   SET_TITLES_SORT
 } from '../../actions';
 
@@ -15,6 +17,10 @@ const defaultState = {
 
 export default function titlesReducer(state = defaultState, action) {
   switch (action.type) {
+    case SET_FILTERING_TITLES:
+      return { ...state, filtering: action.payload.filtering };
+    case SET_TITLES_FILTER:
+      return { ...state, filter: action.payload.filter };
     case SET_ITEMS_PER_PAGE:
       console.log('setting items per page');
       return { ...state, itemsPerPage: action.payload.itemsPerPage };

@@ -20,7 +20,8 @@ const getAllTitles = (event, {
   itemsPerPage = 32,
   page = 1,
   sortColumn = 'id',
-  sortDirection = 'ASC'
+  sortDirection = 'ASC',
+  filter = {}
 }) => {
   const offset = (page * itemsPerPage) - itemsPerPage;
   const sortCol = sortBy(sortColumn);
@@ -33,15 +34,19 @@ const getAllTitles = (event, {
     .orderBy(sortCol, sortDirection)
     .offset(offset)
     .limit(itemsPerPage)
-    .groupBy('titles.id')
-    .select(
-      'titles.id',
-      ...Object.keys(titleModel).map((key) => `titles.${key}`),
-      'titles.created_at',
-      'titles.updated_at'
-    );
+    .groupBy('titles.id');
 
-  return q.then((rows) => rows)
+  if (filter.title) {
+    q.where('titles.title', 'like', `%${filter.title}%`);
+  }
+
+  return q.select(
+    'titles.id',
+    ...Object.keys(titleModel).map((key) => `titles.${key}`),
+    'titles.created_at',
+    'titles.updated_at'
+  )
+    .then((rows) => rows)
     .catch(console.log)
     .then((rows) => Promise.all(rows.map((title) => loadTitleRelations(title)))
       // .then((result) => result)

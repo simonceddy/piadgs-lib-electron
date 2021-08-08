@@ -21,6 +21,8 @@ const renderAuthor = (author = {}) => (
   </span>
 );
 
+// TODO move the state logic here to the Title page
+// TODO use Redux for state - centralise it all
 function TitleAuthors({
   input,
   authors = [],

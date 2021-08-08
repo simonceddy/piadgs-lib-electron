@@ -9,6 +9,18 @@ export const SET_TITLES_SORT = 'SET_TITLES_SORT';
 export const SET_LAST_PAGE = 'SET_LAST_PAGE';
 export const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
 export const SET_ITEMS_PER_PAGE = 'SET_ITEMS_PER_PAGE';
+export const SET_TITLES_FILTER = 'SET_TITLES_FILTER';
+export const SET_FILTERING_TITLES = 'SET_FILTERING_TITLES';
+
+export const setTitlesFilter = (filter) => ({
+  type: SET_TITLES_FILTER,
+  payload: { filter }
+});
+
+export const setFilteringTitles = (filtering) => ({
+  type: SET_FILTERING_TITLES,
+  payload: { filtering }
+});
 
 export const setItemsPerPage = (itemsPerPage) => ({
   type: SET_ITEMS_PER_PAGE,
@@ -46,20 +58,22 @@ export const sortAndSetTitles = (data) => (dispatch, getState) => {
 
 export const fetchTitlesData = () => async (dispatch, getState) => {
   const {
-    currentPage, itemsPerPage, sortColumn, sortDirection
+    currentPage, itemsPerPage, sortColumn, sortDirection, filter
   } = getState().titles.titles;
-  const total = await countTitles()
+
+  const total = await countTitles(filter)
     .catch(handleClientError);
 
   // TODO set currentPage if > lastPage
   const lastPage = Math.ceil(total / itemsPerPage);
 
-  return getTitles(
-    currentPage <= lastPage ? currentPage : lastPage,
+  return getTitles({
+    page: currentPage <= lastPage ? currentPage : lastPage,
     itemsPerPage,
     sortColumn,
-    sortDirection
-  )
+    sortDirection,
+    filter
+  })
     .then((result) => Promise.resolve(dispatch(setLastPage(lastPage)))
       .then(() => dispatch(setTitlesData(result))))
     .catch(handleClientError);

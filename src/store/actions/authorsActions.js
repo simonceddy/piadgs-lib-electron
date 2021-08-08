@@ -138,6 +138,7 @@ export const sortAuthorRows = (col) => (dispatch, getState) => {
     .then(() => dispatch(fetchAuthors()));
 };
 
+// Is this still neccessary?
 export const fetchAuthorsSearchResults = (name) => (
   dispatch, getState
 ) => {
