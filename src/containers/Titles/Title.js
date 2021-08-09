@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-// import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
 import TitleWindow from '../../components/Titles/TitleWindow';
 import {
@@ -9,7 +8,6 @@ import {
   deleteTitle,
   deleteTitleAuthor,
   deleteTitleSubject,
-  // getLibraryTitle,
   updateTitle
 } from '../../message-control/controllers/titleControllers';
 import { FlexRow } from '../../shared/components/Flex';
@@ -19,7 +17,6 @@ import { setTitleFormValues } from '../../store/actions/admin/titleFormActions';
 import TitleAuthors from '../Authors/TitleAuthors';
 import TitleSubjects from '../Subjects/TitleSubjects';
 
-// TODO fix unmounted state update error
 function Title({
   title = {},
   onClose,
@@ -30,12 +27,7 @@ function Title({
   setValues = () => {}
 }) {
   // TODO maintain updated data when calling notify
-  // TODO fix state nightmare - use Redux code already in place
-  // - set and get values from redux state,
-  // - add/remove relations using redux state
-  // const [values, setValues] = useState(title);
   const [statusMessage, setStatusMessage] = useState(null);
-  // console.log(values);
 
   const notify = (message) => {
     if (typeof onTitleChange === 'function') {
@@ -54,7 +46,6 @@ function Title({
 
   const addSubject = (subject = {}) => addTitleSubject(title.id, subject.id)
     .then((result) => {
-      // console.log(result);
       setValues({
         ...values,
         subjects: [subject, ...values.subjects]
@@ -104,8 +95,15 @@ function Title({
       });
   };
 
+  // Fix state
   useEffect(() => {
-    if (values.id !== title.id) setValues(title);
+    let isLoaded = false;
+
+    if (!isLoaded) setValues(title);
+
+    return () => {
+      isLoaded = true;
+    };
   }, [title]);
 
   return (
