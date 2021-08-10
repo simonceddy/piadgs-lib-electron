@@ -122,16 +122,17 @@ function ManageAuthors({
             {showNewForm ? 'Hide Form' : 'Add New'}
           </ThemedButton>
         </FlexRow>
-
-        <Pagination
-          current={currentPage}
-          lastPage={lastPage}
-          setPage={setPage}
-        />
-        <ItemsPerPageSelector
-          current={itemsPerPage}
-          onChange={(e) => setPerPage(Number(e.target.value))}
-        />
+        <FlexRow>
+          <Pagination
+            current={currentPage}
+            lastPage={lastPage}
+            setPage={setPage}
+          />
+          <ItemsPerPageSelector
+            current={itemsPerPage}
+            onChange={(e) => setPerPage(Number(e.target.value))}
+          />
+        </FlexRow>
       </FlexRow>
       {showSearchForm ? (
         <FlexRow>

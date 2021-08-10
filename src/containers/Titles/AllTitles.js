@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ItemsPerPageSelector from '../../components/Forms/ItemsPerPageSelector';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
+import { FlexRow } from '../../shared/components/Flex';
 import Modal from '../../shared/components/Modal';
 import { DefaultTable } from '../../shared/components/Tables';
 import { titleCols } from '../../shared/data/titleCols';
@@ -65,15 +66,17 @@ function AllTitles({
   return (
     <>
       <TitleModal />
-      <Pagination
-        current={currentPage}
-        lastPage={lastPage}
-        setPage={setPage}
-      />
-      <ItemsPerPageSelector
-        current={itemsPerPage}
-        onChange={(e) => setPerPage(Number(e.target.value))}
-      />
+      <FlexRow className="w-full">
+        <Pagination
+          current={currentPage}
+          lastPage={lastPage}
+          setPage={setPage}
+        />
+        <ItemsPerPageSelector
+          current={itemsPerPage}
+          onChange={(e) => setPerPage(Number(e.target.value))}
+        />
+      </FlexRow>
       {titles.length < 1 ? 'Loading...' : (
         <>
           <DefaultTable

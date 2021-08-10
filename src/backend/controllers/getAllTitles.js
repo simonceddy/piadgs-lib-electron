@@ -48,6 +48,7 @@ const getAllTitles = (event, {
   )
     .then((rows) => rows)
     .catch(console.log)
+    // TODO make this better/part of same query?
     .then((rows) => Promise.all(rows.map((title) => loadTitleRelations(title)))
       // .then((result) => result)
       .then((result) => event.reply(types.getAllTitles.reply, result))

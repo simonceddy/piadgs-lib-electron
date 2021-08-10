@@ -4,6 +4,7 @@ const types = require('../messageTypes');
 const { titleModel } = require('../models');
 const addAuthorsToTitle = require('../helpers/addAuthorsToTitle');
 const addSubjectsToTitle = require('../helpers/addSubjectsToTitle');
+const { c } = require('../messages/crudMessages');
 
 const createTitle = async (event, params) => {
   const modelData = mergeKeyVals(Object.keys(titleModel), params);
@@ -17,12 +18,9 @@ const createTitle = async (event, params) => {
         await addSubjectsToTitle(result[0], params.subjects);
         // console.log(addSubjectsResult);
       }
-      return event.reply(types.createTitle.reply, {
-        id: result[0],
-        success: true
-      });
+      return event.reply(types.createTitle.reply, c.success(result[0]));
     })
-    .catch((err) => console.log(err));
+    .catch((err) => event.reply(types.createTitle.reply, c.fail(err.message)));
 };
 
 module.exports = createTitle;

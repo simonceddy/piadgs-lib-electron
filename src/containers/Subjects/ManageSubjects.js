@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import TableBuilder from '../TableBuilder';
@@ -128,6 +127,17 @@ function ManageSubjects({
             {showNewForm ? 'Hide Form' : 'Add New'}
           </ThemedButton>
         </FlexRow>
+        <FlexRow className="">
+          <Pagination
+            current={currentPage}
+            lastPage={lastPage}
+            setPage={setPage}
+          />
+          <ItemsPerPageSelector
+            current={itemsPerPage}
+            onChange={(e) => setPerPage(Number(e.target.value))}
+          />
+        </FlexRow>
       </FlexRow>
       {showSearchForm ? (
         <FlexRow>
@@ -158,15 +168,6 @@ function ManageSubjects({
       <FlexCol className="p-1 w-full">
         {rows.length > 0 ? (
           <>
-            <Pagination
-              current={currentPage}
-              lastPage={lastPage}
-              setPage={setPage}
-            />
-            <ItemsPerPageSelector
-              current={itemsPerPage}
-              onChange={(e) => setPerPage(Number(e.target.value))}
-            />
             <TableBuilder
               columns={columns}
               rows={rows}

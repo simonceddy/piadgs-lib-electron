@@ -1,11 +1,37 @@
-/**
- * Register crud messages with electron
- * @param {Electron.ipcMain} ipcMain the Electron.ipcMain object
- */
-const register = (ipcMain) => {
-  ipcMain.on();
+const failMessage = (message) => ({
+  message,
+  success: false
+});
+
+const crudMessages = {
+  d: {
+    success: (result) => ({
+      result,
+      success: true
+    }),
+    fail: failMessage,
+  },
+  c: {
+    success: (newId) => ({
+      success: true,
+      id: newId
+    }),
+    fail: failMessage,
+  },
+  u: {
+    success: (result) => ({
+      success: true,
+      result
+    }),
+    fail: failMessage,
+  },
+  r: {
+    success: (data) => ({
+      data,
+      success: true
+    }),
+    fail: failMessage,
+  },
 };
 
-module.exports = {
-  register
-};
+module.exports = crudMessages;

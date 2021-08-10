@@ -24,7 +24,7 @@ function CreateSubject({
     e.preventDefault();
     createSubject(vals)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         if (!result.success) {
           setMessage('There was an error saving');
         } else {

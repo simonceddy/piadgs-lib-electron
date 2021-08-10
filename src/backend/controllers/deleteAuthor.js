@@ -1,12 +1,11 @@
 const deleteModel = require('../helpers/deleteModel');
+const { d } = require('../messages/crudMessages');
 const types = require('../messageTypes');
 
 function deleteAuthor(event, params) {
   deleteModel('authors', params.id)
-    .then((result) => event.reply(types.deleteAuthor.reply, {
-      success: result
-    }))
-    .catch(console.log);
+    .then((result) => event.reply(types.deleteAuthor.reply, d.success(result)))
+    .catch((err) => event.reply(types.deleteAuthor.reply, d.fail(err.message)));
 }
 
 module.exports = deleteAuthor;
