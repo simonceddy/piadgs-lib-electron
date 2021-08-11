@@ -1,12 +1,10 @@
-import TitlesSubForm from '../../containers/Titles/TitlesSubForm';
 import { ThemedButton, ThemedTextInput } from '../../shared/components/Styled';
-import DeleteForm from '../../shared/components/Forms/DeleteForm';
+import { TitleList } from '../../shared/components/Titles';
 
 function AuthorForm({
   author = {},
   onSubmit = () => null,
   setValue,
-  onDelete = () => null
   // selectedTitles,
   // onSelect
 }) {
@@ -32,21 +30,13 @@ function AuthorForm({
       />
       {!author.titles ? null : (
         <div>
-          <span>
-            Titles:
-          </span>
-          <TitlesSubForm titles={author.titles} />
+          <TitleList titles={author.titles} />
         </div>
       )}
       <div>
         <ThemedButton submits>
           Save Changes
         </ThemedButton>
-      </div>
-      <div>
-        <DeleteForm onDelete={onDelete}>
-          Delete Author
-        </DeleteForm>
       </div>
     </form>
   );

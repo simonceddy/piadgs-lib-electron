@@ -1,26 +1,23 @@
 const db = require('../db');
+const { u } = require('../messages/crudMessages');
 const types = require('../messageTypes');
-
-const respond = (event, message) => event.reply(types.updateSubject.reply, {
-  message
-});
 
 const updateSubject = (event, params) => {
   const { name, id } = params;
   if (!id) {
-    return respond(event, 'No subject ID given!');
+    return event.reply(types.updateSubject.reply, u.fail('No subject ID given!'));
   }
   if (!name) {
-    return respond(event, 'No name provided!');
+    return event.reply(types.updateSubject.reply, u.fail('No name provided!'));
   }
   return db('subjects').where('id', id).update({
     name
   })
     .then((success) => {
       console.log(success);
-      return respond(event, success);
+      return event.reply(types.updateSubject.reply, u.success());
     })
-    .catch((err) => respond(event, err.message));
+    .catch((err) => event.reply(types.updateSubject.reply, u.fail(err.message)));
 };
 
 module.exports = updateSubject;

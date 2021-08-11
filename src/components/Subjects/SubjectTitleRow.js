@@ -6,9 +6,6 @@ const titleStyles = 'py-1 px-2 my-0.5 flex flex-1 flex-row justify-between items
 
 function SubjectTitleRow({
   title,
-  checked,
-  onChange,
-  isEditing
 }) {
   const [viewSummary, setViewSummary] = useState(false);
 
@@ -27,25 +24,7 @@ function SubjectTitleRow({
         >
           {viewSummary ? '▲' : '▼'}
         </button>
-        {isEditing ? (
-          <label
-            htmlFor={`title-subject-${title.id}`}
-            className={`${titleStyles} hover:underline`}
-          >
-            <span>
-              {title.title}
-            </span>
-            <input
-              name={`title-subject-${title.id}`}
-              id={`title-subject-${title.id}`}
-              type="checkbox"
-              className="ml-2"
-              value={title.id}
-              checked={checked}
-              onChange={onChange}
-            />
-          </label>
-        ) : <span className={titleStyles}>{title.title}</span>}
+        <span className={titleStyles}>{title.title}</span>
       </div>
       {!viewSummary ? null : Summary }
     </ThemedDiv>

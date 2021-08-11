@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
-import TitleWindow from '../../components/Titles/TitleWindow';
+// import TitleWindow from '../../components/Titles/TitleWindow';
 import {
   addTitleAuthor,
   addTitleSubject,
@@ -11,6 +11,7 @@ import {
   updateTitle
 } from '../../message-control/controllers/titleControllers';
 import { FlexRow } from '../../shared/components/Flex';
+import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import { setTitleFormValues } from '../../store/actions/admin/titleFormActions';
@@ -21,8 +22,8 @@ function Title({
   title = {},
   onClose,
   onTitleChange,
-  isEditing = false,
-  setIsEditing = () => {},
+  // isEditing = false,
+  // setIsEditing = () => {},
   values = {},
   setValues = () => {}
 }) {
@@ -90,7 +91,7 @@ function Title({
           return setStatusMessage('An error occurred trying to save changes!');
         }
         notify(result);
-        setIsEditing(false);
+        // setIsEditing(false);
         return setStatusMessage('Successfully saved changes!');
       });
   };
@@ -116,41 +117,32 @@ function Title({
       {values.title ? (
         <>
           <ThemedDiv className="flex flex-row p-2 justify-between items-center">
-            <ThemedButton
-              onClick={() => setIsEditing(!isEditing)}
-            >
-              {isEditing ? 'Stop Editing' : 'Edit'}
-            </ThemedButton>
+
             <ThemedButton
               onClick={onClose}
             >
               Close
             </ThemedButton>
+            <DeleteForm onDelete={() => onDelete(title.id)} />
           </ThemedDiv>
-          {isEditing
-            ? (
-              <FlexRow>
-                <TitleAuthors
-                  onAddAuthor={addAuthor}
-                  onRemoveAuthor={removeAuthor}
-                  authors={values.authors || []}
-                />
-                <TitleForm
-                  values={values}
-                  setValues={(vals) => setValues(vals)}
-                  onSubmit={submitChanges}
-                  onDelete={() => onDelete(title.id)}
-                />
-                <TitleSubjects
-                  onAddSubject={addSubject}
-                  onRemoveSubject={removeSubject}
-                  subjects={values.subjects || []}
-                />
-              </FlexRow>
-            )
-            : (
-              <TitleWindow title={values} />
-            )}
+
+          <FlexRow>
+            <TitleAuthors
+              onAddAuthor={addAuthor}
+              onRemoveAuthor={removeAuthor}
+              authors={values.authors || []}
+            />
+            <TitleForm
+              values={values}
+              setValues={(vals) => setValues(vals)}
+              onSubmit={submitChanges}
+            />
+            <TitleSubjects
+              onAddSubject={addSubject}
+              onRemoveSubject={removeSubject}
+              subjects={values.subjects || []}
+            />
+          </FlexRow>
         </>
       ) : null}
     </ModalAppletLayout>

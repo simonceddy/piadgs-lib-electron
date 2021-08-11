@@ -4,13 +4,13 @@ import { titleModel } from '../../backend/models';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
 import { DefaultForm } from '../../shared/components/Forms';
 import { ThemedButton, ThemedTextInput } from '../../shared/components/Styled';
-import DeleteForm from '../../shared/components/Forms/DeleteForm';
+// import DeleteForm from '../../shared/components/Forms/DeleteForm';
 
 function TitleForm({
   values = {},
   setValues,
   onSubmit = () => null,
-  onDelete = () => null
+  // onDelete = () => null
 }) {
   // const [authors, setAuthors] = useState(values.authors || []);
   // const [subjects, setSubjects] = useState(values.subjects || []);
@@ -44,11 +44,6 @@ function TitleForm({
           Save Changes
         </ThemedButton>
       </FlexRow>
-      <div>
-        <DeleteForm onDelete={onDelete}>
-          Delete Title
-        </DeleteForm>
-      </div>
     </DefaultForm>
   );
 }

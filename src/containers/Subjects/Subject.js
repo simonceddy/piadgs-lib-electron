@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, /* useState */ } from 'react';
 import { connect } from 'react-redux';
 import SubjectWindow from '../../components/Subjects/SubjectWindow';
 import SubjectNameField from '../../components/Subjects/SubjectNameField';
@@ -8,7 +8,6 @@ import {
   fetchSubject,
   setSubjectMessage,
   setSubjectName,
-  setSubjectSelectedTitles,
   updateSubject
 } from '../../store/actions';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
@@ -26,20 +25,12 @@ function Subject({
   message,
   setMessage,
   submitChanges,
-  selectedTitles,
-  setSelectedTitles,
   onDataChange
 }) {
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleChecked = (titleId) => setSelectedTitles({
-    ...selectedTitles,
-    [titleId]: !selectedTitles[titleId]
-  });
-
   // console.log(data);
   const onDelete = () => deleteSubject(id)
     .then((result) => {
+      console.log(result);
       if (result.success) {
         setName('');
         setMessage('Successfully deleted title');
@@ -51,6 +42,14 @@ function Subject({
       }
     });
 
+  const Titles = useCallback(() => (data.titles && data.titles.length > 1 ? (
+    <div className="w-full flex flex-col py-4 px-2 overflow-scroll">
+      <SubjectTitleList
+        titles={data.titles}
+      />
+    </div>
+  ) : null), [data.titles]);
+
   // Is this helping?
   useEffect(() => {
     if (id) getSubject(id);
@@ -61,12 +60,9 @@ function Subject({
       <ThemedDiv
         className="flex flex-row justify-between items-center w-full mb-3 pb-2 border-b"
       >
-        <ThemedButton
-          className="hover:underline"
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? 'Stop Editing' : 'Edit'}
-        </ThemedButton>
+        <DeleteForm onDelete={onDelete}>
+          Delete Subject
+        </DeleteForm>
 
         <ThemedButton
           className="hover:underline"
@@ -87,48 +83,21 @@ function Subject({
           {message}
         </div>
       )}
-      {isEditing ? (
-        <SubjectNameField
-          value={subjectName}
-          setValue={setName}
-        />
-      ) : (
-        <>
-          <span className="p-3 text-2xl">
-            {subjectName}
-          </span>
-        </>
-      )}
-      <div className="w-full flex flex-col py-4 px-2 overflow-scroll">
-        {data.titles && data.titles.length < 1 ? null : (
-          <SubjectTitleList
-            titles={data.titles}
-            selectedTitles={selectedTitles}
-            handleChecked={handleChecked}
-            isEditing={isEditing}
-          />
-        )}
-      </div>
-      {isEditing ? (
-        <>
-          <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
-            <ThemedButton
-              onClick={() => {
-                submitChanges({ id, name: subjectName });
-                if (typeof onDataChange === 'function') onDataChange();
-              }}
-              // isSubmit
-            >
-              Save Changes
-            </ThemedButton>
-          </ThemedDiv>
-          <div>
-            <DeleteForm onDelete={onDelete}>
-              Delete Subject
-            </DeleteForm>
-          </div>
-        </>
-      ) : null}
+      <SubjectNameField
+        value={subjectName}
+        setValue={setName}
+      />
+      <Titles />
+      <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
+        <ThemedButton
+          onClick={() => {
+            submitChanges({ id, name: subjectName });
+            if (typeof onDataChange === 'function') onDataChange();
+          }}
+        >
+          Save Changes
+        </ThemedButton>
+      </ThemedDiv>
     </SubjectWindow>
   );
 }
@@ -137,7 +106,6 @@ const mapStateToProps = (state) => ({
   subjectName: state.subjects.subject.name,
   data: state.subjects.subject.data,
   message: state.subjects.subject.message,
-  selectedTitles: state.subjects.subject.selectedTitles
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -145,7 +113,6 @@ const mapDispatchToProps = (dispatch) => ({
   setName: (name) => dispatch(setSubjectName(name)),
   setMessage: (message) => dispatch(setSubjectMessage(message)),
   submitChanges: (data) => dispatch(updateSubject(data)),
-  setSelectedTitles: (selectedTitles) => dispatch(setSubjectSelectedTitles(selectedTitles))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Subject);

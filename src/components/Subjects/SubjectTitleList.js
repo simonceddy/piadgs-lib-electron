@@ -1,10 +1,7 @@
 import SubjectTitleRow from './SubjectTitleRow';
 
 function SubjectTitleList({
-  titles = [],
-  selectedTitles = {},
-  handleChecked = () => null,
-  isEditing = false
+  titles = []
 }) {
   return (
     <div className="flex flex-col w-full mb-2">
@@ -14,9 +11,6 @@ function SubjectTitleList({
           <SubjectTitleRow
             key={title.id}
             title={title}
-            isEditing={isEditing}
-            checked={selectedTitles[title.id] === true}
-            onChange={() => handleChecked(title.id)}
           />
         ))}
       </div>

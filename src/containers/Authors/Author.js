@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
-import AuthorSummary from '../../components/Authors/AuthorSummary';
 import MessageBox from '../../components/Authors/MessageBox';
 import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
+import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import {
@@ -27,7 +26,6 @@ function Author({
   onDataChange
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
 
   const handleChecked = (titleId) => setTitles({
     ...selectedTitles,
@@ -74,11 +72,9 @@ function Author({
   return (
     <ModalAppletLayout>
       <ThemedDiv className="flex flex-row p-2 justify-between items-center">
-        <ThemedButton
-          onClick={() => setIsEditing(!isEditing)}
-        >
-          {isEditing ? 'Stop Editing' : 'Edit'}
-        </ThemedButton>
+        <DeleteForm onDelete={onDelete}>
+          Delete Author
+        </DeleteForm>
         <ThemedButton
           onClick={onClose}
         >
@@ -86,21 +82,19 @@ function Author({
         </ThemedButton>
       </ThemedDiv>
       {!message ? null : <MessageBox>{message}</MessageBox>}
-      {isEditing ? (
-        <AuthorForm
-          setValue={(val) => setData({ ...data, ...val })}
-          author={data}
-          onSubmit={(author) => {
-            submitForm(author);
-            if (onDataChange && typeof onDataChange === 'function') {
-              onDataChange();
-            }
-          }}
-          selectedTitles={selectedTitles}
-          onSelect={handleChecked}
-          onDelete={onDelete}
-        />
-      ) : (<AuthorSummary author={data} />)}
+      <AuthorForm
+        setValue={(val) => setData({ ...data, ...val })}
+        author={data}
+        onSubmit={(author) => {
+          submitForm(author);
+          if (onDataChange && typeof onDataChange === 'function') {
+            onDataChange();
+          }
+        }}
+        selectedTitles={selectedTitles}
+        onSelect={handleChecked}
+        onDelete={onDelete}
+      />
     </ModalAppletLayout>
   );
 }
