@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
-// import TitleWindow from '../../components/Titles/TitleWindow';
 import {
   addTitleAuthor,
   addTitleSubject,
@@ -14,21 +13,17 @@ import { FlexRow } from '../../shared/components/Flex';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
-import { setTitleFormValues } from '../../store/actions/admin/titleFormActions';
 import TitleAuthors from '../Authors/TitleAuthors';
 import TitleSubjects from '../Subjects/TitleSubjects';
 
 function Title({
   title = {},
   onClose,
-  onTitleChange,
-  // isEditing = false,
-  // setIsEditing = () => {},
-  values = {},
-  setValues = () => {}
+  onTitleChange
 }) {
   // TODO maintain updated data when calling notify
   const [statusMessage, setStatusMessage] = useState(null);
+  const [values, setValues] = useState(title);
 
   const notify = (message) => {
     if (typeof onTitleChange === 'function') {
@@ -96,17 +91,6 @@ function Title({
       });
   };
 
-  // Fix state
-  useEffect(() => {
-    let isLoaded = false;
-
-    if (!isLoaded) setValues(title);
-
-    return () => {
-      isLoaded = true;
-    };
-  }, [title]);
-
   return (
     <ModalAppletLayout>
       {statusMessage ? (
@@ -149,12 +133,4 @@ function Title({
   );
 }
 
-const mapStateToProps = (state) => ({
-  values: state.titles.title.values
-});
-
-const mapDispatchToProps = (dispatch) => ({
-  setValues: (values) => dispatch(setTitleFormValues(values))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Title);
+export default connect()(Title);

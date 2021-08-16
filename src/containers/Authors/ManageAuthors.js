@@ -70,7 +70,7 @@ function ManageAuthors({
     <Modal onClose={onClose}>
       <Author
         onClose={onClose}
-        id={showModal}
+        author={showModal}
         onDataChange={fetchData}
       />
     </Modal>
@@ -167,7 +167,7 @@ function ManageAuthors({
               console.log(e.target.id);
               handleSort(e.target.id);
             }}
-            onRowClick={(author) => setShowModal(author.id)}
+            onRowClick={(author) => setShowModal(author)}
           />
         ) : null}
       </FlexRow>

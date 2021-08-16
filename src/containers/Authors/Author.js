@@ -1,41 +1,38 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import MessageBox from '../../components/Authors/MessageBox';
-import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
+import { deleteAuthor } from '../../message-control/controllers';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import {
   setAuthorMessage,
-  setAuthorData,
   setSelectedTitles,
   updateAuthor
 } from '../../store/actions';
 
 function Author({
-  id,
-  data,
+  author = {},
   selectedTitles,
   setTitles,
-  setData,
   message,
   setMessage,
   onClose,
   submitForm = () => {},
   onDataChange
 }) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [values, setValues] = useState(author);
 
   const handleChecked = (titleId) => setTitles({
     ...selectedTitles,
     [titleId]: !selectedTitles[titleId]
   });
 
-  const onDelete = () => deleteAuthor(id)
+  const onDelete = () => deleteAuthor(author.id)
     .then((result) => {
       if (result.success) {
-        setData({});
+        setValues({});
         setMessage('Successfully deleted title');
         if (typeof onDataChange === 'function') {
           onDataChange(result);
@@ -44,30 +41,6 @@ function Author({
         setMessage('An error occurred while attempting deletion.');
       }
     });
-
-  useEffect(() => {
-    if (id) {
-      getLibraryAuthor({ id })
-        .then((res) => {
-          // console.log(res);
-          if (res.id) {
-            return Promise.resolve(setData(res))
-              .then(() => Promise.resolve(setTitles(Object.fromEntries(
-                data.titles.map(({ id: titleId }) => [titleId, true])
-              ))));
-          }
-          return Promise.resolve(setMessage('There was an error accessing the author data.'));
-        })
-        .then(() => setIsLoaded(true))
-        .catch((err) => console.log(err));
-    }
-  }, [id]);
-
-  if (!isLoaded) {
-    return (
-      <div>Retrieving data...</div>
-    );
-  }
 
   return (
     <ModalAppletLayout>
@@ -83,10 +56,10 @@ function Author({
       </ThemedDiv>
       {!message ? null : <MessageBox>{message}</MessageBox>}
       <AuthorForm
-        setValue={(val) => setData({ ...data, ...val })}
-        author={data}
-        onSubmit={(author) => {
-          submitForm(author);
+        setValue={(val) => setValues({ ...values, ...val })}
+        author={values}
+        onSubmit={(data) => {
+          submitForm(data);
           if (onDataChange && typeof onDataChange === 'function') {
             onDataChange();
           }
@@ -100,13 +73,11 @@ function Author({
 }
 
 const mapStateToProps = (state) => ({
-  data: state.authors.author.data,
   selectedTitles: state.authors.author.selectedTitles,
   message: state.messages.authors
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  setData: (data) => dispatch(setAuthorData(data)),
   setTitles: (selectedTitles) => dispatch(setSelectedTitles(selectedTitles)),
   setMessage: (message = false) => dispatch(setAuthorMessage(message)),
   submitForm: (data) => dispatch(updateAuthor(data)),

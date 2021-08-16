@@ -27,29 +27,20 @@ function AllTitles({
   lastPage,
   itemsPerPage,
   setPerPage,
-  setIsEditing,
-  isEditing
 }) {
+  // const [showSearchForm, setShowSearchForm] = useState(false);
   const [titleModal, setTitleModal] = useState(false);
 
   const onClose = () => setTitleModal(false);
 
   const TitleModal = () => (!titleModal ? null : (
     <Modal
-      onClose={() => {
-        onClose();
-        setIsEditing(false);
-      }}
+      onClose={onClose}
     >
       <Title
-        onClose={() => {
-          onClose();
-          setIsEditing(false);
-        }}
+        onClose={onClose}
         title={titleModal}
         onTitleChange={getTitles}
-        isEditing={isEditing}
-        setIsEditing={setIsEditing}
       />
     </Modal>
   ));
