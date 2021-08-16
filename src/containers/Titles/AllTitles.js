@@ -4,14 +4,16 @@ import ItemsPerPageSelector from '../../components/Forms/ItemsPerPageSelector';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { FlexRow } from '../../shared/components/Flex';
+import { SingleFieldForm } from '../../shared/components/Forms';
 import Modal from '../../shared/components/Modal';
+import { ThemedButton } from '../../shared/components/Styled';
 import { DefaultTable } from '../../shared/components/Tables';
 import { titleCols } from '../../shared/data/titleCols';
 import {
   fetchTitlesData,
   setCurrentPage,
-  setEditingTitle,
   setItemsPerPage,
+  setTitlesFilter,
   sortTitleRows
 } from '../../store/actions';
 import Title from './Title';
@@ -27,9 +29,14 @@ function AllTitles({
   lastPage,
   itemsPerPage,
   setPerPage,
+  filter = {},
+  clearFilter = () => {},
+  setFilter = () => {}
 }) {
   // const [showSearchForm, setShowSearchForm] = useState(false);
   const [titleModal, setTitleModal] = useState(false);
+  const [showSearchForm, setShowSearchForm] = useState(false);
+  const [showNewForm, setShowNewForm] = useState(false);
 
   const onClose = () => setTitleModal(false);
 
@@ -57,6 +64,25 @@ function AllTitles({
   return (
     <>
       <TitleModal />
+      <FlexRow
+        className="flex flex-row justify-start items-center mr-4"
+      >
+        <ThemedButton
+          className="mx-1"
+          onClick={() => {
+            setShowSearchForm(!showSearchForm);
+            if (filter.surname) clearFilter();
+          }}
+        >
+          {filter.surname ? 'Show All' : 'Filter'}
+        </ThemedButton>
+        <ThemedButton
+          className="mx-1"
+          onClick={() => setShowNewForm(!showNewForm)}
+        >
+          {showNewForm ? 'Hide Form' : 'Add New'}
+        </ThemedButton>
+      </FlexRow>
       <FlexRow className="w-full">
         <Pagination
           current={currentPage}
@@ -68,6 +94,17 @@ function AllTitles({
           onChange={(e) => setPerPage(Number(e.target.value))}
         />
       </FlexRow>
+      {showSearchForm ? (
+        <FlexRow>
+          <SingleFieldForm
+            submitLabel="Filter Authors by Name"
+            input={filter.surname || ''}
+            setInput={(input) => setFilter({ surname: input })}
+            onSubmit={getTitles}
+            clear={clearFilter}
+          />
+        </FlexRow>
+      ) : null}
       {titles.length < 1 ? 'Loading...' : (
         <>
           <DefaultTable
@@ -98,7 +135,7 @@ const mapStateToProps = (state) => ({
   titles: state.titles.titles.titles,
   sortDirection: state.titles.titles.sortDirection,
   sortColumn: state.titles.titles.sortColumn,
-  isEditing: state.titles.title.isEditing
+  filter: state.titles.titles.filter
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -106,7 +143,7 @@ const mapDispatchToProps = (dispatch) => ({
   setPage: (page) => dispatch(setCurrentPage(page)),
   sortTitles: (col) => dispatch(sortTitleRows(col)),
   setPerPage: (amount) => dispatch(setItemsPerPage(amount)),
-  setIsEditing: (isEditing) => dispatch(setEditingTitle(isEditing))
+  setFilter: (filter) => dispatch(setTitlesFilter(filter))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AllTitles);
