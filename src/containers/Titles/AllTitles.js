@@ -64,35 +64,37 @@ function AllTitles({
   return (
     <>
       <TitleModal />
-      <FlexRow
-        className="flex flex-row justify-start items-center mr-4"
-      >
-        <ThemedButton
-          className="mx-1"
-          onClick={() => {
-            setShowSearchForm(!showSearchForm);
-            if (filter.title) clearFilter();
-          }}
+      <FlexRow className="w-full justify-between items-center p-2">
+        <FlexRow
+          className="justify-start items-center mr-4"
         >
-          {filter.title ? 'Show All' : 'Filter'}
-        </ThemedButton>
-        <ThemedButton
-          className="mx-1"
-          onClick={() => setShowNewForm(!showNewForm)}
-        >
-          {showNewForm ? 'Hide Form' : 'Add New'}
-        </ThemedButton>
-      </FlexRow>
-      <FlexRow className="w-full">
-        <Pagination
-          current={currentPage}
-          lastPage={lastPage}
-          setPage={setPage}
-        />
-        <ItemsPerPageSelector
-          current={itemsPerPage}
-          onChange={(e) => setPerPage(Number(e.target.value))}
-        />
+          <ThemedButton
+            className="mx-1"
+            onClick={() => {
+              setShowSearchForm(!showSearchForm);
+              if (filter.title) clearFilter();
+            }}
+          >
+            {filter.title ? 'Show All' : 'Filter'}
+          </ThemedButton>
+          <ThemedButton
+            className="mx-1"
+            onClick={() => setShowNewForm(!showNewForm)}
+          >
+            {showNewForm ? 'Hide Form' : 'Add New'}
+          </ThemedButton>
+        </FlexRow>
+        <FlexRow className="items-center">
+          <Pagination
+            current={currentPage}
+            lastPage={lastPage}
+            setPage={setPage}
+          />
+          <ItemsPerPageSelector
+            current={itemsPerPage}
+            onChange={(e) => setPerPage(Number(e.target.value))}
+          />
+        </FlexRow>
       </FlexRow>
       {showSearchForm ? (
         <FlexRow>
