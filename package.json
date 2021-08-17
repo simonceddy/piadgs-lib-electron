@@ -41,7 +41,10 @@
     "dev": "concurrently \"BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electron .\"",
     "tailwind": "tailwind build src/shared/styles/tailwind.src.css -o src/shared/styles/tailwind.css",
     "models": "nodemon models.js",
-    "idev": "nodemon setup/index.js"
+    "idev": "nodemon setup/index.js",
+    "db:up": "knex migrate:latest",
+    "db:down": "knex migrate:rollback --all",
+    "db:fresh": "npm run db:down && npm run db:up"
   },
   "eslintConfig": {
     "extends": [

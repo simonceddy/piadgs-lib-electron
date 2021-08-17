@@ -71,10 +71,10 @@ function AllTitles({
           className="mx-1"
           onClick={() => {
             setShowSearchForm(!showSearchForm);
-            if (filter.surname) clearFilter();
+            if (filter.title) clearFilter();
           }}
         >
-          {filter.surname ? 'Show All' : 'Filter'}
+          {filter.title ? 'Show All' : 'Filter'}
         </ThemedButton>
         <ThemedButton
           className="mx-1"
@@ -97,9 +97,9 @@ function AllTitles({
       {showSearchForm ? (
         <FlexRow>
           <SingleFieldForm
-            submitLabel="Filter Authors by Name"
-            input={filter.surname || ''}
-            setInput={(input) => setFilter({ surname: input })}
+            submitLabel="Filter by Title"
+            input={filter.title || ''}
+            setInput={(input) => setFilter({ title: input })}
             onSubmit={getTitles}
             clear={clearFilter}
           />
