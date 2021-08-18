@@ -66,7 +66,7 @@ export const fetchTitlesData = () => async (dispatch, getState) => {
 
   // TODO set currentPage if > lastPage
   const lastPage = Math.ceil(total / itemsPerPage);
-
+  console.log(filter);
   return getTitles({
     page: currentPage <= lastPage ? currentPage : lastPage,
     itemsPerPage,

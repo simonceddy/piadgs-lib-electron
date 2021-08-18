@@ -62,7 +62,7 @@ export const titleCols = [
     sortable: true,
   },
   {
-    key: 'location',
+    key: 'call_number',
     name: 'location',
     isPublic: true,
     sortable: true,

@@ -30,9 +30,10 @@ ipcMain.on(
 
 ipcMain.on(
   types.countTitles.send,
-  (ev) => controllers.countModels(
+  (ev, { filter = {} }) => controllers.countModels(
     'titles',
     (results) => ev.reply(types.countTitles.reply, results),
+    filter
   )
 );
 ipcMain.on(

@@ -30,7 +30,6 @@ function AllTitles({
   itemsPerPage,
   setPerPage,
   filter = {},
-  clearFilter = () => {},
   setFilter = () => {}
 }) {
   // const [showSearchForm, setShowSearchForm] = useState(false);
@@ -39,6 +38,11 @@ function AllTitles({
   const [showNewForm, setShowNewForm] = useState(false);
 
   const onClose = () => setTitleModal(false);
+
+  const clearFilter = () => Promise.resolve(
+    setFilter({})
+  )
+    .then(() => getTitles());
 
   const TitleModal = () => (!titleModal ? null : (
     <Modal

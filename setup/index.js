@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 const Papa = require('papaparse');
 const testDb = require('./database/testDb');
 const processAuthors = require('./old/processors/processAuthors');
@@ -9,6 +10,23 @@ const processParsedCSVData = require('./old/processParsedCSVData');
 console.log('bootstrapping app');
 const currentCSV = 'Book master - Simon (26 May 2021).csv';
 const pathTo = `${__dirname}/storage/${currentCSV}`;
+
+testDb('users')
+  .where('username', 'simon')
+  .first()
+  .then((result) => {
+    console.log(result);
+    if (!result) {
+      testDb('users').insert({
+        username: 'simon',
+        password: bcrypt.hashSync('secret', 4)
+      })
+        .then((success) => {
+          console.log(success);
+        });
+    }
+  })
+  .catch(console.log);
 
 const associateAuthorTitle = (authorId, titleId) => testDb('authors_titles')
   .insert({
@@ -46,6 +64,9 @@ const convertCsv = async (onConverted) => {
 if (fs.existsSync(pathTo)) {
   convertCsv(async ({ data, issues }) => {
     // console.log(data);
+    const authors = {};
+    const subjects = {};
+
     await Promise.all(data.map((title) => {
       testDb('titles')
         .insert({
@@ -59,54 +80,62 @@ if (fs.existsSync(pathTo)) {
           cost: title.cost,
           pagination: title.pagination,
         })
-        .then((newId) => {
-          title.subjects.map(async (subject = {}) => {
+        .then(async (newId) => {
+          await Promise.all(title.subjects.map(async (subject = {}) => {
             if (subject.name) {
-              await testDb('subjects')
-                .where('name', subject.name)
-                .first()
-                .then(async (result) => {
-                  if (!result) {
-                    testDb('subjects')
-                      .insert(subject)
-                      .then(async (subjectId) => {
-                        await associateSubjectTitle(subjectId[0], newId[0]);
-                      })
-                      .catch(console.log);
-                  } else {
-                    associateSubjectTitle(result[0], newId[0]);
-                  }
-                });
+              if (!subjects[subject.name]) subjects[subject.name] = [];
+              subjects[subject.name].push(newId);
+              // await testDb('subjects')
+              //   .where('name', subject.name)
+              //   .first()
+              //   .then(async (result) => {
+              //     if (!result) {
+              //       testDb('subjects')
+              //         .insert(subject)
+              //         .then(async (subjectId) => {
+              //           await associateSubjectTitle(subjectId[0], newId[0]);
+              //         })
+              //         .catch(console.log);
+              //     } else {
+              //       associateSubjectTitle(result[0], newId[0]);
+              //     }
+              //   });
             }
             return subject;
-          });
+          }));
 
-          title.author.map(async (author = {}) => {
+          await Promise.all(title.author.map(async (author = {}) => {
             if (author.name) {
-              await testDb('authors')
-                .where('name', author.name)
-                .first()
-                .then(async (result) => {
-                  if (!result) {
-                    testDb('authors')
-                      .insert(author)
-                      .then(async (authorId) => {
-                        await associateAuthorTitle(authorId[0], newId[0]);
-                      })
-                      .catch(console.log);
-                  } else {
-                    await associateAuthorTitle(result[0], newId[0]);
-                  }
-                });
+              if (!authors[author.name]) authors[author.name] = [];
+              authors[author.name].push(newId);
+              // await testDb('authors')
+              //   .where('name', author.name)
+              //   .first()
+              //   .then(async (result) => {
+              //     if (!result) {
+              //       testDb('authors')
+              //         .insert(author)
+              //         .then(async (authorId) => {
+              //           await associateAuthorTitle(authorId[0], newId[0]);
+              //         })
+              //         .catch(console.log);
+              //     } else {
+              //       await associateAuthorTitle(result[0], newId[0]);
+              //     }
+              //   });
             }
             return author;
-          });
+          }));
         });
 
       return title;
-    }));
+    }))
+      .then(() => console.log(authors));
+
+    return [subjects, authors];
   })
-    .then(() => {
+    .then((result) => {
+      console.log(result);
       console.log('bootstrapped');
     });
 } else {
