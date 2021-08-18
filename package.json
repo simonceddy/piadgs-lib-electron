@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",
+  "author": "Simon Eddy <simon@simoneddy.com.au>",
+  "description": "PIADGS Library App",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.6",
@@ -10,6 +12,7 @@
     "axios": "^0.21.1",
     "bcrypt": "^5.0.1",
     "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "knex": "^0.95.4",
     "lodash": "^4.17.21",
     "papaparse": "^5.3.1",
@@ -26,25 +29,28 @@
     "redux-observable": "^2.0.0",
     "redux-thunk": "^2.3.0",
     "rxjs": "^6.6.7",
-    "sqlite3": "^5.0.2",
+    "sqlite3": "5.0.0",
     "styled-components": "^5.3.0",
     "styled-theming": "^2.2.0",
     "tailwindcss": "^2.1.2",
     "web-vitals": "^1.1.1"
   },
+  "homepage": "./",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "dv": "electron .",
-    "dev": "concurrently \"BROWSER=none npm run start\" \"wait-on http://localhost:3000 && electron .\"",
+    "dev": "concurrently \"BROWSER=none npm run start\" \"wait-on tcp:3000 && electron-forge start\"",
     "tailwind": "tailwind build src/shared/styles/tailwind.src.css -o src/shared/styles/tailwind.css",
     "models": "nodemon models.js",
     "idev": "nodemon setup/index.js",
     "db:up": "knex migrate:latest",
     "db:down": "knex migrate:rollback --all",
-    "db:fresh": "npm run db:down && npm run db:up"
+    "db:fresh": "npm run db:down && npm run db:up",
+    "package": "react-scripts build && electron-forge package",
+    "make": "react-scripts build && electron-forge make"
   },
   "eslintConfig": {
     "extends": [
@@ -65,9 +71,14 @@
     ]
   },
   "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.59",
+    "@electron-forge/maker-deb": "^6.0.0-beta.59",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.59",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.59",
+    "@electron-forge/maker-zip": "^6.0.0-beta.59",
     "concurrently": "^6.0.2",
     "electron": "^12.0.6",
-    "electron-builder": "^22.11.1",
+    "electron-devtools-installer": "^3.2.0",
     "eslint": "^7.25.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-plugin-import": "^2.22.1",
@@ -85,6 +96,36 @@
     },
     "mac": {
       "icon": "assets/icon.icns"
+    }
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {
+        "icon": "assets/icon.icns",
+        "name": "PIADGS Library"
+      },
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "app"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
     }
   }
 }
