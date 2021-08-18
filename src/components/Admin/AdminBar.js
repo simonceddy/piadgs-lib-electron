@@ -36,7 +36,7 @@ function AdminBar({ children }) {
     <StyledAdminBar className="flex-1 justify-around items-center rounded-md m-2">
       <NavbarLink className="" to="/admin" exact>
         <DashIcon size={26} />
-        <LinkLabel>Admin</LinkLabel>
+        <LinkLabel>Dashboard</LinkLabel>
       </NavbarLink>
       <NavbarLink className="" to="/authors" exact>
         <AuthorsIcon size={26} />

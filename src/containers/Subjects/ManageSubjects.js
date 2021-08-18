@@ -198,7 +198,6 @@ function ManageSubjects({
           </>
         ) : null}
       </FlexCol>
-      here
     </FlexCol>
   );
 }

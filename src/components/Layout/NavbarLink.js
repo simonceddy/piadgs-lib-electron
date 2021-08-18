@@ -7,7 +7,8 @@ function NavbarLink({
     <ThemedNavLink
       to={to}
       exact={exact}
-      className={`flex flex-row justify-between items-center p-2 no-underline hover:underline m-1 rounded ${className}`}
+      activeClassName="active-navlink"
+      className={`flex flex-row border-2 justify-between items-center p-2 no-underline hover:underline m-1 rounded ${className}`}
     >
       {children}
     </ThemedNavLink>

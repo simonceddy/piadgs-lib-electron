@@ -52,7 +52,7 @@ export const ThemedNavLink = styled(NavLink)`
     border-color: ${background};
   }
 
-  &.active {
+  &.active-navlink {
     border-color: ${primary};
   }
 `;

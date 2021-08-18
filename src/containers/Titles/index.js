@@ -5,11 +5,9 @@ import {
   CreateIcon,
   ListIcon,
   PasteFromWorksIcon,
-  SearchIcon
 } from '../../shared/components/Icons';
 import { FlexCol } from '../../shared/components/Flex';
 import AllTitles from './AllTitles';
-import SearchTitles from './SearchTitles';
 import TitleForm from '../Forms/TitleForm';
 import WorksToDb from '../WorksToDb';
 
@@ -27,12 +25,6 @@ const toolbarItems = [
       key: 'listAllTitles',
       Icon: ListIcon,
       to: '/titles',
-      exact: true
-    },
-    {
-      key: 'searchTitles',
-      Icon: SearchIcon,
-      to: '/titles/search',
       exact: true
     },
   ],
@@ -63,13 +55,6 @@ function Titles() {
           exact
           render={() => (
             <TitleForm />
-          )}
-        />
-        <Route
-          path="/titles/search"
-          exact
-          render={() => (
-            <SearchTitles />
           )}
         />
         <Route
