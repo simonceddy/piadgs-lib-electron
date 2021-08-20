@@ -16,11 +16,6 @@ const adminColumns = [
   },
   ...columns,
   {
-    key: 'accession_number',
-    name: 'Accession Number',
-    sortable: true,
-  },
-  {
     key: 'isbn',
     name: 'ISBN',
     sortable: true,
@@ -48,6 +43,11 @@ const adminColumns = [
   {
     key: 'date',
     name: 'date',
+    sortable: true,
+  },
+  {
+    key: 'accession_number',
+    name: 'Accession Number',
     sortable: true,
   },
 ];

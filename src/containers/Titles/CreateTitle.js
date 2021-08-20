@@ -2,15 +2,16 @@ import { connect } from 'react-redux';
 import { TitleForm } from '../../components/Admin';
 import { FlexRow } from '../../shared/components/Flex';
 import { LgFormButton } from '../../shared/components/Forms';
-import adminColumns from '../../util/adminColumns';
+// import adminColumns from '../../util/adminColumns';
 import TitleFormInputs from '../../components/Admin/Titles/TitleFormInputs';
 import useTitleForm from '../../hooks/useTitleForm';
 import { saveTitle } from '../../store/actions';
+import titleFields from '../../shared/data/titleFields';
 
 // In case we add fields that aren't columns
-const fields = [
-  ...adminColumns
-];
+// const fields = [
+//   ...adminColumns
+// ];
 
 function CreateTitle({
   submitValues = () => {}
@@ -38,7 +39,7 @@ function CreateTitle({
       {stored ? <div>Title was saved!</div> : null}
       <TitleFormInputs
         values={values}
-        fields={fields}
+        fields={titleFields}
         setValues={setValue}
       />
       <FlexRow className="justify-between items-center py-2 px-4">

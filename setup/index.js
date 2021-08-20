@@ -61,83 +61,144 @@ const convertCsv = async (onConverted) => {
   });
 };
 
-if (fs.existsSync(pathTo)) {
-  convertCsv(async ({ data, issues }) => {
-    // console.log(data);
-    const authors = {};
-    const subjects = {};
+const storeAuthor = (author) => testDb('authors')
+  .insert(author)
+  .then((result) => result[0] || false)
+  .catch(console.log);
 
-    await Promise.all(data.map((title) => {
-      testDb('titles')
-        .insert({
-          title: title.title,
-          imprint: title.imprint,
-          isbn: title.isbn,
-          accession_number: title.accession_number,
-          source: title.source,
-          date: title.date,
-          location: title.location,
-          cost: title.cost,
-          pagination: title.pagination,
-        })
-        .then(async (newId) => {
-          await Promise.all(title.subjects.map(async (subject = {}) => {
-            if (subject.name) {
-              if (!subjects[subject.name]) subjects[subject.name] = [];
-              subjects[subject.name].push(newId);
-              // await testDb('subjects')
-              //   .where('name', subject.name)
-              //   .first()
-              //   .then(async (result) => {
-              //     if (!result) {
-              //       testDb('subjects')
-              //         .insert(subject)
-              //         .then(async (subjectId) => {
-              //           await associateSubjectTitle(subjectId[0], newId[0]);
-              //         })
-              //         .catch(console.log);
-              //     } else {
-              //       associateSubjectTitle(result[0], newId[0]);
-              //     }
-              //   });
-            }
-            return subject;
-          }));
+const storeSubject = (subject) => testDb('subjects')
+  .insert(subject)
+  .then((result) => result[0] || false)
+  .catch(console.log);
 
-          await Promise.all(title.author.map(async (author = {}) => {
-            if (author.name) {
-              if (!authors[author.name]) authors[author.name] = [];
-              authors[author.name].push(newId);
-              // await testDb('authors')
-              //   .where('name', author.name)
-              //   .first()
-              //   .then(async (result) => {
-              //     if (!result) {
-              //       testDb('authors')
-              //         .insert(author)
-              //         .then(async (authorId) => {
-              //           await associateAuthorTitle(authorId[0], newId[0]);
-              //         })
-              //         .catch(console.log);
-              //     } else {
-              //       await associateAuthorTitle(result[0], newId[0]);
-              //     }
-              //   });
-            }
-            return author;
-          }));
-        });
+const storeAuthorsAndSubjects = async (data) => {
+  const authors = {};
+  const subjects = {};
 
-      return title;
-    }))
-      .then(() => console.log(authors));
+  await Promise.all(data.map(async (row = {}) => {
+    if (row.author && row.author.length > 0) {
+      const filtered = row.author.filter(({ name }) => {
+        if (!authors[name] && name !== '') {
+          authors[name] = true;
+          return true;
+        }
 
-    return [subjects, authors];
-  })
-    .then((result) => {
-      console.log(result);
-      console.log('bootstrapped');
+        return false;
+      });
+      await Promise.all(filtered.map(async (a = {}) => {
+        if (a.name && a.name !== '') {
+          // console.log(a);
+          await testDb('authors')
+            .where('name', a.name)
+            .first()
+            .then(async (result) => {
+              // console.log(result);
+              if (!result) {
+                return storeAuthor(a);
+              }
+              return result;
+            });
+        }
+        return a;
+      }));
+    }
+    return row;
+  }))
+    .then(() => {
+      console.log('authors stored');
     });
+
+  await Promise.all(data.map(async (row) => {
+    if (row.subjects && row.subjects.length > 0) {
+      const filtered = row.subjects.filter(({ name }) => {
+        if (!subjects[name] && name !== '') {
+          subjects[name] = true;
+          return true;
+        }
+
+        return false;
+      });
+      await Promise.all(filtered.map(async (a = {}) => {
+        if (a.name && a.name !== '') {
+          // console.log(a);
+          await testDb('subjects')
+            .where('name', a.name)
+            .first()
+            .then(async (result) => {
+              // console.log(result);
+              if (!result) {
+                return storeSubject(a);
+              }
+              return result;
+            });
+        }
+        return a;
+      }));
+    }
+    return subjects;
+  }))
+    .then(() => {
+      console.log('subjects stored');
+    });
+};
+
+if (fs.existsSync(pathTo)) {
+  convertCsv(async ({ data }) => {
+    storeAuthorsAndSubjects(data)
+      .then(async () => {
+        await Promise.all(data.map((title) => {
+          testDb('titles')
+            .insert({
+              title: title.title,
+              imprint: title.imprint,
+              isbn: title.isbn,
+              accession_number: title.accession_number,
+              source: title.source,
+              date: title.date,
+              location: title.location,
+              cost: title.cost,
+              pagination: title.pagination,
+            })
+            .then(async (newId) => {
+              await Promise.all(title.subjects.map(async (subject = {}) => {
+                if (subject.name) {
+                  await testDb('subjects')
+                    .where('name', subject.name)
+                    .first()
+                    .then(async (result) => {
+                      // console.log(result);
+                      if (result) {
+                        associateSubjectTitle(result.id, newId[0])
+                          .catch(console.log);
+                      } else {
+                        console.log(subject.name);
+                      }
+                    });
+                }
+                return subject;
+              }));
+
+              await Promise.all(title.author.map(async (author = {}) => {
+                if (author.name) {
+                  await testDb('authors')
+                    .where('name', author.name)
+                    .first()
+                    .then(async (result) => {
+                      if (result) {
+                        associateAuthorTitle(result.id, newId[0])
+                          .catch(console.log);
+                      }
+                    });
+                }
+                return author;
+              }));
+            });
+
+          return title;
+        }))
+          .then(() => console.log('titles stored'));
+      });
+  });
 } else {
   console.log('could not locate source data');
 }

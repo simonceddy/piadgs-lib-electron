@@ -104,6 +104,10 @@ ipcMain.on(
 );
 
 ipcMain.on(
+  'logout', controllers.logoutController
+);
+
+ipcMain.on(
   types.createTitle.send,
   authMiddleware(controllers.createTitle)
 );

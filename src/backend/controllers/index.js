@@ -2,6 +2,7 @@ const getAll = require('./getAll');
 const getFrom = require('./getFrom');
 const countModels = require('./countModels');
 const loginController = require('./loginController');
+const logoutController = require('./logoutController');
 const searchAuthors = require('./searchAuthors');
 const searchSubjects = require('./searchSubjects');
 const searchLibrary = require('./searchLibrary');
@@ -35,6 +36,7 @@ const controllers = {
   countModels,
   countAuthorsForTitle,
   loginController,
+  logoutController,
   searchAuthors,
   searchSubjects,
   searchLibrary,
