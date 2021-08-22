@@ -1,6 +1,6 @@
 {
   "entry": [
-    "src/index.js", "public/electron.js"
+    "src/index.js", "public/electron.js", "setup/index.js"
   ],
   "ignoreUnresolved": [],
   "ignoreUnimported": [],
