@@ -26,7 +26,6 @@ let mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    icon: './icon.icns',
     show: false,
     webPreferences: {
       nodeIntegration: true,
@@ -38,8 +37,10 @@ function createWindow() {
       ? 'http://localhost:3000'
       : `file://${path.join(__dirname, '../build/index.html')}`
   );
-  mainWindow.maximize();
-  mainWindow.show();
+  mainWindow.on('ready-to-show', () => {
+    mainWindow.maximize();
+    mainWindow.show();
+  });
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
