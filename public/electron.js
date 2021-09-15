@@ -24,6 +24,8 @@ require('../src/backend');
 
 let mainWindow;
 
+app.setName('PIADGS Library');
+
 function createWindow() {
   mainWindow = new BrowserWindow({
     show: false,
