@@ -40,17 +40,10 @@ function CreateAuthor({
         <ThemedDiv className="flex-1 h-full mr-6 p-2 border-2 rounded-xl">
           <ThemedTextInput
             labelClassName="w-1/4"
-            value={vals.surname}
-            onChange={(e) => setVals({ ...vals, surname: e.target.value })}
-            label="Surname"
-            id="author-surname"
-          />
-          <ThemedTextInput
-            labelClassName="w-1/4"
-            value={vals.given_names}
-            onChange={(e) => setVals({ ...vals, given_names: e.target.value })}
-            label="Given Names"
-            id="author-given-names"
+            value={vals.name}
+            onChange={(e) => setVals({ ...vals, name: e.target.value })}
+            label="Name"
+            id="author-name"
           />
         </ThemedDiv>
         <FlexRow>
@@ -75,8 +68,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   setVals: (vals) => dispatch(setAuthorFormInput(vals)),
   resetForm: () => dispatch(setAuthorFormInput({
-    surname: '',
-    given_names: ''
+    name: ''
   }))
 });
 

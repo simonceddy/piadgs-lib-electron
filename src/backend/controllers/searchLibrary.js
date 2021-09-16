@@ -1,16 +1,14 @@
 /* eslint-disable no-plusplus */
-// eslint-disable-next-line no-unused-vars
-const { Knex } = require('knex');
-const contains = require('../helpers/contains');
 const db = require('../db');
 const loadTitleRelations = require('../helpers/loadTitleRelations');
 const types = require('../messageTypes');
+const wildcardStringQuery = require('../helpers/wildcardStringQuery');
 // const titleModel = require('../models/title');
 
 const sortBy = (field) => {
   switch (field) {
     case 'authors':
-      return 'authors.surname';
+      return 'authors.name';
     case 'subjects':
       return 'subjects.name';
     default:
@@ -29,40 +27,37 @@ const fields = {
   title: {
     col: 'titles.title',
     handle(value) {
-      return (query) => query.where(...contains('titles.title', value));
+      return (query) => wildcardStringQuery(query, 'titles.title', value);
     }
   },
   author: {
-    col: 'authors',
+    col: 'authors.name',
     handle(value) {
-      return (query) => query.where(...contains('authors.surname', value))
-        .orWhere(...contains('authors.given_names', value));
+      return (query) => wildcardStringQuery(query, 'authors.name', value);
     }
   },
   subject: {
-    col: 'subjects',
+    col: 'subjects.name',
     handle(value) {
-      return (query) => query.where(...contains('subjects.name', value));
+      return (query) => wildcardStringQuery(query, 'subjects.name', value);
     }
   },
-  callNumber: {
-    col: 'titles.call_number'
+  location: {
+    col: 'titles.location',
+    handle(value) {
+      return (query) => wildcardStringQuery(query, 'titles.location', value);
+    }
   }
 };
 
 const respond = (event, data) => event.reply(types.searchLibrary.reply, data);
 
-/**
- * Build the search query
- * @param {Object} data Data object
- * @returns {Function(): Knex}
- */
 const searchQuery = (data = {}) => {
   /**
    * Query function
    *
-   * @param {Knex} query
-   * @returns {Knex}
+   * @param {db} query
+   * @returns {db}
    */
   const makeQuery = (query) => {
     const params = Object.keys(fields)
@@ -86,7 +81,7 @@ const searchQuery = (data = {}) => {
     if (fields[params[0]].handle) {
       currentQuery = query.where(fields[params[0]].handle(data[params[0]]));
     } else {
-      currentQuery = query.where(fields[params[0]].col, 'like', `%${data[params[0]]}%`);
+      currentQuery = wildcardStringQuery(query, fields[params[0].col], data[params[0]]);
     }
 
     if (totalParams > 1) {
@@ -112,7 +107,7 @@ const searchLibrary = async (event, {
   sortCol = 'title',
   sortDirection = 'ASC',
   title,
-  callNumber,
+  location,
   author,
   subject,
   page = 1,
@@ -120,7 +115,7 @@ const searchLibrary = async (event, {
 }) => {
   const q = searchQuery({
     title,
-    callNumber,
+    location,
     author,
     subject
   });
@@ -129,41 +124,36 @@ const searchLibrary = async (event, {
   return q(db('titles')).countDistinct('titles.id', { as: 'total' })
     .then(async (result) => {
       const { total } = result[0];
-      // TODO handle loading relations correctly
-      const resolved = await q(db('titles'))
+      const resolved = q(db('titles'))
         .orderBy(sortBy(sortCol), sortDirection)
-        // .groupBy('titles.id')
-        // .modify((qb) => qb.countDistinct('titles.id', { as: 'total' }))
         .distinct('titles.id')
         .offset(offset)
-        .limit(itemsPerPage)
+        .limit(itemsPerPage);
+      console.log(resolved.toSQL());
+
+      return resolved
         .select('titles.*')
         .then((results = []) => {
           if (results.length < 1) {
             return respond(event, { message: 'No results were found.', results });
           }
-
-          // TODO fix query
-          // const unique = results.filter((title, index, self) => index === self.findIndex(
-          //   (t) => (t.id === title.id)
-          // ));
           return Promise.all(results.map((t) => loadTitleRelations(t)
             .then((loaded) => loaded)))
-            .then((titles) => respond(event, {
-              ...searchResponseBody,
-              results: titles,
-              success: true,
-              totalResults: total
-            }));
-        })
-        .catch((err) => respond(event, {
-          ...searchResponseBody,
-          message: 'An error has occurred',
-          err
-        }));
+            .then((titles) => {
+              console.log(titles);
+              return respond(event, {
+                ...searchResponseBody,
+                results: titles,
+                success: true,
+                totalResults: total
+              });
+            })
+            .catch(console.error);
+        });
 
-      return resolved;
-    });
+      // return resolved;
+    })
+    .catch(console.error);
 };
 
 module.exports = searchLibrary;

@@ -3,7 +3,7 @@ const titleModel = {
   imprint: null,
   isbn: null,
   accession_number: null,
-  call_number: null,
+  location: null,
   source: null,
   date: null,
   cost: null,

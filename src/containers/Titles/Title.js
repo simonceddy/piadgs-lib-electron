@@ -49,7 +49,7 @@ function Title({
       notify(result);
     });
 
-  const removeAuthor = (author = {}) => deleteTitleAuthor(title.id, author.id)
+  const removeAuthor = (author = {}) => deleteTitleAuthor(title.id, author.author_id)
     .then((result) => {
       setValues({
         ...values,

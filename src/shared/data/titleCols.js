@@ -5,7 +5,6 @@ export const titleCols = [
   {
     key: 'id',
     name: 'ID',
-    // sortable: true,
     FormComponent: ({ value }) => (
       <input
         value={value}
@@ -27,7 +26,7 @@ export const titleCols = [
             key={id}
             className="m-0.5"
           >
-            {author.surname}{author.given_names ? `, ${author.given_names}` : null}
+            {author.name}
           </span>
         ))}
       </span>
@@ -62,7 +61,7 @@ export const titleCols = [
     sortable: true,
   },
   {
-    key: 'call_number',
+    key: 'location',
     name: 'location',
     isPublic: true,
     sortable: true,

@@ -1,7 +1,10 @@
+const preferences = require('../../src/backend/preferences');
+
+console.log(preferences);
 const testSetupDbConfig = {
   client: 'sqlite3',
   connection: () => ({
-    filename: './setup/storage/testdb.sqlite'
+    filename: preferences.databasePath
   }),
   useNullAsDefault: true,
 };

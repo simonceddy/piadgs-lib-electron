@@ -7,7 +7,7 @@ const deleteRelation = (firstModel, secondModel, firstId, secondId) => {
     .where(`${firstModel}_id`, firstId)
     .andWhere(`${secondModel}_id`, secondId);
 
-  // q.select().then(console.log);
+  q.select().then(console.log);
 
   // console.log(q.toSQL());
   return q.delete()

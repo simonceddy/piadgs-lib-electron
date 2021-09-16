@@ -5,6 +5,7 @@ const { BrowserWindow } = electron;
 
 const path = require('path');
 const isDev = require('electron-is-dev');
+const Bootstrapper = require('../src/backend/bootstrapper');
 
 // Conditionally include the dev tools installer to load React Dev Tools
 let installExtension, REACT_DEVELOPER_TOOLS; // NEW!
@@ -49,14 +50,15 @@ function createWindow() {
 }
 
 app.on('ready', () => {
+  if (!Bootstrapper.isBootstrapped()) console.log('Cannot find app directory!');
   // console.log(app);
   createWindow();
 
-  if (isDev) {
-    installExtension(REACT_DEVELOPER_TOOLS)
-      .then(name => console.log(`Added Extension:  ${name}`))
-      .catch(error => console.log(`An error occurred: , ${error}`));
-  }
+  // if (isDev) {
+  //   installExtension(REACT_DEVELOPER_TOOLS)
+  //     .then(name => console.log(`Added Extension:  ${name}`))
+  //     .catch(error => console.log(`An error occurred: , ${error}`));
+  // }
 });
 
 app.on('window-all-closed', () => {

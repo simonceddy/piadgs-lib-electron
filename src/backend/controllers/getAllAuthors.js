@@ -17,8 +17,7 @@ const getAllAuthors = (event, {
     .leftOuterJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
     .columns(
       'authors.id',
-      'authors.surname',
-      'authors.given_names',
+      'authors.name',
       'authors.created_at',
       'authors.updated_at'
     )

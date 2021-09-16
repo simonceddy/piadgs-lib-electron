@@ -21,13 +21,8 @@ import CreateAuthor from './CreateAuthor';
 
 const columns = [
   {
-    key: 'surname',
-    name: 'Surname',
-    sortable: true,
-  },
-  {
-    key: 'given_names',
-    name: 'Given Names',
+    key: 'name',
+    name: 'Name',
     sortable: true,
   },
   {
@@ -110,10 +105,10 @@ function ManageAuthors({
             className="mx-1"
             onClick={() => {
               setShowSearchForm(!showSearchForm);
-              if (filter.surname) clearFilter();
+              if (filter.name) clearFilter();
             }}
           >
-            {filter.surname ? 'Show All' : 'Filter'}
+            {filter.name ? 'Show All' : 'Filter'}
           </ThemedButton>
           <ThemedButton
             className="mx-1"
@@ -138,8 +133,8 @@ function ManageAuthors({
         <FlexRow>
           <SingleFieldForm
             submitLabel="Filter Authors by Name"
-            input={filter.surname || ''}
-            setInput={(input) => setFilter({ surname: input })}
+            input={filter.name || ''}
+            setInput={(input) => setFilter({ name: input })}
             onSubmit={fetchData}
             clear={clearFilter}
           />

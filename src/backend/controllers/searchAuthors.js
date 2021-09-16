@@ -1,12 +1,10 @@
 const db = require('../db');
 const authorSortBy = require('../helpers/authorSortBy');
-const contains = require('../helpers/contains');
+const wildcardStringQuery = require('../helpers/wildcardStringQuery');
 const types = require('../messageTypes');
 
 const searchAuthors = (event, {
   name,
-  surname,
-  givenNames,
   itemsPerPage = 32,
   page = 1,
   sortColumn = 'id',
@@ -16,7 +14,7 @@ const searchAuthors = (event, {
   const q = db.from('authors');
   const offset = (page * itemsPerPage) - itemsPerPage;
 
-  if (!name && !givenNames && !surname) {
+  if (!name) {
     return event.reply(types.searchAuthors.reply, {
       results: [],
       success: false,
@@ -24,10 +22,9 @@ const searchAuthors = (event, {
     });
   }
 
-  return q.where(...contains('surname', surname || name))
-    .orWhere(...contains('given_names', givenNames || name))
+  return wildcardStringQuery(q, 'authors.name', name)
     .leftOuterJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
-    .columns('authors.id', 'authors.surname', 'authors.given_names')
+    .columns('authors.id', 'authors.name')
     .modify((qb) => qb.countDistinct('authors_titles.title_id', { as: 'total' }))
     .orderBy(authorSortBy(sortColumn), sortDirection)
     .offset(offset)

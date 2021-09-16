@@ -32,11 +32,14 @@ const suggestSubjects = (input, setter) => searchLibrarySubjects({
   })
   .catch(console.log);
 
-const renderAuthor = (author = {}) => (
-  <span>
-    {author.surname}{author.given_names ? `, ${author.given_names}` : null}
-  </span>
-);
+const renderAuthor = (author = {}) => {
+  console.log(author);
+  return (
+    <span>
+      {author.name}
+    </span>
+  );
+};
 
 const renderSubject = (subject = {}) => (
   <span>{subject.name}</span>
@@ -109,7 +112,7 @@ function TitleForm(/* { persistTitle = () => null } */) {
           currentItems={currentAuthors}
           addItem={(author) => {
             if (typeof author === 'string') {
-              return addAuthor({ surname: author });
+              return addAuthor({ name: author });
             }
             return addAuthor(author);
           }}

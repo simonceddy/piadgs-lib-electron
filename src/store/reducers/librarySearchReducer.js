@@ -14,7 +14,7 @@ const defaultState = {
     author: '',
     title: '',
     subject: '',
-    callNumber: ''
+    location: ''
   },
   isSubmitted: false,
   results: [],

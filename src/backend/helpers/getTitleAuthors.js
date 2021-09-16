@@ -10,7 +10,7 @@ const getTitleAuthors = (params) => {
   return db('authors')
     .innerJoin('authors_titles', 'authors.id', 'authors_titles.author_id')
     .where('authors_titles.title_id', titleId)
-    .orderBy('authors.surname', 'asc')
+    .orderBy('authors.name', 'asc')
     .select()
     .then((results) => results)
     .catch(console.log);

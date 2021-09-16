@@ -17,7 +17,7 @@ const suggestAuthors = (input, setter) => searchLibraryAuthors({
 
 const renderAuthor = (author = {}) => (
   <span>
-    {author.surname}{author.given_names ? `, ${author.given_names}` : null}
+    {author.name}
   </span>
 );
 
@@ -43,7 +43,7 @@ function TitleAuthors({
 
   const addAuthor = (author) => {
     if (typeof author === 'string') {
-      addItem({ surname: author });
+      addItem({ name: author });
     } else {
       addItem(author);
     }
@@ -51,6 +51,7 @@ function TitleAuthors({
   };
 
   const removeAuthor = (author) => {
+    console.log(author);
     removeItem(author);
     if (onRemoveAuthor && typeof onRemoveAuthor === 'function') onRemoveAuthor(author);
   };

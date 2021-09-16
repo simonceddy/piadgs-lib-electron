@@ -1,6 +1,5 @@
 const authorModel = {
-  surname: null,
-  given_names: null
+  name: null,
 };
 
 module.exports = authorModel;
