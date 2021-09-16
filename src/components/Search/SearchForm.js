@@ -8,7 +8,7 @@ const fields = {
   },
   author: { label: 'Author' },
   subject: { label: 'Subject' },
-  callNumber: { label: 'Location' }
+  location: { label: 'Location' }
 };
 
 function SearchForm({
