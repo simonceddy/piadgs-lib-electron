@@ -1,6 +1,3 @@
-import SubjectsField from '../containers/Admin/Autocomplete/SubjectsField';
-import TitleAuthorsSection from '../containers/Admin/Autocomplete/TitleAuthorsSection';
-
 const columns = [
   {
     name: 'Title',
@@ -23,12 +20,6 @@ const columns = [
         ))}
       </span>
     ),
-    FormComponent: ({ value = [], onChange }) => (
-      <TitleAuthorsSection
-        value={value}
-        setAuthors={(authors) => onChange({ target: { value: authors } })}
-      />
-    )
   },
   {
     name: 'Subjects',
@@ -41,12 +32,6 @@ const columns = [
         ))}
       </span>
     ),
-    FormComponent: ({ value, onChange }) => (
-      <SubjectsField
-        value={value}
-        setSubjects={(subjects) => onChange({ target: { value: subjects } })}
-      />
-    )
   },
   {
     name: 'Location',
