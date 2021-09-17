@@ -1,5 +1,5 @@
 {
-  "name": "piadgs-library",
+  "name": "piadgslibrary",
   "version": "0.1.0",
   "private": true,
   "main": "public/electron.js",
@@ -109,13 +109,13 @@
     "forge": {
       "packagerConfig": {
         "icon": "assets/icon.png",
-        "name": "PIADGS Library"
+        "name": "PIADGSLibrary"
       },
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "app"
+            "name": "piadgslibrary"
           }
         },
         {
