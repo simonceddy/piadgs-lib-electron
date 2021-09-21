@@ -2,8 +2,7 @@ import { SET_AUTHOR_DATA, SET_SELECTED_TITLES } from '../../actions';
 
 const defaultState = {
   data: {
-    surname: '',
-    given_names: '',
+    name: '',
     created_at: '',
     updated_at: '',
     titles: [],

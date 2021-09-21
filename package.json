@@ -109,7 +109,8 @@
     "forge": {
       "packagerConfig": {
         "icon": "assets/icon.png",
-        "name": "PIADGSLibrary"
+        "name": "PIADGSLibrary",
+        "asar": true
       },
       "makers": [
         {

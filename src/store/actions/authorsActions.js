@@ -114,7 +114,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
   // TODO fix names
   const total = await countAuthors({
     ...filter,
-    given_names: filter.surname || null
+    name: filter.name || null
   })
     .catch(handleClientError);
 

@@ -11,7 +11,7 @@ import {
 
 const defaultState = {
   ...managerDefaultState,
-  sortCol: 'surname',
+  sortCol: 'name',
   sortDirection: 'ASC'
 };
 

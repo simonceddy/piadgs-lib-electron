@@ -20,6 +20,7 @@ import Author from './Author';
 import CreateAuthor from './CreateAuthor';
 
 const columns = [
+  { key: 'row', name: 'Row', sortable: false },
   {
     key: 'name',
     name: 'Name',
@@ -154,6 +155,13 @@ function ManageAuthors({
       <FlexRow className="p-1 w-full">
         {rows.length > 0 ? (
           <TableBuilder
+            dataHandlers={{
+              row: (data, index) => (
+                <span className="text-sm">
+                  {index + 1 + ((currentPage - 1) * itemsPerPage)}
+                </span>
+              ),
+            }}
             columns={columns}
             rows={rows}
             sortColumn={sortCol}

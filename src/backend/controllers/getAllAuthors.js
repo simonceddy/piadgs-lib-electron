@@ -1,6 +1,7 @@
 const db = require('../db');
 const authorSortBy = require('../helpers/authorSortBy');
 const getAuthorTitles = require('../helpers/getAuthorTitles');
+const wildcardStringQuery = require('../helpers/wildcardStringQuery');
 const types = require('../messageTypes');
 
 // TODO make more efficient
@@ -25,12 +26,12 @@ const getAllAuthors = (event, {
     .orderBy(authorSortBy(sortColumn), sortDirection)
     .offset(offset)
     .limit(itemsPerPage)
-    .groupBy('authors.id');
-
-  if (filter.surname) {
-    q.where('authors.surname', 'like', `%${filter.surname}%`)
-      .orWhere('authors.given_names', 'like', `%${filter.surname}%`);
-  }
+    .groupBy('authors.id')
+    .modify((qb) => {
+      if (filter.surname) {
+        wildcardStringQuery(qb);
+      }
+    });
 
   return q.select()
     .then((rows) => Promise.all(rows.map((author) => getAuthorTitles(author)

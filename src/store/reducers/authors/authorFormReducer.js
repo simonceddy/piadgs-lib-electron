@@ -2,8 +2,7 @@ import { SET_AUTHOR_FORM_INPUT, SET_AUTHOR_FORM_TILES } from '../../actions';
 
 const defaultState = {
   input: {
-    surname: '',
-    given_names: ''
+    name: ''
   },
   titles: []
 };

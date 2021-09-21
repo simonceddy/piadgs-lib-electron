@@ -7,7 +7,7 @@ import {
 const defaultState = {
   input: '',
   results: [],
-  sortCol: 'surname',
+  sortCol: 'name',
   sortDirection: 'ASC'
 };
 

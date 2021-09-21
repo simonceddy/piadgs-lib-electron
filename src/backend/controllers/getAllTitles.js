@@ -8,7 +8,7 @@ const { titleModel } = require('../models');
 const sortBy = (column) => {
   switch (column) {
     case 'authors':
-      return 'authors.surname';
+      return 'authors.name';
     case 'subjects':
       return 'subjects.name';
     default:
