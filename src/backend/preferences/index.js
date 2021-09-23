@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { homedir } = require('os');
 
-const prefsDir = path.join(homedir(), '.pidags-lib');
+const prefsDir = path.join(homedir(), '.piadgs-lib');
 
 if (!fs.existsSync(prefsDir)) {
   fs.mkdirSync(prefsDir);
