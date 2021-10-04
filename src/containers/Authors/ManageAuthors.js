@@ -174,6 +174,13 @@ function ManageAuthors({
           />
         ) : null}
       </FlexRow>
+      <FlexRow className="w-full">
+        <Pagination
+          current={currentPage}
+          lastPage={lastPage}
+          setPage={setPage}
+        />
+      </FlexRow>
     </FlexCol>
   );
 }

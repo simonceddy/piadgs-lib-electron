@@ -133,7 +133,7 @@ function TitleForm(/* { persistTitle = () => null } */) {
               key={`${key}-input`}
               className="flex-row w-full items-center justify-between"
             >
-              <span>{name}</span>
+              <span className="capitalize">{name}</span>
               <TextInput
                 required={required}
                 id={`${key}-input`}

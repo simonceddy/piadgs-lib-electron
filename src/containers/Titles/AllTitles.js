@@ -130,6 +130,13 @@ function AllTitles({
           </DefaultTable>
         </>
       )}
+      <FlexRow className="items-center w-full">
+        <Pagination
+          current={currentPage}
+          lastPage={lastPage}
+          setPage={setPage}
+        />
+      </FlexRow>
     </>
   );
 }

@@ -17,16 +17,10 @@ function AuthorForm({
       className="flex flex-col justify-start items-center w-11/12 mx-auto"
     >
       <ThemedTextInput
-        value={author.surname || ''}
-        onChange={(e) => setValue({ surname: e.target.value })}
-        label="Surname"
-        id="author-surname"
-      />
-      <ThemedTextInput
-        value={author.given_names || ''}
-        onChange={(e) => setValue({ given_names: e.target.value })}
-        label="Given Names"
-        id="author-given-names"
+        value={author.name || ''}
+        onChange={(e) => setValue({ name: e.target.value })}
+        label="Name"
+        id="author-name"
       />
       {!author.titles ? null : (
         <div>
