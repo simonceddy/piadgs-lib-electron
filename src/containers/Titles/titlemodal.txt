@@ -1,0 +1,16 @@
+- modal layout
+  - modal content
+    - modal top row - close button, etc
+    - modal main content
+      - if title show populated form for editing
+      - else show relevant messages
+
+- user can:
+  - see the title data
+    - all fields
+    - subjects
+    - authors
+  - edit the title data
+    - add/remove subjects or authors
+  - persist changes to the data and see those changes reflected throughout app
+  - delete the title

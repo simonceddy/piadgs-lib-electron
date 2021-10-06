@@ -52,6 +52,7 @@ function AllTitles({
         onClose={onClose}
         title={titleModal}
         onTitleChange={getTitles}
+        titleId={titleModal.id || null}
       />
     </Modal>
   ));

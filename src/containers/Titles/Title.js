@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import TitleForm from '../../components/Titles/TitleForm';
 import {
@@ -7,7 +7,8 @@ import {
   deleteTitle,
   deleteTitleAuthor,
   deleteTitleSubject,
-  updateTitle
+  updateTitle,
+  getLibraryTitle
 } from '../../message-control/controllers/titleControllers';
 import { FlexRow } from '../../shared/components/Flex';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
@@ -17,13 +18,20 @@ import TitleAuthors from '../Authors/TitleAuthors';
 import TitleSubjects from '../Subjects/TitleSubjects';
 
 function Title({
-  title = {},
+  titleId,
   onClose,
   onTitleChange
 }) {
   // TODO maintain updated data when calling notify
   const [statusMessage, setStatusMessage] = useState(null);
-  const [values, setValues] = useState(title);
+  const [isDeleted/* , setIsDeleted */] = useState(false);
+  const [values, setValues] = useState({});
+
+  useEffect(() => {
+    if (!isDeleted && titleId) {
+      getLibraryTitle({ id: titleId }).then((data) => setValues(data));
+    }
+  }, [titleId]);
 
   const notify = (message) => {
     if (typeof onTitleChange === 'function') {
@@ -31,7 +39,7 @@ function Title({
     }
   };
 
-  const addAuthor = (author = {}) => addTitleAuthor(title.id, author.id)
+  const addAuthor = (author = {}) => addTitleAuthor(titleId, author.id)
     .then((result) => {
       setValues({
         ...values,
@@ -40,7 +48,7 @@ function Title({
       notify(result);
     });
 
-  const addSubject = (subject = {}) => addTitleSubject(title.id, subject.id)
+  const addSubject = (subject = {}) => addTitleSubject(titleId, subject.id)
     .then((result) => {
       setValues({
         ...values,
@@ -49,7 +57,7 @@ function Title({
       notify(result);
     });
 
-  const removeAuthor = (author = {}) => deleteTitleAuthor(title.id, author.author_id)
+  const removeAuthor = (author = {}) => deleteTitleAuthor(titleId, author.author_id)
     .then((result) => {
       setValues({
         ...values,
@@ -58,7 +66,7 @@ function Title({
       notify(result);
     });
 
-  const removeSubject = (subject = {}) => deleteTitleSubject(title.id, subject.id)
+  const removeSubject = (subject = {}) => deleteTitleSubject(titleId, subject.id)
     .then((result) => {
       setValues({
         ...values,
@@ -107,7 +115,7 @@ function Title({
             >
               Close
             </ThemedButton>
-            <DeleteForm onDelete={() => onDelete(title.id)} />
+            <DeleteForm onDelete={() => onDelete(titleId)} />
           </ThemedDiv>
 
           <FlexRow>

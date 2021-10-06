@@ -28,8 +28,8 @@ const getAllAuthors = (event, {
     .limit(itemsPerPage)
     .groupBy('authors.id')
     .modify((qb) => {
-      if (filter.surname) {
-        wildcardStringQuery(qb);
+      if (filter.name) {
+        wildcardStringQuery(qb, 'authors.name', filter.name);
       }
     });
 

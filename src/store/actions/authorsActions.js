@@ -125,7 +125,10 @@ export const fetchAuthors = () => async (dispatch, getState) => {
       itemsPerPage,
       sortColumn: sortCol,
       sortDirection,
-      filter
+      filter: {
+        ...filter,
+        name: filter.name || null
+      }
     })
       .then((res) => dispatch(setAuthorsData(res)))
       .catch(handleClientError));

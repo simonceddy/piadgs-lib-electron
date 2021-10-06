@@ -8,7 +8,8 @@ const processSubjects = require('./old/processors/processSubjects');
 const processParsedCSVData = require('./old/processParsedCSVData');
 
 console.log('bootstrapping app');
-const currentCSV = 'Book master - Simon (26 May 2021).csv';
+const currentCSV = 'catalogue - master 4 Oct. 2021.csv';
+// const currentCSV = 'Book master - Simon (26 May 2021).csv';
 const pathTo = `${__dirname}/storage/${currentCSV}`;
 
 testDb('users')
@@ -193,12 +194,11 @@ if (fs.existsSync(pathTo)) {
                 return author;
               }));
             });
-
           return title;
         }))
           .then(() => console.log('titles stored'));
       });
-  });
+  }).then(() => console.log('done'));
 } else {
   console.log('could not locate source data');
 }
