@@ -66,7 +66,7 @@ function ManageAuthors({
     <Modal onClose={onClose}>
       <Author
         onClose={onClose}
-        author={showModal}
+        authorId={showModal.id}
         onDataChange={fetchData}
       />
     </Modal>

@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import MessageBox from '../../components/Authors/MessageBox';
-import { deleteAuthor } from '../../message-control/controllers';
+import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
@@ -13,7 +13,7 @@ import {
 } from '../../store/actions';
 
 function Author({
-  author = {},
+  authorId,
   selectedTitles,
   setTitles,
   message,
@@ -22,14 +22,16 @@ function Author({
   submitForm = () => {},
   onDataChange
 }) {
-  const [values, setValues] = useState(author);
+  const [isDeleted/* , setIsDeleted */] = useState(false);
+  // const [values, setValues] = useState({});
+  const [values, setValues] = useState({});
 
   const handleChecked = (titleId) => setTitles({
     ...selectedTitles,
     [titleId]: !selectedTitles[titleId]
   });
 
-  const onDelete = () => deleteAuthor(author.id)
+  const onDelete = () => deleteAuthor(authorId)
     .then((result) => {
       if (result.success) {
         setValues({});
@@ -41,6 +43,12 @@ function Author({
         setMessage('An error occurred while attempting deletion.');
       }
     });
+
+  useEffect(() => {
+    if (!isDeleted && authorId) {
+      getLibraryAuthor({ id: authorId }).then((data) => setValues(data));
+    }
+  }, [authorId]);
 
   return (
     <ModalAppletLayout>
