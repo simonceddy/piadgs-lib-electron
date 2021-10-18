@@ -70,8 +70,15 @@ ipcMain.on(
 ipcMain.on(
   types.getTitle.send,
   (event, params) => controllers.getFrom('titles', params)
-    .then((title) => loadTitleRelations(title))
+    .then((title) => {
+      if (!title) {
+        // no title found
+        // respond with success = false
+      }
+      return loadTitleRelations(title);
+    })
     .then((result) => event.reply(types.getTitle.reply, result))
+    .catch(console.error)
 );
 
 ipcMain.on(
@@ -87,7 +94,7 @@ ipcMain.on(
       }
       return event.reply(types.getSubject.reply, result);
     })
-    .catch(console.log)
+    .catch(console.error)
 );
 
 ipcMain.on(

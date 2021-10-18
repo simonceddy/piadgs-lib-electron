@@ -1,7 +1,7 @@
 const db = require('../db');
 
 const getTitleAuthors = (params) => {
-  const { id: titleId } = params;
+  const { id: titleId } = params || false;
 
   if (!titleId) {
     return false;
