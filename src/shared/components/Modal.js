@@ -1,7 +1,7 @@
 function Modal({ children, onClose }) {
   return (
     <div
-      className="absolute w-full h-full top-0 left-0 flex flex-col all-center"
+      className="absolute w-full h-full top-0 left-0 flex flex-col items-center justify-start"
       style={{
         backgroundColor: 'rgba(0, 0, 0, 0.5)'
       }}
@@ -12,7 +12,7 @@ function Modal({ children, onClose }) {
         className="w-full h-full opacity-0 z-10 absolute"
         onClick={onClose}
       />
-      <div className="flex flex-col z-20 m-auto all-center max-h-full overflow-scroll w-full sm:w-11/12 md:w-4/5 lg:w-3/4 xl:w-2/3">
+      <div className="flex flex-col z-20 mx-auto all-center max-h-full overflow-scroll w-full">
         {children}
       </div>
     </div>

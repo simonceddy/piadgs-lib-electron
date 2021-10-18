@@ -11,7 +11,8 @@ const updateSubject = (event, params) => {
     return event.reply(types.updateSubject.reply, u.fail('No name provided!'));
   }
   return db('subjects').where('id', id).update({
-    name
+    name,
+    updated_at: db.fn.now()
   })
     .then((success) => {
       console.log(success);

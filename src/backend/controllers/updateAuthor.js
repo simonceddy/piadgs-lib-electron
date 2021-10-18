@@ -11,7 +11,8 @@ const updateAuthor = (event, params) => {
     return respond(event, 'No author ID given!');
   }
   return db('authors').where('id', params.id).update({
-    name: params.name
+    name: params.name,
+    updated_at: db.fn.now()
   })
     .then((success) => {
       console.log(success);
