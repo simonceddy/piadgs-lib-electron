@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { FormLabel, TextInput } from '../../components/Forms';
 import RelationsSubform from '../../components/Forms/RelationsSubform';
 import useInputSuggestions from '../../hooks/useInputSuggestions';
@@ -7,6 +8,7 @@ import useRelationsSection from '../../hooks/useRelationsSection';
 import { createTitle, searchLibraryAuthors, searchLibrarySubjects } from '../../message-control/controllers';
 import titleFields from '../../shared/data/titleFields';
 import ThemedButton from '../../shared/components/Styled/ThemedButton';
+import { FlexRow } from '../../shared/components/Flex';
 
 const initialValues = Object.fromEntries(titleFields.map(({ key }) => [key, '']));
 
@@ -46,6 +48,8 @@ const renderSubject = (subject = {}) => (
 );
 
 function TitleForm(/* { persistTitle = () => null } */) {
+  const history = useHistory();
+
   const [values, setValues] = useState(initialValues);
 
   const [statusMessage, setStatusMessage] = useState(null);
@@ -55,7 +59,8 @@ function TitleForm(/* { persistTitle = () => null } */) {
   const {
     currentItems: currentAuthors,
     addItem: addAuthor,
-    removeItem: removeAuthor
+    removeItem: removeAuthor,
+    clearItems: clearAuthors
   } = useRelationsSection([]);
 
   const {
@@ -67,7 +72,8 @@ function TitleForm(/* { persistTitle = () => null } */) {
   const {
     currentItems: currentSubjects,
     addItem: addSubject,
-    removeItem: removeSubject
+    removeItem: removeSubject,
+    clearItems: clearSubjects
   } = useRelationsSection([]);
   const {
     input: subjectInput,
@@ -84,6 +90,9 @@ function TitleForm(/* { persistTitle = () => null } */) {
       .then((result) => {
         console.log(result);
         if (result.success) {
+          setValues(initialValues);
+          clearSubjects();
+          clearAuthors();
           return setStatusMessage('Successfully saved title!');
         }
         return setStatusMessage('An error occurred while trying to save.');
@@ -92,6 +101,14 @@ function TitleForm(/* { persistTitle = () => null } */) {
 
   return (
     <div className="flex flex-col justify-start items-center w-full h-full overflow-scroll">
+      <FlexRow className="justify-start items-center w-full">
+        <ThemedButton
+          className="mx-1"
+          onClick={() => history.push('/titles')}
+        >
+          View Titles
+        </ThemedButton>
+      </FlexRow>
       {statusMessage ? (
         <div role="presentation">
           {statusMessage}

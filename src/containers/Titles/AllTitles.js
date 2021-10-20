@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import ItemsPerPageSelector from '../../components/Forms/ItemsPerPageSelector';
 import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
@@ -33,9 +34,9 @@ function AllTitles({
   setFilter = () => {}
 }) {
   // const [showSearchForm, setShowSearchForm] = useState(false);
+  const history = useHistory();
   const [titleModal, setTitleModal] = useState(false);
   const [showSearchForm, setShowSearchForm] = useState(false);
-  const [showNewForm, setShowNewForm] = useState(false);
 
   const onClose = () => setTitleModal(false);
 
@@ -84,9 +85,9 @@ function AllTitles({
           </ThemedButton>
           <ThemedButton
             className="mx-1"
-            onClick={() => setShowNewForm(!showNewForm)}
+            onClick={() => history.push('/titles/create')}
           >
-            {showNewForm ? 'Hide Form' : 'Add New'}
+            Add New Title
           </ThemedButton>
         </FlexRow>
         <FlexRow className="items-center">

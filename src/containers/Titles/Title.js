@@ -12,7 +12,6 @@ import {
 } from '../../message-control/controllers/titleControllers';
 import { FlexRow } from '../../shared/components/Flex';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
-import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import TitleAuthors from '../Authors/TitleAuthors';
 import TitleSubjects from '../Subjects/TitleSubjects';
@@ -100,7 +99,9 @@ function Title({
   };
 
   return (
-    <ModalAppletLayout>
+    <ThemedDiv
+      className="w-full max-h-full flex flex-col justify-between items-center z-40 flex-1 border-2 p-4 rounded-xl"
+    >
       {statusMessage ? (
         <span role="presentation" onClick={() => setStatusMessage(null)}>
           {statusMessage}
@@ -115,7 +116,6 @@ function Title({
             >
               Close
             </ThemedButton>
-            <DeleteForm onDelete={() => onDelete(titleId)} />
           </ThemedDiv>
 
           <FlexRow>
@@ -135,9 +135,12 @@ function Title({
               subjects={values.subjects || []}
             />
           </FlexRow>
+          <FlexRow>
+            <DeleteForm onDelete={() => onDelete(titleId)} />
+          </FlexRow>
         </>
       ) : null}
-    </ModalAppletLayout>
+    </ThemedDiv>
   );
 }
 

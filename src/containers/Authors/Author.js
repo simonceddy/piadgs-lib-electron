@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import MessageBox from '../../components/Authors/MessageBox';
 import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
+import { FlexRow } from '../../shared/components/Flex';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
-import ModalAppletLayout from '../../shared/components/Layout/ModalAppletLayout';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
 import {
   setAuthorMessage,
@@ -46,16 +46,18 @@ function Author({
 
   useEffect(() => {
     if (!isDeleted && authorId) {
-      getLibraryAuthor({ id: authorId }).then((data) => setValues(data));
+      getLibraryAuthor({ id: authorId }).then((data) => {
+        console.log(data);
+        setValues(data);
+      });
     }
   }, [authorId]);
 
   return (
-    <ModalAppletLayout>
+    <ThemedDiv
+      className="w-full max-h-full flex flex-col justify-between items-center z-40 flex-1 border-2 p-4 rounded-xl"
+    >
       <ThemedDiv className="flex flex-row p-2 justify-between items-center">
-        <DeleteForm onDelete={onDelete}>
-          Delete Author
-        </DeleteForm>
         <ThemedButton
           onClick={onClose}
         >
@@ -76,7 +78,12 @@ function Author({
         onSelect={handleChecked}
         onDelete={onDelete}
       />
-    </ModalAppletLayout>
+      <FlexRow className="p-2 w-full justify-start items-center">
+        <DeleteForm onDelete={onDelete}>
+          Delete Author
+        </DeleteForm>
+      </FlexRow>
+    </ThemedDiv>
   );
 }
 

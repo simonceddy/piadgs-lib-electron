@@ -9,9 +9,12 @@ export default function useRelationsSection(initialItems = []) {
     currentItems.filter((current) => current !== item)
   );
 
+  const clearItems = () => setCurrentItems([]);
+
   return {
     currentItems,
     addItem,
-    removeItem
+    removeItem,
+    clearItems
   };
 }

@@ -90,6 +90,16 @@ export const titleCols = [
       </span>
     ),
   },
+  {
+    key: 'updated_at',
+    name: 'Last Updated',
+    sortable: true,
+  },
+  {
+    key: 'created_at',
+    name: 'Last Created',
+    sortable: true,
+  }
 ];
 
 export const publicCols = titleCols.filter(({ isPublic }) => (isPublic === true));

@@ -12,6 +12,7 @@ import {
 } from '../../store/actions';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import { deleteSubject } from '../../message-control/controllers';
+import { FlexRow } from '../../shared/components/Flex';
 
 // TODO - less props - split responsibilities
 // TODO
@@ -60,9 +61,6 @@ function Subject({
       <ThemedDiv
         className="flex flex-row justify-between items-center w-full mb-3 pb-2 border-b"
       >
-        <DeleteForm onDelete={onDelete}>
-          Delete Subject
-        </DeleteForm>
 
         <ThemedButton
           className="hover:underline"
@@ -98,6 +96,11 @@ function Subject({
           Save Changes
         </ThemedButton>
       </ThemedDiv>
+      <FlexRow>
+        <DeleteForm onDelete={onDelete}>
+          Delete Subject
+        </DeleteForm>
+      </FlexRow>
     </SubjectWindow>
   );
 }
