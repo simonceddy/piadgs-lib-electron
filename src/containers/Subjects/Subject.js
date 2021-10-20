@@ -96,7 +96,7 @@ function Subject({
           Save Changes
         </ThemedButton>
       </ThemedDiv>
-      <FlexRow>
+      <FlexRow className="p-2 w-full justify-start items-center">
         <DeleteForm onDelete={onDelete}>
           Delete Subject
         </DeleteForm>
