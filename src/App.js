@@ -1,4 +1,4 @@
-import { Route } from 'react-router-dom';
+import { Route, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ThemeProvider } from 'styled-components';
 import {
@@ -11,7 +11,7 @@ import Login from './containers/Login';
 import Admin from './containers/Admin/Admin';
 import { AdminBar, LogoutButton } from './components/Admin';
 import Results from './containers/Search/Results';
-import { logOutUser } from './store/actions';
+import { logOutUser, setLibraryShowForm } from './store/actions';
 import AuthGuard from './containers/AuthGuard';
 import { FlexCol, FlexRow } from './shared/components/Flex';
 // import Subjects from './containers/Subjects';
@@ -19,9 +19,17 @@ import { FlexCol, FlexRow } from './shared/components/Flex';
 import Titles from './containers/Titles';
 import ManageSubjects from './containers/Subjects/ManageSubjects';
 import ManageAuthors from './containers/Authors/ManageAuthors';
+import NavbarButton from './components/Layout/NavbarButton';
 // import TestApp from './TestApp';
 
-function App({ loggedIn = false, logOut, themeMode }) {
+function App({
+  loggedIn = false,
+  logOut,
+  themeMode,
+  location,
+  onClickSearchBtn,
+}) {
+  console.log(location);
   return (
     <ThemeProvider theme={{ mode: themeMode }}>
       <Layout
@@ -29,7 +37,13 @@ function App({ loggedIn = false, logOut, themeMode }) {
           <FlexRow className="w-full justify-between items-center">
             <FlexRow className="justify-between w-1/2 m-2">
               <NavbarSpace>
-                <NavbarLink to="/searchForm" exact>Search</NavbarLink>
+                {location.pathname === '/searchForm' ? (
+                  <NavbarButton onClick={onClickSearchBtn}>
+                    Search
+                  </NavbarButton>
+                ) : (
+                  <NavbarLink to="/searchForm" exact>Search</NavbarLink>
+                )}
               </NavbarSpace>
             </FlexRow>
             {loggedIn
@@ -107,7 +121,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  logOut: () => dispatch(logOutUser())
+  logOut: () => dispatch(logOutUser()),
+  onClickSearchBtn: () => dispatch(setLibraryShowForm(true))
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(App));
