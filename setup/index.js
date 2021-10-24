@@ -6,6 +6,7 @@ const testDb = require('./database/testDb');
 const processAuthors = require('./old/processors/processAuthors');
 const processSubjects = require('./old/processors/processSubjects');
 const processParsedCSVData = require('./old/processParsedCSVData');
+const vals = require('./vals');
 
 console.log('bootstrapping app');
 const currentCSV = 'catalogue - master 4 Oct. 2021.csv';
@@ -13,14 +14,14 @@ const currentCSV = 'catalogue - master 4 Oct. 2021.csv';
 const pathTo = `${__dirname}/storage/${currentCSV}`;
 
 testDb('users')
-  .where('username', 'simon')
+  .where('username', vals.username)
   .first()
   .then((result) => {
     console.log(result);
     if (!result) {
       testDb('users').insert({
-        username: 'simon',
-        password: bcrypt.hashSync('secret', 4)
+        username: vals.username,
+        password: bcrypt.hashSync(vals.password, 4)
       })
         .then((success) => {
           console.log(success);

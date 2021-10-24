@@ -13,6 +13,7 @@ export const SET_LIBRARY_SEARCH_CURRENT_PAGE = 'SET_LIBRARY_SEARCH_CURRENT_PAGE'
 export const SET_LIBRARY_SEARCH_TOTAL_RESULTS = 'SET_LIBRARY_SEARCH_TOTAL_RESULTS';
 
 export const SET_LIBRARY_SEARCH_RESULTS = 'SET_LIBRARY_SEARCH_RESULTS';
+export const SET_LIBRARY_SHOW_FORM = 'SET_LIBRARY_SHOW_FORM';
 
 export const setLibrarySearchTotalResults = (totalResults) => ({
   type: SET_LIBRARY_SEARCH_TOTAL_RESULTS,
@@ -53,6 +54,11 @@ export const resetLibrarySearchFormValues = () => ({
 export const setLibrarySearchResults = (results) => ({
   type: SET_LIBRARY_SEARCH_RESULTS,
   payload: { results }
+});
+
+export const setLibraryShowForm = (show = false) => ({
+  type: SET_LIBRARY_SHOW_FORM,
+  payload: { show }
 });
 
 // eslint-disable-next-line no-unused-vars
