@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import TitleForm from '../../components/Titles/TitleForm';
 import {
   addTitleAuthor,
@@ -18,10 +19,10 @@ import TitleSubjects from '../Subjects/TitleSubjects';
 
 function Title({
   titleId,
-  onClose,
+  // onClose,
   onTitleChange
 }) {
-  // TODO maintain updated data when calling notify
+  const history = useHistory();
   const [statusMessage, setStatusMessage] = useState(null);
   const [isDeleted/* , setIsDeleted */] = useState(false);
   const [values, setValues] = useState({});
@@ -100,8 +101,15 @@ function Title({
 
   return (
     <ThemedDiv
-      className="w-full max-h-full flex flex-col justify-between items-center z-40 flex-1 border-2 p-4 rounded-xl"
+      className="w-full max-h-full flex flex-col justify-between items-center z-40 flex-1 p-4 rounded-xl"
     >
+      <ThemedDiv className="flex flex-row p-2 justify-between items-center">
+        <ThemedButton
+          onClick={() => history.goBack()}
+        >
+          Back
+        </ThemedButton>
+      </ThemedDiv>
       {statusMessage ? (
         <span role="presentation" onClick={() => setStatusMessage(null)}>
           {statusMessage}
@@ -109,15 +117,6 @@ function Title({
       ) : null}
       {values.title ? (
         <>
-          <ThemedDiv className="flex flex-row p-2 justify-between items-center">
-
-            <ThemedButton
-              onClick={onClose}
-            >
-              Close
-            </ThemedButton>
-          </ThemedDiv>
-
           <FlexRow>
             <TitleAuthors
               onAddAuthor={addAuthor}

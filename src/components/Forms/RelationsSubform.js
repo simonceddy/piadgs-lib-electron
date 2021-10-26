@@ -40,7 +40,7 @@ function RelationsSubform({
           {suggestions.length > 0 ? suggestions.map((suggestion, index) => (
             <li
               key={`suggestion-${index}`}
-              className="flex flex-row w-full justify-start items-center z-30"
+              className="flex hover:underline flex-row w-full justify-start items-center z-40"
               onClick={() => {
                 addItem(suggestion);
                 setInput('');
@@ -55,7 +55,7 @@ function RelationsSubform({
       <ul className="h-32 overflow-scroll w-full flex flex-col justify-start items-start">
         {currentItems.map((item, index) => (
           <li key={`item-${index}`} className="flex flex-row w-full justify-between items-center">
-            <span>
+            <span className="mr-2">
               {renderItem ? renderItem(item) : item}
             </span>
             <RemoveButton onClick={() => removeItem(item)}>

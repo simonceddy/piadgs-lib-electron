@@ -14,13 +14,10 @@ import Results from './containers/Search/Results';
 import { logOutUser, setLibraryShowForm } from './store/actions';
 import AuthGuard from './containers/AuthGuard';
 import { FlexCol, FlexRow } from './shared/components/Flex';
-// import Subjects from './containers/Subjects';
-// import Authors from './containers/Authors';
 import Titles from './containers/Titles';
 import ManageSubjects from './containers/Subjects/ManageSubjects';
 import ManageAuthors from './containers/Authors/ManageAuthors';
 import NavbarButton from './components/Layout/NavbarButton';
-// import TestApp from './TestApp';
 
 function App({
   loggedIn = false,
@@ -29,7 +26,7 @@ function App({
   location,
   onClickSearchBtn,
 }) {
-  console.log(location);
+  // console.log(location);
   return (
     <ThemeProvider theme={{ mode: themeMode }}>
       <Layout

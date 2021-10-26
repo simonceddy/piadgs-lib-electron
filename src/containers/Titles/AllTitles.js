@@ -65,7 +65,8 @@ function AllTitles({
 
   // console.log(titles);
 
-  const onRowClick = (title) => setTitleModal(title);
+  // const onRowClick = (title) => setTitleModal(title);
+  const onRowClick = (title) => history.push(`/titles/edit/${title.id}`);
 
   return (
     <>

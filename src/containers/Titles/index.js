@@ -10,6 +10,7 @@ import { FlexCol } from '../../shared/components/Flex';
 import AllTitles from './AllTitles';
 import TitleForm from '../Forms/TitleForm';
 import WorksToDb from '../WorksToDb';
+import Title from './Title';
 
 // const toolbarItems = [
 //   [
@@ -61,6 +62,15 @@ function Titles() {
           exact
           render={() => (
             <WorksToDb />
+          )}
+        />
+        <Route
+          path="/titles/edit/:id"
+          exact
+          render={({ match }) => (
+            <Title
+              titleId={match.params.id || null}
+            />
           )}
         />
       </Switch>
