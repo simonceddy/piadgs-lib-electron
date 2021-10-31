@@ -22,7 +22,11 @@ const login = ({ username, password }) => db.from('users')
         // Authorize session
           logUserIn({ username });
 
-          return { success, message: 'Logged in', user };
+          return {
+            success,
+            message: 'Logged in',
+            user: { username: user.username, id: user.id }
+          };
         }
         // Otherwise login failed
         return failedResponse();

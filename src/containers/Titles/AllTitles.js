@@ -6,7 +6,7 @@ import { Pagination } from '../../components/Pagination';
 import TitleTableRow from '../../components/Titles/TitleTableRow';
 import { FlexRow } from '../../shared/components/Flex';
 import { SingleFieldForm } from '../../shared/components/Forms';
-import Modal from '../../shared/components/Modal';
+// import Modal from '../../shared/components/Modal';
 import { ThemedButton } from '../../shared/components/Styled';
 import { DefaultTable } from '../../shared/components/Tables';
 import { titleCols } from '../../shared/data/titleCols';
@@ -17,7 +17,7 @@ import {
   setTitlesFilter,
   sortTitleRows
 } from '../../store/actions';
-import Title from './Title';
+// import Title from './Title';
 
 function AllTitles({
   titles = [],
@@ -35,17 +35,17 @@ function AllTitles({
 }) {
   // const [showSearchForm, setShowSearchForm] = useState(false);
   const history = useHistory();
-  const [titleModal, setTitleModal] = useState(false);
+  // const [titleModal, setTitleModal] = useState(false);
   const [showSearchForm, setShowSearchForm] = useState(false);
 
-  const onClose = () => setTitleModal(false);
+  // const onClose = () => setTitleModal(false);
 
   const clearFilter = () => Promise.resolve(
     setFilter({})
   )
     .then(() => getTitles());
 
-  const TitleModal = () => (!titleModal ? null : (
+  /* const TitleModal = () => (!titleModal ? null : (
     <Modal
       onClose={onClose}
     >
@@ -56,7 +56,7 @@ function AllTitles({
         titleId={titleModal.id || null}
       />
     </Modal>
-  ));
+  )); */
 
   useEffect(async () => {
     // console.log('fetching titles');
@@ -70,7 +70,6 @@ function AllTitles({
 
   return (
     <>
-      <TitleModal />
       <FlexRow className="w-full justify-between items-center p-2">
         <FlexRow
           className="justify-start items-center mr-4"

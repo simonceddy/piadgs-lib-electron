@@ -10,7 +10,7 @@ import Search from './containers/Search';
 import Login from './containers/Login';
 import Admin from './containers/Admin/Admin';
 import { AdminBar, LogoutButton } from './components/Admin';
-import Results from './containers/Search/Results';
+// import Results from './containers/Search/Results';
 import { logOutUser, setLibraryShowForm } from './store/actions';
 import AuthGuard from './containers/AuthGuard';
 import { FlexCol, FlexRow } from './shared/components/Flex';
@@ -57,10 +57,10 @@ function App({
           <Route path="/" exact component={Search} />
           <Route path="/searchForm" exact component={Search} />
           <Route path="/login" exact component={Login} />
-          <Route
+          {/* <Route
             path="/search"
             render={() => (<Results />)}
-          />
+          /> */}
           <Route
             path="/admin"
             render={() => (
