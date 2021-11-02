@@ -1,5 +1,6 @@
-import { useCallback, useEffect, /* useState */ } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { withRouter, useHistory } from 'react-router-dom';
 import SubjectWindow from '../../components/Subjects/SubjectWindow';
 import SubjectNameField from '../../components/Subjects/SubjectNameField';
 import SubjectTitleList from '../../components/Subjects/SubjectTitleList';
@@ -13,33 +14,38 @@ import {
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import { deleteSubject } from '../../message-control/controllers';
 import { FlexRow } from '../../shared/components/Flex';
+import Messages from '../../components/Messages';
 
 // TODO - less props - split responsibilities
 // TODO
 function Subject({
-  id,
-  onClose,
+  match,
+  // onClose,
   getSubject,
   data,
   setName,
   subjectName,
-  message,
-  setMessage,
+  // message,
+  // setMessage,
   submitChanges,
   onDataChange
 }) {
-  // console.log(data);
+  // console.log(match);
+  const history = useHistory();
+  const [statusMessage, setStatusMessage] = useState(null);
+
+  const { id } = match.params;
   const onDelete = () => deleteSubject(id)
     .then((result) => {
       console.log(result);
       if (result.success) {
         setName('');
-        setMessage('Successfully deleted title');
+        setStatusMessage('Successfully deleted title');
         if (typeof onDataChange === 'function') {
           onDataChange(result);
         }
       } else {
-        setMessage('An error occurred while attempting deletion.');
+        setStatusMessage('An error occurred while attempting deletion.');
       }
     });
 
@@ -64,23 +70,17 @@ function Subject({
 
         <ThemedButton
           className="hover:underline"
-          onClick={() => {
-            setMessage(null);
-            onClose();
-          }}
+          onClick={() => history.goBack()}
         >
-          Close
+          Back
         </ThemedButton>
       </ThemedDiv>
-      {!message ? null : (
-        <div
-          className="w-full flex flex-row all-center"
-          role="presentation"
-          onClick={() => setMessage(null)}
-        >
-          {message}
-        </div>
-      )}
+      {statusMessage ? (
+        <Messages
+          clearMessage={() => setStatusMessage(null)}
+          message={statusMessage}
+        />
+      ) : null}
       <SubjectNameField
         value={subjectName}
         setValue={setName}
@@ -118,4 +118,4 @@ const mapDispatchToProps = (dispatch) => ({
   submitChanges: (data) => dispatch(updateSubject(data)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Subject);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Subject));

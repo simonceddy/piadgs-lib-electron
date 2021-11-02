@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useHistory, withRouter } from 'react-router-dom';
 import AuthorForm from '../../components/Authors/AuthorForm';
-import MessageBox from '../../components/Authors/MessageBox';
+import Messages from '../../components/Messages';
 import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
 import { FlexRow } from '../../shared/components/Flex';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
@@ -13,34 +14,29 @@ import {
 } from '../../store/actions';
 
 function Author({
-  authorId,
-  selectedTitles,
-  setTitles,
-  message,
-  setMessage,
-  onClose,
+  match,
+  // authorId,
+  // onClose,
   submitForm = () => {},
   onDataChange
 }) {
+  const { id: authorId } = match.params;
+  const history = useHistory();
   const [isDeleted/* , setIsDeleted */] = useState(false);
   // const [values, setValues] = useState({});
   const [values, setValues] = useState({});
-
-  const handleChecked = (titleId) => setTitles({
-    ...selectedTitles,
-    [titleId]: !selectedTitles[titleId]
-  });
+  const [statusMessage, setStatusMessage] = useState(null);
 
   const onDelete = () => deleteAuthor(authorId)
     .then((result) => {
       if (result.success) {
         setValues({});
-        setMessage('Successfully deleted title');
+        setStatusMessage('Successfully deleted author');
         if (typeof onDataChange === 'function') {
           onDataChange(result);
         }
       } else {
-        setMessage('An error occurred while attempting deletion.');
+        setStatusMessage('An error occurred while attempting deletion.');
       }
     });
 
@@ -59,12 +55,17 @@ function Author({
     >
       <ThemedDiv className="flex flex-row p-2 justify-between items-center">
         <ThemedButton
-          onClick={onClose}
+          onClick={history.goBack()}
         >
-          Close
+          Back
         </ThemedButton>
       </ThemedDiv>
-      {!message ? null : <MessageBox>{message}</MessageBox>}
+      {statusMessage ? (
+        <Messages
+          clearMessage={() => setStatusMessage(null)}
+          message={statusMessage}
+        />
+      ) : null}
       <AuthorForm
         setValue={(val) => setValues({ ...values, ...val })}
         author={values}
@@ -74,8 +75,6 @@ function Author({
             onDataChange();
           }
         }}
-        selectedTitles={selectedTitles}
-        onSelect={handleChecked}
         onDelete={onDelete}
       />
       <FlexRow className="p-2 w-full justify-start items-center">
@@ -99,4 +98,4 @@ const mapDispatchToProps = (dispatch) => ({
   // deleteAuthor: (author) => dispatch()
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Author);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Author));

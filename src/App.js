@@ -18,6 +18,8 @@ import Titles from './containers/Titles';
 import ManageSubjects from './containers/Subjects/ManageSubjects';
 import ManageAuthors from './containers/Authors/ManageAuthors';
 import NavbarButton from './components/Layout/NavbarButton';
+import Subject from './containers/Subjects/Subject';
+import Author from './containers/Authors/Author';
 
 function App({
   loggedIn = false,
@@ -81,6 +83,22 @@ function App({
                     {/* <Subjects /> */}
                   </>
                 )}
+              />
+            )}
+          />
+          <Route
+            path="/subject/:id"
+            render={() => (
+              <AuthGuard
+                render={() => (<Subject />)}
+              />
+            )}
+          />
+          <Route
+            path="/author/:id"
+            render={() => (
+              <AuthGuard
+                render={() => (<Author />)}
               />
             )}
           />

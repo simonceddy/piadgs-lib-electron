@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import TableBuilder from '../TableBuilder';
 import { Pagination } from '../../components/Pagination';
 import { FlexCol, FlexRow } from '../../shared/components/Flex';
@@ -53,6 +54,7 @@ function ManageSubjects({
   setFiltering = () => {},
   setPerPage
 }) {
+  const history = useHistory();
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -188,7 +190,7 @@ function ManageSubjects({
               //   console.log(new Date());
               // }
               }}
-              onRowClick={(subject) => setShowModal(subject)}
+              onRowClick={(subject) => history.push(`/subject/${subject.id}`)}
             />
             <Pagination
               current={currentPage}
