@@ -1,8 +1,13 @@
+import { ThemedDiv } from '../../shared/components/Styled';
 import StyledButton from '../../shared/components/Styled/StyledButton';
 
 function Messages({ message, clearMessage }) {
   return (
-    <div className="flex-1 flex flex-row justify-end items-center">
+    <ThemedDiv
+      className="flex-1 flex flex-row justify-end items-center p-2 m-2 z-50 absolute"
+      role="presentation"
+      onClick={clearMessage}
+    >
       {!message ? null : (
         <>
           <span>
@@ -16,7 +21,7 @@ function Messages({ message, clearMessage }) {
           </StyledButton>
         </>
       ) }
-    </div>
+    </ThemedDiv>
   );
 }
 

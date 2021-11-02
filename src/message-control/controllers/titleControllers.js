@@ -51,19 +51,21 @@ export const deleteTitle = (id) => controllerMessage(
   { id }
 );
 
-export const addTitleAuthor = (titleId, authorId) => controllerMessage(
+export const addTitleAuthor = (titleId, authorId, name) => controllerMessage(
   types.createAuthorTitle,
   {
     titleId,
-    authorId
+    authorId,
+    name // only used if authorId is not set
   }
 );
 
-export const addTitleSubject = (titleId, subjectId) => controllerMessage(
+export const addTitleSubject = (titleId, subjectId, name) => controllerMessage(
   types.createSubjectTitle,
   {
     titleId,
-    subjectId
+    subjectId,
+    name
   }
 );
 

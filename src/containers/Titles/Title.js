@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import Messages from '../../components/Messages';
 import TitleForm from '../../components/Titles/TitleForm';
 import {
   addTitleAuthor,
@@ -20,7 +21,7 @@ import TitleSubjects from '../Subjects/TitleSubjects';
 function Title({
   titleId,
   // onClose,
-  onTitleChange
+  // onTitleChange
 }) {
   const history = useHistory();
   const [statusMessage, setStatusMessage] = useState(null);
@@ -33,46 +34,78 @@ function Title({
     }
   }, [titleId]);
 
-  const notify = (message) => {
-    if (typeof onTitleChange === 'function') {
-      onTitleChange(message);
+  // const notify = (message) => {
+  //   if (typeof onTitleChange === 'function') {
+  //     onTitleChange(message);
+  //   }
+  // };
+
+  const addAuthor = (author = {}) => {
+    if (typeof author === 'object') {
+      // Existing author
+      return addTitleAuthor(
+        titleId,
+        author.id
+      )
+        .then((result) => {
+          console.log(result);
+          setValues({
+            ...values,
+            authors: [author, ...values.authors]
+          });
+        // notify(result);
+        });
     }
+
+    // New author
+    console.log(author);
+    return addTitleAuthor(
+      titleId,
+      null,
+      author
+    )
+      .then((result) => {
+        console.log(result);
+        setValues({
+          ...values,
+          authors: [{ name: author, id: result.authorId }, ...values.authors]
+        });
+      // notify(result);
+      });
   };
 
-  const addAuthor = (author = {}) => addTitleAuthor(titleId, author.id)
+  const addSubject = (subject = {}) => addTitleSubject(
+    titleId,
+    subject.id || null,
+    typeof subject === 'string' ? subject : null
+  )
     .then((result) => {
-      setValues({
-        ...values,
-        authors: [author, ...values.authors]
-      });
-      notify(result);
-    });
-
-  const addSubject = (subject = {}) => addTitleSubject(titleId, subject.id)
-    .then((result) => {
+      console.log(result);
       setValues({
         ...values,
         subjects: [subject, ...values.subjects]
       });
-      notify(result);
+      // notify(result);
     });
 
   const removeAuthor = (author = {}) => deleteTitleAuthor(titleId, author.author_id)
     .then((result) => {
+      console.log(result);
       setValues({
         ...values,
         authors: values.authors.filter((a) => a !== author)
       });
-      notify(result);
+      // notify(result);
     });
 
   const removeSubject = (subject = {}) => deleteTitleSubject(titleId, subject.id)
     .then((result) => {
+      console.log(result);
       setValues({
         ...values,
         subjects: values.subjects.filter((s) => s !== subject)
       });
-      notify(result);
+      // notify(result);
     });
 
   const onDelete = (id) => deleteTitle(id)
@@ -80,7 +113,7 @@ function Title({
       if (result.success) {
         setValues({});
         setStatusMessage('Successfully deleted title');
-        notify(result);
+        // notify(result);
       } else {
         setStatusMessage('An error occurred while attempting deletion.');
       }
@@ -93,7 +126,7 @@ function Title({
         if (result.result !== 1) {
           return setStatusMessage('An error occurred trying to save changes!');
         }
-        notify(result);
+        // notify(result);
         // setIsEditing(false);
         return setStatusMessage('Successfully saved changes!');
       });
@@ -101,8 +134,14 @@ function Title({
 
   return (
     <ThemedDiv
-      className="w-full max-h-full flex flex-col justify-between items-center z-40 flex-1 p-4 rounded-xl"
+      className="w-full max-h-full flex flex-col justify-between items-center z-10 flex-1 p-4 rounded-xl relative"
     >
+      {statusMessage ? (
+        <Messages
+          clearMessage={() => setStatusMessage(null)}
+          message={statusMessage}
+        />
+      ) : null}
       <ThemedDiv className="flex flex-row p-2 justify-between items-center">
         <ThemedButton
           onClick={() => history.goBack()}
@@ -110,11 +149,6 @@ function Title({
           Back
         </ThemedButton>
       </ThemedDiv>
-      {statusMessage ? (
-        <span role="presentation" onClick={() => setStatusMessage(null)}>
-          {statusMessage}
-        </span>
-      ) : null}
       {values.title ? (
         <>
           <FlexRow>

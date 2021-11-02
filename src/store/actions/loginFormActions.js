@@ -51,7 +51,7 @@ export const attemptLogin = ({ username, password }) => (dispatch) => Promise
         // setAuthToken(res.data.token);
         // const decoded = jwtDecode(res.data.token);
         return Promise.resolve(
-          dispatch(setLoggedInUser({ username: 'simon' }))
+          dispatch(setLoggedInUser({ username: res.user.username }))
         )
           .then(() => dispatch(setLoginErrors([])));
       }
