@@ -34,14 +34,11 @@ const suggestSubjects = (input, setter) => searchLibrarySubjects({
   })
   .catch(console.log);
 
-const renderAuthor = (author = {}) => {
-  console.log(author);
-  return (
-    <span>
-      {author.name}
-    </span>
-  );
-};
+const renderAuthor = (author = {}) => (
+  <span>
+    {author.name}
+  </span>
+);
 
 const renderSubject = (subject = {}) => (
   <span>{subject.name}</span>
@@ -100,7 +97,7 @@ function TitleForm(/* { persistTitle = () => null } */) {
   };
 
   return (
-    <div className="flex flex-col justify-start items-center w-full h-full overflow-scroll">
+    <div className="flex flex-col justify-start items-center w-full h-full">
       <FlexRow className="justify-start items-center w-full">
         <ThemedButton
           className="mx-1"

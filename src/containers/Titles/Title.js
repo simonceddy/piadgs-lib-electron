@@ -110,6 +110,7 @@ function Title({
 
   const onDelete = (id) => deleteTitle(id)
     .then((result) => {
+      console.log(result);
       if (result.success) {
         setValues({});
         setStatusMessage('Successfully deleted title');
@@ -142,7 +143,7 @@ function Title({
           message={statusMessage}
         />
       ) : null}
-      <ThemedDiv className="flex flex-row p-2 justify-between items-center">
+      <ThemedDiv className="flex flex-row p-2 justify-between w-full items-center">
         <ThemedButton
           onClick={() => history.goBack()}
         >

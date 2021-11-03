@@ -20,19 +20,17 @@ import Messages from '../../components/Messages';
 // TODO
 function Subject({
   match,
-  // onClose,
   getSubject,
   data,
   setName,
   subjectName,
-  // message,
-  // setMessage,
   submitChanges,
   onDataChange
 }) {
   // console.log(match);
   const history = useHistory();
   const [statusMessage, setStatusMessage] = useState(null);
+  const [deleted, setDeleted] = useState(false);
 
   const { id } = match.params;
   const onDelete = () => deleteSubject(id)
@@ -40,6 +38,7 @@ function Subject({
       console.log(result);
       if (result.success) {
         setName('');
+        setDeleted(true);
         setStatusMessage('Successfully deleted title');
         if (typeof onDataChange === 'function') {
           onDataChange(result);
@@ -59,7 +58,7 @@ function Subject({
 
   // Is this helping?
   useEffect(() => {
-    if (id) getSubject(id);
+    if (id && !deleted) getSubject(id);
   }, [id]);
 
   return (
@@ -81,26 +80,30 @@ function Subject({
           message={statusMessage}
         />
       ) : null}
-      <SubjectNameField
-        value={subjectName}
-        setValue={setName}
-      />
-      <Titles />
-      <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
-        <ThemedButton
-          onClick={() => {
-            submitChanges({ id, name: subjectName });
-            if (typeof onDataChange === 'function') onDataChange();
-          }}
-        >
-          Save Changes
-        </ThemedButton>
-      </ThemedDiv>
-      <FlexRow className="p-2 w-full justify-start items-center">
-        <DeleteForm onDelete={onDelete}>
-          Delete Subject
-        </DeleteForm>
-      </FlexRow>
+      {deleted ? null : (
+        <>
+          <SubjectNameField
+            value={subjectName}
+            setValue={setName}
+          />
+          <Titles />
+          <ThemedDiv className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full">
+            <ThemedButton
+              onClick={() => {
+                submitChanges({ id, name: subjectName });
+                if (typeof onDataChange === 'function') onDataChange();
+              }}
+            >
+              Save Changes
+            </ThemedButton>
+          </ThemedDiv>
+          <FlexRow className="p-2 w-full justify-start items-center">
+            <DeleteForm onDelete={onDelete}>
+              Delete Subject
+            </DeleteForm>
+          </FlexRow>
+        </>
+      )}
     </SubjectWindow>
   );
 }

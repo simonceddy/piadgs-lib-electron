@@ -94,7 +94,7 @@ function ManageSubjects({
   // TODO sort by totals
 
   return (
-    <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
+    <FlexCol className="w-full h-full justify-start items-center">
       {showModal ? <SubjectModal subject={showModal} /> : null}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">Subjects</FlexRow>
       {!message ? null : (

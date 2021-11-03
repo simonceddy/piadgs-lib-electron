@@ -22,7 +22,7 @@ function Author({
 }) {
   const { id: authorId } = match.params;
   const history = useHistory();
-  const [isDeleted/* , setIsDeleted */] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
   // const [values, setValues] = useState({});
   const [values, setValues] = useState({});
   const [statusMessage, setStatusMessage] = useState(null);
@@ -31,6 +31,7 @@ function Author({
     .then((result) => {
       if (result.success) {
         setValues({});
+        setIsDeleted(true);
         setStatusMessage('Successfully deleted author');
       } else {
         setStatusMessage('An error occurred while attempting deletion.');
@@ -69,17 +70,21 @@ function Author({
           message={statusMessage}
         />
       ) : null}
-      <AuthorForm
-        setValue={(val) => setValues({ ...values, ...val })}
-        author={values}
-        onSubmit={(data) => onSubmit(data)}
-        onDelete={onDelete}
-      />
-      <FlexRow className="p-2 w-full justify-start items-center">
-        <DeleteForm onDelete={onDelete}>
-          Delete Author
-        </DeleteForm>
-      </FlexRow>
+      {isDeleted ? null : (
+        <>
+          <AuthorForm
+            setValue={(val) => setValues({ ...values, ...val })}
+            author={values}
+            onSubmit={(data) => onSubmit(data)}
+            onDelete={onDelete}
+          />
+          <FlexRow className="p-2 w-full justify-start items-center">
+            <DeleteForm onDelete={onDelete}>
+              Delete Author
+            </DeleteForm>
+          </FlexRow>
+        </>
+      )}
     </ThemedDiv>
   );
 }

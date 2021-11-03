@@ -85,7 +85,7 @@ function ManageAuthors({
   }, [currentPage, itemsPerPage]);
 
   return (
-    <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
+    <FlexCol className="w-full h-full justify-start items-center">
       {/* {showModal ? <AuthorModal /> : null} */}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">{heading}</FlexRow>
       {!message ? null : (
