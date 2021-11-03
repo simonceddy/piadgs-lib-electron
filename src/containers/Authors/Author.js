@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { useHistory, withRouter } from 'react-router-dom';
 import AuthorForm from '../../components/Authors/AuthorForm';
 import Messages from '../../components/Messages';
-import { deleteAuthor, getLibraryAuthor } from '../../message-control/controllers';
+import { deleteAuthor, getLibraryAuthor, updateAuthorData } from '../../message-control/controllers';
 import { FlexRow } from '../../shared/components/Flex';
 import DeleteForm from '../../shared/components/Forms/DeleteForm';
 import { ThemedButton, ThemedDiv } from '../../shared/components/Styled';
@@ -17,8 +17,8 @@ function Author({
   match,
   // authorId,
   // onClose,
-  submitForm = () => {},
-  onDataChange
+  // submitForm = () => {},
+  // onDataChange
 }) {
   const { id: authorId } = match.params;
   const history = useHistory();
@@ -32,12 +32,15 @@ function Author({
       if (result.success) {
         setValues({});
         setStatusMessage('Successfully deleted author');
-        if (typeof onDataChange === 'function') {
-          onDataChange(result);
-        }
       } else {
         setStatusMessage('An error occurred while attempting deletion.');
       }
+    });
+
+  const onSubmit = () => updateAuthorData(values)
+    .then((result) => {
+      console.log(result);
+      setStatusMessage('Updated author!');
     });
 
   useEffect(() => {
@@ -53,9 +56,9 @@ function Author({
     <ThemedDiv
       className="w-full max-h-full flex flex-col justify-between items-center z-40 flex-1 border-2 p-4 rounded-xl"
     >
-      <ThemedDiv className="flex flex-row p-2 justify-between items-center">
+      <ThemedDiv className="flex flex-row p-2 justify-start w-full border-b items-center">
         <ThemedButton
-          onClick={history.goBack()}
+          onClick={() => history.goBack()}
         >
           Back
         </ThemedButton>
@@ -69,12 +72,7 @@ function Author({
       <AuthorForm
         setValue={(val) => setValues({ ...values, ...val })}
         author={values}
-        onSubmit={(data) => {
-          submitForm(data);
-          if (onDataChange && typeof onDataChange === 'function') {
-            onDataChange();
-          }
-        }}
+        onSubmit={(data) => onSubmit(data)}
         onDelete={onDelete}
       />
       <FlexRow className="p-2 w-full justify-start items-center">

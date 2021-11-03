@@ -1,4 +1,4 @@
-import { ThemedButton, ThemedTextInput } from '../../shared/components/Styled';
+import { ThemedButton, ThemedDiv, ThemedTextInput } from '../../shared/components/Styled';
 import { TitleList } from '../../shared/components/Titles';
 
 function AuthorForm({
@@ -27,11 +27,13 @@ function AuthorForm({
           <TitleList titles={author.titles} />
         </div>
       )}
-      <div>
+      <ThemedDiv
+        className="flex flex-row justify-evenly items-center pb-4 pt-2 mt-3 px-2 border-t w-full"
+      >
         <ThemedButton submits>
           Save Changes
         </ThemedButton>
-      </div>
+      </ThemedDiv>
     </form>
   );
 }

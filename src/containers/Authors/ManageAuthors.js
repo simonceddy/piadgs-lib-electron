@@ -59,20 +59,20 @@ function ManageAuthors({
   const history = useHistory();
   const [showSearchForm, setShowSearchForm] = useState(false);
   const [showNewForm, setShowNewForm] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   const [message, setMessage] = useState(false);
 
-  const onClose = () => setShowModal(false);
+  // const onClose = () => setShowModal(false);
 
-  const AuthorModal = () => (!showModal ? null : (
-    <Modal onClose={onClose}>
-      <Author
-        onClose={onClose}
-        authorId={typeof showModal === 'object' && showModal.id ? showModal.id : null}
-        onDataChange={fetchData}
-      />
-    </Modal>
-  ));
+  // const AuthorModal = () => (!showModal ? null : (
+  //   <Modal onClose={onClose}>
+  //     <Author
+  //       onClose={onClose}
+  //       authorId={typeof showModal === 'object' && showModal.id ? showModal.id : null}
+  //       onDataChange={fetchData}
+  //     />
+  //   </Modal>
+  // ));
 
   const clearFilter = () => Promise.resolve(setFilter({}))
     .then(() => {
@@ -86,7 +86,7 @@ function ManageAuthors({
 
   return (
     <FlexCol className="w-full h-full justify-start items-center overflow-scroll">
-      {showModal ? <AuthorModal /> : null}
+      {/* {showModal ? <AuthorModal /> : null} */}
       <FlexRow className="w-full flex flex-row justify-start items-center p-2">{heading}</FlexRow>
       {!message ? null : (
         <FlexRow
