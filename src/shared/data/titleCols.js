@@ -1,5 +1,5 @@
 export const titleCols = [
-  {
+  /* {
     key: 'id',
     name: 'ID',
     FormComponent: ({ value }) => (
@@ -10,7 +10,7 @@ export const titleCols = [
         name="id"
       />
     )
-  },
+  }, */
   {
     key: 'authors',
     name: 'Authors',
