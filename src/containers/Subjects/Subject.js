@@ -35,7 +35,7 @@ function Subject({
   const { id } = match.params;
   const onDelete = () => deleteSubject(id)
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       if (result.success) {
         setName('');
         setDeleted(true);

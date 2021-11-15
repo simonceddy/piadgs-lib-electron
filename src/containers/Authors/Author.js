@@ -39,15 +39,15 @@ function Author({
     });
 
   const onSubmit = () => updateAuthorData(values)
-    .then((result) => {
-      console.log(result);
+    .then((/* result */) => {
+      // console.log(result);
       setStatusMessage('Updated author!');
     });
 
   useEffect(() => {
     if (!isDeleted && authorId) {
       getLibraryAuthor({ id: authorId }).then((data) => {
-        console.log(data);
+        // console.log(data);
         setValues(data);
       });
     }

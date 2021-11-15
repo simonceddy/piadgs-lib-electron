@@ -47,8 +47,8 @@ function Title({
         titleId,
         author.id
       )
-        .then((result) => {
-          console.log(result);
+        .then((/* result */) => {
+          // console.log(result);
           setValues({
             ...values,
             authors: [author, ...values.authors]
@@ -58,14 +58,14 @@ function Title({
     }
 
     // New author
-    console.log(author);
+    // console.log(author);
     return addTitleAuthor(
       titleId,
       null,
       author
     )
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         setValues({
           ...values,
           authors: [{ name: author, id: result.authorId }, ...values.authors]
@@ -79,8 +79,8 @@ function Title({
     subject.id || null,
     typeof subject === 'string' ? subject : null
   )
-    .then((result) => {
-      console.log(result);
+    .then((/* result */) => {
+      // console.log(result);
       setValues({
         ...values,
         subjects: [subject, ...values.subjects]
@@ -89,8 +89,8 @@ function Title({
     });
 
   const removeAuthor = (author = {}) => deleteTitleAuthor(titleId, author.author_id)
-    .then((result) => {
-      console.log(result);
+    .then((/* result */) => {
+      // console.log(result);
       setValues({
         ...values,
         authors: values.authors.filter((a) => a !== author)
@@ -99,8 +99,8 @@ function Title({
     });
 
   const removeSubject = (subject = {}) => deleteTitleSubject(titleId, subject.id)
-    .then((result) => {
-      console.log(result);
+    .then((/* result */) => {
+      // console.log(result);
       setValues({
         ...values,
         subjects: values.subjects.filter((s) => s !== subject)
@@ -110,7 +110,7 @@ function Title({
 
   const onDelete = (id) => deleteTitle(id)
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       if (result.success) {
         setValues({});
         setStatusMessage('Successfully deleted title');
@@ -123,7 +123,7 @@ function Title({
   const submitChanges = () => {
     updateTitle(values)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         if (result.result !== 1) {
           return setStatusMessage('An error occurred trying to save changes!');
         }
@@ -150,7 +150,7 @@ function Title({
           Back
         </ThemedButton>
       </ThemedDiv>
-      {values.title ? (
+      {!isDeleted ? (
         <>
           <FlexRow>
             <TitleAuthors

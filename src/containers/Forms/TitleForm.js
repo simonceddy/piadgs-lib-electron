@@ -21,7 +21,7 @@ const suggestAuthors = (input, setter) => searchLibraryAuthors({
     }
     return setter([]);
   })
-  .catch(console.log);
+  .catch(console.error);
 
 const suggestSubjects = (input, setter) => searchLibrarySubjects({
   name: input
@@ -85,7 +85,7 @@ function TitleForm(/* { persistTitle = () => null } */) {
       subjects: currentSubjects
     })
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         if (result.success) {
           setValues(initialValues);
           clearSubjects();
