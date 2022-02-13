@@ -17,7 +17,6 @@ export default function authReducer(state = defaultState, action) {
     case SET_LOGGED_OUT:
       return defaultState;
     case SET_LOGGED_IN_USER:
-      console.log(action.payload);
       return {
         ...state,
         loggedIn: true,

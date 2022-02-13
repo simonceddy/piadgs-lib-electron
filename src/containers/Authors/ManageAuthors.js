@@ -32,12 +32,12 @@ const columns = [
     name: 'Number of Titles',
     sortable: true,
   },
-  {
-    key: 'created_at', name: 'Created at', sortable: true,
-  },
-  {
-    key: 'updated_at', name: 'updated at', sortable: true,
-  },
+  // {
+  //   key: 'created_at', name: 'Created at', sortable: true,
+  // },
+  // {
+  //   key: 'updated_at', name: 'updated at', sortable: true,
+  // },
 ];
 
 function ManageAuthors({

@@ -34,8 +34,8 @@ const columns = [
     name: 'Number of Titles',
     sortable: true
   },
-  { key: 'created_at', name: 'Created At', sortable: true },
-  { key: 'updated_at', name: 'updated At', sortable: true },
+  // { key: 'created_at', name: 'Created At', sortable: true },
+  // { key: 'updated_at', name: 'updated At', sortable: true },
 ];
 
 function ManageSubjects({

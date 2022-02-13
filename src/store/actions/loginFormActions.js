@@ -42,7 +42,7 @@ export const attemptLogin = ({ username, password }) => (dispatch) => Promise
     username, password
   })
     .then((res) => {
-      console.log('here', res);
+      // console.log('here', res);
 
       if (res.success) {
         // Set token to ls

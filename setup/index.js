@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const fs = require('fs');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const Papa = require('papaparse');
 const testDb = require('./database/testDb');
 const processAuthors = require('./old/processors/processAuthors');

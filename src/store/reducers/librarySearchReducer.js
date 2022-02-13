@@ -38,7 +38,7 @@ export default function librarySearchReducer(state = defaultState, action) {
     case SET_LIBRARY_SEARCH_CURRENT_PAGE:
       return { ...state, currentPage: action.payload.currentPage };
     case SET_LIBRARY_SEARCH_SORTING:
-      console.log(state);
+      // console.log(state);
       return {
         ...state,
         sortCol: action.payload.sortCol,

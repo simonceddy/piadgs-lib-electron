@@ -1,5 +1,5 @@
 // const { session } = require('electron');
-const { compare } = require('bcrypt');
+const { compare } = require('bcryptjs');
 const db = require('../db');
 const { logUserIn } = require('./boganAuthenticate');
 
