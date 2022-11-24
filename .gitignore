@@ -25,3 +25,5 @@ yarn-error.log*
 
 /public/*.sqlite
 /public/*.sqlite-journal
+
+/dev/*
